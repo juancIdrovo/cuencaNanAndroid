@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="rosaditoPalo">#F8E0F6</color>
+    <color name="maradito">#890CF8</color>
+    <color name="rosadointenso">#F904E4</color>
 </resources>
