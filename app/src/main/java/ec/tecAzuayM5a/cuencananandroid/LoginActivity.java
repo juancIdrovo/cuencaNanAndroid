@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPass;
 
     String mail, pass;
-    String url = "http://192.168.43.81:8080/api/loginEstudiante"; // Nueva URL del endpoint de login
+    String url = "http://192.168.0.209:8080/api/loginUsuario"; // Nueva URL del endpoint de login
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

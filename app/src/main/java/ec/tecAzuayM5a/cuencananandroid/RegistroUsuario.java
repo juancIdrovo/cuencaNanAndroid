@@ -38,7 +38,7 @@ import java.util.Locale;
 
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.43.81:8080/api/estudiantes";
+    private String urlRegistro = "http://192.168.0.209:8080/api/usuarios";
     private RequestQueue requestQueue;
     private static final int REQUEST_IMAGE_PICK = 1;
     private ImageView imageView;
