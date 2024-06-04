@@ -38,122 +38,30 @@ import java.util.Locale;
 
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.0.209:8080/api/usuarios";
+    private String urlRegistro = "http://10.10.33.57:8080/api/usuarios";
     private RequestQueue requestQueue;
     private static final int REQUEST_IMAGE_PICK = 1;
-    private ImageView imageView;
-    private Uri imageUri;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registro_usuario);
-
         requestQueue = Volley.newRequestQueue(this);
-        imageView = findViewById(R.id.imageViewfoto);
 
-        Button btnSeleccionarFoto = findViewById(R.id.btnSeleccionarFoto);
-
-        btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_IMAGE_PICK);
-            }
-        });
-    }
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the chosen date
-            String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
-            ((TextInputEditText) getActivity().findViewById(R.id.txtFechaNac)).setText(selectedDate);
-        }
-    }
-
-    public void showDatePickerDialog(View view) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
-            imageUri = data.getData();
-
-            if (imageUri != null) {
-
-                imageView.setImageURI(imageUri);
-            } else {
-                Toast.makeText(this, "No se ha seleccionado ninguna imagen.", Toast.LENGTH_SHORT).show();
-            }
-        }
     }
         public void clickbtnGuardar(View view) {
-        String cedula = ((TextInputEditText) findViewById(R.id.txtcedula)).getText().toString().trim();
-        String nombres = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
-        String apellidos = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
-        String correo = ((TextInputEditText) findViewById(R.id.txtcorreo)).getText().toString().trim();
-        String direccion = ((TextInputEditText) findViewById(R.id.txtdireccion)).getText().toString().trim();
-        String telf = ((TextInputEditText) findViewById(R.id.txttelf)).getText().toString().trim();
-        String contrasena = ((TextInputEditText) findViewById(R.id.txtContrasena)).getText().toString().trim();
-        String fechaString = ((TextInputEditText) findViewById(R.id.txtFechaNac)).getText().toString().trim();
-        Date fecha = null;
-        String tipoUsuario = ((TextInputEditText) findViewById(R.id.txtEstudiante)).getText().toString().trim();
-
-        if (!fechaString.isEmpty()) {
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                fecha = sdf.parse(fechaString);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                // Manejar la excepción si la cadena no se puede convertir a Date
-            }
-        }
+        String idUsuario = ((TextInputEditText) findViewById(R.id.txtcedula)).getText().toString().trim();
+        String cedula = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
+        String interes = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
 
         JSONObject jsonBody = new JSONObject();
 
         try {
+            jsonBody.put("idUsuario", idUsuario);
             jsonBody.put("cedula", cedula);
-            jsonBody.put("nombres", nombres);
-            jsonBody.put("apellidos", apellidos);
-            jsonBody.put("correo", correo);
-            jsonBody.put("direccion", direccion);
-            jsonBody.put("telf", telf);
-            jsonBody.put("contrasena", contrasena);
-            jsonBody.put("cedula_estudiante_fk", cedula);
-            jsonBody.put("contrasena", contrasena);
-            jsonBody.put("tipoUsuario", tipoUsuario);
-            if (fecha != null) {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                String fechaFormateada = sdf.format(fecha);
-                jsonBody.put("fecha_nac", fechaFormateada);
-            } else {
-                Log.e("RegistroEstudiante", "La fecha es null, no se añadió al JSONObject");
-            }
+            jsonBody.put("interes", interes);
 
-            if (imageUri != null) {
-                String base64Image = convertirImagenBase64(imageUri);
-                jsonBody.put("foto", base64Image);
-            } else {
-                Log.e("RegistroEstudiante", "imageUri es null en clickbtnGuardar");
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -185,19 +93,5 @@ public class RegistroUsuario extends AppCompatActivity {
         });
 
         requestQueue.add(request);
-    }
-
-    private String convertirImagenBase64(Uri imageUri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-            byte[] bytes = new byte[inputStream.available()];
-            inputStream.read(bytes);
-            inputStream.close();
-            return "data:image/jpeg;base64," + Base64.encodeToString(bytes, Base64.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("RegistroEstudiante", "Error al convertir imagen a base64");
-            return null;
-        }
     }
 }
