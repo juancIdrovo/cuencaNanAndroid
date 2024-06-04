@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPass;
 
     String mail, pass;
-    String url = "http://192.168.0.209:8080/api/loginUsuario"; // Nueva URL del endpoint de login
+    String url = "http://192.168.0.209:8080/api/loginusuario"; // Nueva URL del endpoint de login
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void Login(View view) {
         if (txtEmail.getText().toString().equals("")) {
-            Toast.makeText(this, "Ingrese la cédula", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Ingrese el correo", Toast.LENGTH_LONG).show();
         } else if (txtPass.getText().toString().equals("")) {
             Toast.makeText(this, "Ingrese la contraseña", Toast.LENGTH_LONG).show();
         } else {
@@ -81,20 +81,20 @@ public class LoginActivity extends AppCompatActivity {
                                 if (!status.equals("error")) {
                                     Log.d("LoginActivity", "Inicio de sesión exitoso para el correo: " + mail);
 
-                                    // Extract user's name and email from the response
+                                    // Extraer datos del usuario de la respuesta
                                     String nombre = response.optString("nombres", "");
                                     String correo = response.optString("correo", "");
                                     String imageUri = response.optString("foto", "");
-                                    String cedula=response.optString("cedula","");
+                                    String cedula = response.optString("cedula", "");
 
-                                    // Pass the user's name, email, and image URL as extras
+                                    // Pasar los datos del usuario como extras
                                     Intent intent = new Intent(LoginActivity.this, PerfilUsuarioActivity.class);
                                     intent.putExtra("user_name", nombre);
                                     intent.putExtra("user_email", correo);
-                                    intent.putExtra("cedula",cedula);
-                                    intent.putExtra("image_uri", imageUri.toString());
-                                    Log.d("LoginActivity", "Respuesta del servidor: " + response.toString());
-finish();
+                                    intent.putExtra("cedula", cedula);
+                                    intent.putExtra("image_uri", imageUri);
+
+                                    finish();
                                     startActivity(intent);
                                 } else {
                                     Log.d("LoginActivity", "Autenticación fallida para el correo: " + mail);
@@ -118,4 +118,5 @@ finish();
         }
     }
 }
+
 

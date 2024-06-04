@@ -50,7 +50,7 @@ import java.util.Locale;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
 
 public class modificarUsuario extends AppCompatActivity {
-    EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
+   /* EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
     Button btnGuarda, btnCancelar;
     Button btnSeleccionarFoto;
 
@@ -302,7 +302,7 @@ onBackPressed();
             return null;
         }
     }
-
+*/
 }
 
 

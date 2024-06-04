@@ -67,13 +67,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 showPopupMenu(v);
             }
         });
-        
-
-
-
-
-
-
 
     }
 
@@ -156,7 +149,6 @@ finish();
 
                     RequestQueue requestQueue = Volley.newRequestQueue(PerfilUsuarioActivity.this);
                     requestQueue.add(request);
-
 
             }
 
