@@ -2,55 +2,117 @@ package ec.tecAzuayM5a.cuencananandroid.modelo;
 
 import java.util.Date;
 
-public class Usuario extends  Persona {
+public class Usuario  {
 
-    private String cedula_estudiante_fk;
-    private String interes;
+    private Long id_usuario;
+    private String cedula;
+    private String nombres;
+    private String apellidos;
+    private String mail;
+    private String direccion;
+    private char genero;
+    private Date fecha_nacimiento;
+    private String nombre_usuario;
+    private String contrasena;
+    private String celular;
+    private String foto;
 
-    public String getInteres() {
-        return interes;
+//\\//\\Getter Setter\\//\\//
+
+
+    public Long getId_usuario() {
+        return id_usuario;
     }
 
-    public Usuario(String cedula, String nombres, String apellidos, String correo, String direccion, String telf, String foto, Date fecha_nac, String contrasenia, String cedula_estudiante_fk, String interes) {
-        super(cedula, nombres, apellidos, correo, direccion, telf, foto, fecha_nac, contrasenia);
-        this.cedula_estudiante_fk = cedula_estudiante_fk;
-        this.interes = interes;
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 
-    public Usuario(String cedula_estudiante_fk, String interes) {
-        this.cedula_estudiante_fk = cedula_estudiante_fk;
-        this.interes = interes;
+    public String getCedula() {
+        return cedula;
     }
 
-    public Usuario(String cedula, String cedula_estudiante_fk, String interes) {
-        super(cedula);
-        this.cedula_estudiante_fk = cedula_estudiante_fk;
-        this.interes = interes;
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
     }
 
-    public void setInteres(String interes) {
-        this.interes = interes;
+    public String getNombres() {
+        return nombres;
     }
 
-    public Usuario(String cedula_estudiante_fk) {
-
-        this.cedula_estudiante_fk = cedula_estudiante_fk;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
-    public Usuario() {
-
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public Usuario(String cedula, String nombres, String apellidos, String correo, String direccion, String telf, String foto, Date fecha_nac, String contrasenia, String cedula_estudiante_fk) {
-        super(cedula, nombres, apellidos, correo, direccion, telf, foto, fecha_nac, contrasenia);
-        this.cedula_estudiante_fk = cedula_estudiante_fk;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
-    public String getCedula_estudiante_fk() {
-        return cedula_estudiante_fk;
+    public String getMail() {
+        return mail;
     }
 
-    public void setCedula_estudiante_fk(String cedula_estudiante_fk) {
-        this.cedula_estudiante_fk = cedula_estudiante_fk;
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public char getGenero() {
+        return genero;
+    }
+
+    public void setGenero(char genero) {
+        this.genero = genero;
+    }
+
+    public Date getFecha_nacimiento() {
+        return fecha_nacimiento;
+    }
+
+    public void setFecha_nacimiento(Date fecha_nacimiento) {
+        this.fecha_nacimiento = fecha_nacimiento;
+    }
+
+    public String getNombre_usuario() {
+        return nombre_usuario;
+    }
+
+    public void setNombre_usuario(String nombre_usuario) {
+        this.nombre_usuario = nombre_usuario;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
