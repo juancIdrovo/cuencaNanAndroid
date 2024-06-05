@@ -38,9 +38,9 @@ import java.util.Locale;
 
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://10.10.33.57:8080/api/usuarios";
+    private String urlRegistro = "http://192.168.1.39:8080/api/usuarios";
     private RequestQueue requestQueue;
-    private static final int REQUEST_IMAGE_PICK = 1;
+
 
 
     @Override
@@ -53,19 +53,18 @@ public class RegistroUsuario extends AppCompatActivity {
         public void clickbtnGuardar(View view) {
         String idUsuario = ((TextInputEditText) findViewById(R.id.txtcedula)).getText().toString().trim();
         String cedula = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
-        String interes = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
+        String nombres = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
 
         JSONObject jsonBody = new JSONObject();
 
         try {
             jsonBody.put("idUsuario", idUsuario);
             jsonBody.put("cedula", cedula);
-            jsonBody.put("interes", interes);
+            jsonBody.put("nombres", nombres);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
     JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlRegistro, jsonBody,
