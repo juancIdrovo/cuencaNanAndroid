@@ -54,6 +54,8 @@ public class RegistroUsuario extends AppCompatActivity {
         String idUsuario = ((TextInputEditText) findViewById(R.id.txtcedula)).getText().toString().trim();
         String cedula = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
         String nombres = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
+        String mail = ((TextInputEditText) findViewById(R.id.txtcorreo)).getText().toString().trim();
+        String contrasena = ((TextInputEditText) findViewById(R.id.txtContrasena)).getText().toString().trim();
 
         JSONObject jsonBody = new JSONObject();
 
@@ -61,6 +63,9 @@ public class RegistroUsuario extends AppCompatActivity {
             jsonBody.put("idUsuario", idUsuario);
             jsonBody.put("cedula", cedula);
             jsonBody.put("nombres", nombres);
+            jsonBody.put("mail", mail);
+            jsonBody.put("contrasena", contrasena);
+
 
         } catch (JSONException e) {
             e.printStackTrace();

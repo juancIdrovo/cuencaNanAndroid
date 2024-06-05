@@ -27,8 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPass;
 
     String mail, pass;
-    String url = "http://192.168.0.209:8080/api/loginusuario"; // Nueva URL del endpoint de login
-
+    String url = "http://192.168.1.39:8080/api/loginusuario";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
             JSONObject jsonBody = new JSONObject();
             try {
-                jsonBody.put("correo", mail);
+                jsonBody.put("mail", mail);
                 jsonBody.put("contrasena", pass);
             } catch (JSONException e) {
                 e.printStackTrace();
