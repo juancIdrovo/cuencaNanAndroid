@@ -6,37 +6,37 @@
     android:background="@drawable/fondocolores">
 
     <Button
-        android:id="@+id/btnSchedule1"
+        android:id="@+id/btnCrearUbicacion"
         android:layout_width="265dp"
         android:layout_height="69dp"
-        android:layout_below="@id/btnCourses"
+        android:layout_below="@id/btnCategorias"
         android:layout_alignParentStart="true"
         android:layout_marginStart="72dp"
         android:layout_marginTop="45dp"
         android:background="@drawable/rounded_button"
 
-        android:text="Horarios"
+        android:text="Crear un marcador"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btnDocentes"
+        android:id="@+id/btnVerUbicaciones"
         android:layout_width="265dp"
         android:layout_height="69dp"
-        android:layout_below="@id/btnSchedule1"
+        android:layout_below="@id/btnCrearUbicacion"
         android:layout_alignParentStart="true"
         android:layout_marginStart="72dp"
         android:layout_marginTop="45dp"
         android:background="@drawable/rounded_button"
 
-        android:text="Docentes"
+        android:text="Mi Mapa"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btnCourses"
+        android:id="@+id/btnCategorias"
         android:layout_width="265dp"
         android:layout_height="69dp"
         android:layout_below="@id/tvMail"
@@ -46,7 +46,7 @@
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/white"
 
-        android:text="Asignaturas"
+        android:text="Filtrar por categoria"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
