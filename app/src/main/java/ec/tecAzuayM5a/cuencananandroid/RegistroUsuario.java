@@ -38,7 +38,7 @@ import java.util.Locale;
 
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.1.39:8080/api/usuarios";
+    private String urlRegistro = "http://192.168.0.209:8080/api/usuarios";
     private RequestQueue requestQueue;
 
 
