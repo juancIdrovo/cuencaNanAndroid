@@ -9,10 +9,10 @@
         android:id="@+id/btnCrearUbicacion"
         android:layout_width="265dp"
         android:layout_height="69dp"
-        android:layout_below="@id/btnCategorias"
+        android:layout_below="@id/btnPuntosInteres"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/rounded_button"
 
         android:text="Crear un marcador"
@@ -27,7 +27,7 @@
         android:layout_below="@id/btnCrearUbicacion"
         android:layout_alignParentStart="true"
         android:layout_marginStart="72dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/rounded_button"
 
         android:text="Mi Mapa"
@@ -36,17 +36,17 @@
         android:textStyle="bold" />
 
     <Button
-        android:id="@+id/btnCategorias"
+        android:id="@+id/btnPuntosInteres"
         android:layout_width="265dp"
         android:layout_height="69dp"
         android:layout_below="@id/tvMail"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/white"
 
-        android:text="Filtrar por categoria"
+        android:text="Puntos de Interes"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -109,7 +109,7 @@
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="22dp"
         android:backgroundTint="@color/white"
         android:text="TextView"
         android:textAlignment="center"

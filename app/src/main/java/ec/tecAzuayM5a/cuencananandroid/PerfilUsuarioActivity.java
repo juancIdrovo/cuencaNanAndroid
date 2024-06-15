@@ -40,7 +40,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private String userEmail;
     private Uri imageUri;
     private String cedula;
-    Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso;
+    Button  btnmodificar,  btnCrearUbicacion, btnVerUbicaciones, btnPuntosInteres;
     ImageView opt;
     String url = "http://192.168.0.209:8080/api/usuarios/";
     @Override
@@ -55,9 +55,9 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
 
 
-        btnHorario = findViewById(R.id.btnSchedule1);
-        btnDocente = findViewById(R.id.btnDocentes);
-        btnCurso = findViewById(R.id.btnCourses);
+        btnPuntosInteres = findViewById(R.id.btnPuntosInteres);
+        btnCrearUbicacion = findViewById(R.id.btnCrearUbicacion);
+        btnVerUbicaciones = findViewById(R.id.btnVerUbicaciones);
         opt = findViewById(R.id.btnOptions);
         updateUI();
         opt = findViewById(R.id.btnOptions);
