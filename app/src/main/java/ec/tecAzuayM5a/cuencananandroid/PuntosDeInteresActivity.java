@@ -1,6 +1,7 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchPuntosDeInteres() {
-        String url = "http://localhost:8080/api/tipospuntosinteres";
+        String url = "http://192.168.18.17:8080/api/tipospuntosinteres";
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -96,9 +98,11 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
                 String descripcion = jsonObject.getString("descripcion");
                 String categoria = jsonObject.getString("categoria");
 
+                Log.d("PuntosDeInteres", "Nombre: " + nombre + ", Descripción: " + descripcion + ", Categoría: " + categoria);
+
                 TipoPuntoInteres punto = new TipoPuntoInteres(id, nombre, descripcion, categoria);
                 puntosDeInteres.add(punto);
-            } catch (Exception e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
