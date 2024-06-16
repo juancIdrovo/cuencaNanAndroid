@@ -28,27 +28,28 @@ import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
 
 public class PuntosDeInteresActivity extends AppCompatActivity {
 
-    private List<TipoPuntoInteres> puntosDeInteres;
-    private TipoPuntoInteresAdapter adapter;
+    private List<TipoPuntoInteres> puntosDeInteres;  // Lista de puntos de interés
+    private TipoPuntoInteresAdapter adapter;         // Adaptador para la lista
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tipo_puntos_de_interes);
 
+        // Inicializar la lista antes de usarla
         puntosDeInteres = new ArrayList<>();
-        adapter = new TipoPuntoInteresAdapter(this, puntosDeInteres);
 
+        adapter = new TipoPuntoInteresAdapter(this, puntosDeInteres);
         ListView listView = findViewById(R.id.points_list);
         listView.setAdapter(adapter);
 
+        // Configuración de los botones (si es necesario)
         Button btnVerEnMapa = findViewById(R.id.btnVerEnMapa);
         Button btnAddPoint = findViewById(R.id.btnAddPoint);
 
         btnVerEnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lógica para ver en el mapa
                 Toast.makeText(PuntosDeInteresActivity.this, "Función no implementada", Toast.LENGTH_SHORT).show();
             }
         });
@@ -56,11 +57,11 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
         btnAddPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Lógica para añadir un punto de interés
                 Toast.makeText(PuntosDeInteresActivity.this, "Función no implementada", Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Llamada para obtener datos de la API
         fetchPuntosDeInteres();
     }
 
@@ -75,12 +76,14 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        Log.d("PuntosDeInteres", "Datos recibidos: " + response.toString());
                         parsePuntosDeInteres(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.e("PuntosDeInteres", "Error al obtener datos: " + error.toString());
                         Toast.makeText(PuntosDeInteresActivity.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -89,21 +92,22 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
     }
 
     private void parsePuntosDeInteres(JSONArray jsonArray) {
+        // Limpiar la lista antes de agregar nuevos elementos
         puntosDeInteres.clear();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Long id = jsonObject.getLong("idtipospuntosinteres");
-                String nombre = jsonObject.getString("nombre");
+                int id = jsonObject.getInt("idtipospuntosinteres");
+                String nombre = jsonObject.getString("nombre").trim();
                 String descripcion = jsonObject.getString("descripcion");
                 String categoria = jsonObject.getString("categoria");
 
-                Log.d("PuntosDeInteres", "Nombre: " + nombre + ", Descripción: " + descripcion + ", Categoría: " + categoria);
+                Log.d("PuntosDeInteres", "Parseando - Nombre: " + nombre + ", Descripción: " + descripcion + ", Categoría: " + categoria);
 
                 TipoPuntoInteres punto = new TipoPuntoInteres(id, nombre, descripcion, categoria);
                 puntosDeInteres.add(punto);
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.e("PuntosDeInteres", "Error parseando JSON", e);
             }
         }
         adapter.notifyDataSetChanged();

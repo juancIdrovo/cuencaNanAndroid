@@ -1,6 +1,7 @@
 package ec.tecAzuayM5a.cuencananandroid.adaptador;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+
 import ec.tecAzuayM5a.cuencananandroid.R;
 import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
+
 
 public class TipoPuntoInteresAdapter extends BaseAdapter {
     private Context context;
@@ -51,6 +54,8 @@ public class TipoPuntoInteresAdapter extends BaseAdapter {
         categoryText.setText(punto.getCategoria());
         nameText.setText(punto.getNombre());
         descriptionText.setText(punto.getDescripcion());
+
+        Log.d("PuntosDeInteresAdapter", "Posición: " + position + ", Nombre: " + punto.getNombre() + ", Descripción: " + punto.getDescripcion() + ", Categoría: " + punto.getCategoria());
 
         return convertView;
     }

@@ -2,7 +2,7 @@ package ec.tecAzuayM5a.cuencananandroid.modelo;
 
 public class TipoPuntoInteres {
 
-    private Long idtipospuntosinteres;
+    private int idtipospuntosinteres;
     private String nombre;
     private String descripcion;
     private String categoria;
@@ -10,18 +10,19 @@ public class TipoPuntoInteres {
     public TipoPuntoInteres() {
     }
 
-    public TipoPuntoInteres(Long idtipospuntosinteres, String nombre, String descripcion, String categoria) {
+    public TipoPuntoInteres(int idtipospuntosinteres, String nombre, String descripcion, String categoria) {
         this.idtipospuntosinteres = idtipospuntosinteres;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
     }
 
-    public Long getIdtipospuntosinteres() {
+
+    public int getIdtipospuntosinteres() {
         return idtipospuntosinteres;
     }
 
-    public void setIdtipospuntosinteres(Long idtipospuntosinteres) {
+    public void setIdtipospuntosinteres(int idtipospuntosinteres) {
         this.idtipospuntosinteres = idtipospuntosinteres;
     }
 
