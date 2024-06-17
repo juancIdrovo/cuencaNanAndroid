@@ -76,7 +76,7 @@ public class RegistroUsuario extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("RegistroEstudiante", "Respuesta del servidor: " + response.toString());
+                        Log.d("Registro", "Respuesta del servidor: " + response.toString());
                         startActivity(new Intent(RegistroUsuario.this, LoginActivity.class));
                         finish();
                     }
@@ -91,7 +91,7 @@ public class RegistroUsuario extends AppCompatActivity {
                     errorMessage = "Error desconocido en la solicitud.";
                 }
 
-                Log.e("RegistroEstudiante", "Error en la solicitud: " + errorMessage, error);
+                Log.e("Registro", "Error en la solicitud: " + errorMessage, error);
                 Toast.makeText(RegistroUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
             }
         });

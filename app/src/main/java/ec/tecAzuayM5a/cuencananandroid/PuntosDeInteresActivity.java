@@ -36,14 +36,14 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tipo_puntos_de_interes);
 
-        // Inicializar la lista antes de usarla
         puntosDeInteres = new ArrayList<>();
-
         adapter = new TipoPuntoInteresAdapter(this, puntosDeInteres);
         ListView listView = findViewById(R.id.points_list);
         listView.setAdapter(adapter);
 
-        // Configuración de los botones (si es necesario)
+        fetchPuntosDeInteres();
+
+        // Configurar los botones
         Button btnVerEnMapa = findViewById(R.id.btnVerEnMapa);
         Button btnAddPoint = findViewById(R.id.btnAddPoint);
 
@@ -66,7 +66,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchPuntosDeInteres() {
-        String url = "http://192.168.18.17:8080/api/tipospuntosinteres";
+        String url = "http://192.168.0.209:8080/api/tipospuntosinteres";
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
