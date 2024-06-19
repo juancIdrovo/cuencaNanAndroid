@@ -16,6 +16,9 @@
       <SelectionState runConfigName="RegistroUsuario">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="Layoutprincipal">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

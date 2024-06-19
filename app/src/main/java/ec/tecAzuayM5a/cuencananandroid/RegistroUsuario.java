@@ -38,7 +38,7 @@ import java.util.Locale;
 
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.1.39:8080/api/usuarios";
+    private String urlRegistro = "http://192.168.0.123:8080/api/usuarios";
     private RequestQueue requestQueue;
 
 
@@ -51,20 +51,27 @@ public class RegistroUsuario extends AppCompatActivity {
 
     }
         public void clickbtnGuardar(View view) {
-        String idUsuario = ((TextInputEditText) findViewById(R.id.txtcedula)).getText().toString().trim();
-        String cedula = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
-        String nombres = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
+        String cedula = ((TextInputEditText) findViewById(R.id.txtcedula)).getText().toString().trim();
+        String nombres = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
+        String apellidos = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
         String mail = ((TextInputEditText) findViewById(R.id.txtcorreo)).getText().toString().trim();
+        String direccion = ((TextInputEditText) findViewById(R.id.txtdireccion)).getText().toString().trim();
+        String nombre_usuario = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
         String contrasena = ((TextInputEditText) findViewById(R.id.txtContrasena)).getText().toString().trim();
+        String telefono = ((TextInputEditText) findViewById(R.id.txttelf)).getText().toString().trim();
 
         JSONObject jsonBody = new JSONObject();
 
         try {
-            jsonBody.put("idUsuario", idUsuario);
             jsonBody.put("cedula", cedula);
             jsonBody.put("nombres", nombres);
+            jsonBody.put("apellidos", apellidos);
             jsonBody.put("mail", mail);
+            jsonBody.put("direccion", direccion);
+            jsonBody.put("nombre_usuario", nombre_usuario);
             jsonBody.put("contrasena", contrasena);
+            jsonBody.put("celular", telefono);
+
 
 
         } catch (JSONException e) {
@@ -85,7 +92,6 @@ public class RegistroUsuario extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 String errorMessage;
                 if (error.networkResponse != null && error.networkResponse.data != null) {
-                    // Si hay datos en la respuesta, intenta convertirlos a una cadena para obtener más información.
                     errorMessage = new String(error.networkResponse.data);
                 } else {
                     errorMessage = "Error desconocido en la solicitud.";
