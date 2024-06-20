@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,16 +22,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import ec.tecAzuayM5a.cuencananandroid.adaptador.TipoPuntoInteresAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
 
+
+
 public class PuntosDeInteresActivity extends AppCompatActivity {
 
-    private List<TipoPuntoInteres> puntosDeInteres;  // Lista de puntos de interés
-    private TipoPuntoInteresAdapter adapter;         // Adaptador para la lista
+    private List<TipoPuntoInteres> puntosDeInteres;
+    private TipoPuntoInteresAdapter adapter;
+    private EditText searchInput;
+    private Spinner searchType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,9 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.points_list);
         listView.setAdapter(adapter);
 
-        fetchPuntosDeInteres();
+        searchInput = findViewById(R.id.search_input);
+        searchType = findViewById(R.id.search_type);
+        Button searchButton = findViewById(R.id.search_button);
 
         // Configurar los botones
         Button btnVerEnMapa = findViewById(R.id.btnVerEnMapa);
@@ -61,17 +71,48 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
             }
         });
 
-        // Llamada para obtener datos de la API
-        fetchPuntosDeInteres();
+        // Configurar el botón de búsqueda
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String query = searchInput.getText().toString().trim();
+                String selectedType = searchType.getSelectedItem().toString();
+                fetchPuntosDeInteres(query, selectedType);
+            }
+        });
+
+        // Llamada para obtener datos de la API inicialmente
+        fetchPuntosDeInteres(null, null);
     }
 
-    private void fetchPuntosDeInteres() {
-        String url = "http://192.168.0.209:8080/api/tipospuntosinteres";
+    private void fetchPuntosDeInteres(String query, String type) {
+        String baseUrl = "http://192.168.18.17:8080/api/tipospuntosinteres";
+        StringBuilder urlBuilder = new StringBuilder(baseUrl);
+
+        if (query != null && !query.isEmpty()) {
+            urlBuilder.append("/buscar?");
+            try {
+                switch (type) {
+                    case "Nombre":
+                        urlBuilder.append("nombre=").append(URLEncoder.encode(query, "UTF-8"));
+                        break;
+                    case "Descripción":
+                        urlBuilder.append("descripcion=").append(URLEncoder.encode(query, "UTF-8"));
+                        break;
+                    case "Categoría":
+                        urlBuilder.append("categoria=").append(URLEncoder.encode(query, "UTF-8"));
+                        break;
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url,
+                urlBuilder.toString(),
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -92,8 +133,10 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
     }
 
     private void parsePuntosDeInteres(JSONArray jsonArray) {
-        // Limpiar la lista antes de agregar nuevos elementos
         puntosDeInteres.clear();
+        if (jsonArray.length() == 0) {
+            Toast.makeText(this, "No se encontraron puntos de interés", Toast.LENGTH_SHORT).show();
+        }
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);

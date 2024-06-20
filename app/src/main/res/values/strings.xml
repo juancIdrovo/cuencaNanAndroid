@@ -13,4 +13,10 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
 
+    <string-array name="search_options">
+        <item>Nombre</item>
+        <item>Descripción</item>
+        <item>Categoría</item>
+    </string-array>
+
 </resources>

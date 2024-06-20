@@ -9,7 +9,7 @@
         android:id="@+id/category_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Categoría"
+        android:text="Categoría:"
         android:textStyle="bold"
         android:textSize="16sp"
         android:textColor="@color/rosadointenso"/>
@@ -19,8 +19,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Nombre"
-        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="Nombre:"
+        android:textSize="16sp"
         android:textColor="@color/rosadointenso"/>
 
     <TextView
@@ -28,8 +29,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Descripción"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:text="Descripción:"
+        android:textSize="16sp"
         android:textColor="@color/rosadointenso"/>
-
 </LinearLayout>
