@@ -17,7 +17,7 @@ public class MapHandler extends AppCompatActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map); // Apunta al layout correcto que contiene el mapa
+        setContentView(R.layout.fragment_map); // Apunta al layout correcto que contiene el mapa
 
         // Encuentra el fragmento del mapa y pásaselo a esta Activity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);

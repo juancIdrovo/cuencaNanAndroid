@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_fragmentmapa">
 
     <fragment
-        android:id="@+id/nav_home"
+        android:id="@+id/nav_fragmentmapa"
         android:name="ec.tecAzuayM5a.cuencananandroid.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/menu_mapa"
+        tools:layout="@layout/fragment_mapa" />
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -22,4 +22,15 @@
         android:name="ec.tecAzuayM5a.cuencananandroid.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/nav_usuarioModificar"
+        android:name="ec.tecAzuayM5a.cuencananandroid.UsuarioModificar"
+        android:label="fragment_usuario_modificar"
+        tools:layout="@layout/fragment_usuario_modificar" />
+    <fragment
+        android:id="@+id/puntosInteres"
+        android:name="ec.tecAzuayM5a.cuencananandroid.PuntosInteres"
+        android:label="fragment_puntos_interes"
+        tools:layout="@layout/fragment_puntos_interes" />
+
 </navigation>
