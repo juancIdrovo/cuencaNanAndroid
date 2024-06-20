@@ -6,8 +6,19 @@ public class TipoPuntoInteres {
     private String nombre;
     private String descripcion;
     private String categoria;
+    private double latitud;
+    private double longitud;
 
     public TipoPuntoInteres() {
+    }
+
+    public TipoPuntoInteres(int idtipospuntosinteres, String nombre, String descripcion, String categoria, double latitud, double longitud) {
+        this.idtipospuntosinteres = idtipospuntosinteres;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.categoria = categoria;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public TipoPuntoInteres(int idtipospuntosinteres, String nombre, String descripcion, String categoria) {
@@ -17,6 +28,21 @@ public class TipoPuntoInteres {
         this.categoria = categoria;
     }
 
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
 
     public int getIdtipospuntosinteres() {
         return idtipospuntosinteres;
