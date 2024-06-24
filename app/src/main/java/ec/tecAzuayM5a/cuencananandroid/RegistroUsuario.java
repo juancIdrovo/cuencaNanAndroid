@@ -38,19 +38,119 @@ import java.util.Locale;
 
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.18.17:8080/api/usuarios";
+    private String urlRegistro = "http://172.18.32.1:8080/api/usuarios";
     private RequestQueue requestQueue;
-
-
+    private static final int REQUEST_IMAGE_PICK = 1;
+    private ImageView imageView;
+    private Uri imageUri;
+    private String fotoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registro_usuario);
         requestQueue = Volley.newRequestQueue(this);
+        Button btnSeleccionarFoto = findViewById(R.id.btnSeleccionarFoto);
+        imageView = findViewById(R.id.imageViewfoto);
 
+        btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_IMAGE_PICK);
+            }
+        });
     }
-        public void clickbtnGuardar(View view) {
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
+            imageUri = data.getData();
+
+            if (imageUri != null) {
+                imageView.setImageURI(imageUri);
+                uploadImage(imageUri);
+            } else {
+                Toast.makeText(this, "No se ha seleccionado ninguna imagen.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void uploadImage(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            byte[] imageBytes = new byte[inputStream.available()];
+            inputStream.read(imageBytes);
+            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("file", encodedImage);
+
+            String urlUpload = "http://172.18.32.1:8080/api/assets/upload";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlUpload, jsonBody,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                fotoUrl = response.getString("url");
+                                Log.d("Registro", "URL de la imagen: " + fotoUrl);
+                                Toast.makeText(RegistroUsuario.this, "Imagen subida exitosamente.", Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(RegistroUsuario.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            String errorMessage;
+                            if (error.networkResponse != null && error.networkResponse.data != null) {
+                                errorMessage = new String(error.networkResponse.data);
+                            } else {
+                                errorMessage = "Error desconocido en la solicitud.";
+                            }
+                            Log.e("Registro", "Error en la solicitud: " + errorMessage, error);
+                            Toast.makeText(RegistroUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+            requestQueue.add(request);
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al leer la imagen.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
+            ((TextInputEditText) getActivity().findViewById(R.id.txtFechaNac)).setText(selectedDate);
+        }
+    }
+
+    public void showDatePickerDialog(View view) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
+    }
+
+    public void clickbtnGuardar(View view) {
         String cedula = ((TextInputEditText) findViewById(R.id.txtcedula)).getText().toString().trim();
         String nombres = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
         String apellidos = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
@@ -59,6 +159,16 @@ public class RegistroUsuario extends AppCompatActivity {
         String nombre_usuario = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
         String contrasena = ((TextInputEditText) findViewById(R.id.txtContrasena)).getText().toString().trim();
         String telefono = ((TextInputEditText) findViewById(R.id.txttelf)).getText().toString().trim();
+        String fechaString = ((TextInputEditText) findViewById(R.id.txtFechaNac)).getText().toString().trim();
+        Date fecha = null;
+        if (!fechaString.isEmpty()) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                fecha = sdf.parse(fechaString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
         JSONObject jsonBody = new JSONObject();
 
@@ -71,15 +181,23 @@ public class RegistroUsuario extends AppCompatActivity {
             jsonBody.put("nombre_usuario", nombre_usuario);
             jsonBody.put("contrasena", contrasena);
             jsonBody.put("celular", telefono);
-
-
+            if (fecha != null) {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                String fechaFormateada = sdf.format(fecha);
+                jsonBody.put("fecha_nac", fechaFormateada);
+            }
+            if (fotoUrl != null) {
+                jsonBody.put("fotoUrl", fotoUrl);
+            } else {
+                Toast.makeText(this, "Debe seleccionar una imagen primero.", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
-    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlRegistro, jsonBody,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlRegistro, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
