@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".PuntosDeInteresActivity">
 
     <!-- Título y opciones de búsqueda -->
     <LinearLayout
@@ -59,18 +59,20 @@
     </LinearLayout>
 
     <!-- Lista de puntos de interés -->
+
+    <!-- Botones en la parte inferior -->
     <ListView
         android:id="@+id/points_list"
         android:layout_width="wrap_content"
         android:layout_height="466dp"
         android:layout_above="@id/footer_layout"
         android:layout_below="@id/header_layout"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="18dp"
         android:layout_weight="1"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
-    <!-- Botones en la parte inferior -->
     <LinearLayout
         android:id="@+id/footer_layout"
         android:layout_width="match_parent"
@@ -90,13 +92,5 @@
             android:textSize="12dp"
             android:text="Ver en Mapa" />
 
-        <Button
-            android:id="@+id/btnAddPoint"
-            android:layout_width="0dp"
-            android:layout_height="58dp"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:textSize="12dp"
-            android:text="Añadir Punto de Interés" />
     </LinearLayout>
 </RelativeLayout>
