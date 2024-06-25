@@ -21,6 +21,9 @@
             android:id="@+id/puntosInteres"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Perfil" />
-
+        <item
+            android:id="@+id/fragmentForo"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Perfil" />
     </group>
 </menu>

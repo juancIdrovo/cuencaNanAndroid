@@ -18,7 +18,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import ec.tecAzuayM5a.cuencananandroid.R;
 import ec.tecAzuayM5a.cuencananandroid.databinding.FragmentHomeBinding;
-
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private FragmentHomeBinding binding;
@@ -53,13 +52,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         myMap = googleMap;
 
+        // Set initial location to Cuenca
         LatLng cuenca = new LatLng(-2.9001285, -79.00589649999999);
+        updateMapLocation(cuenca, "Cuenca");
+    }
 
-        // Marcador
-        myMap.addMarker(new MarkerOptions().position(cuenca).title("Cuenca"));
-
-        // Zoom
-        float zoomLevel = 15.0f;
-        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cuenca, zoomLevel));
+    public void updateMapLocation(LatLng latLng, String title) {
+        if (myMap != null) {
+            myMap.clear(); // Clear existing markers
+            myMap.addMarker(new MarkerOptions().position(latLng).title(title));
+            myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+        }
     }
 }
