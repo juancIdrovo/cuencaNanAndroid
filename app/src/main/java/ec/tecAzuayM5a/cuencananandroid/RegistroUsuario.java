@@ -192,7 +192,7 @@ public class RegistroUsuario extends AppCompatActivity {
                 Toast.makeText(this, "Debe seleccionar una imagen primero.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            
+
            */
 
         } catch (JSONException e) {
