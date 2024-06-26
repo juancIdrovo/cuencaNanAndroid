@@ -3,23 +3,31 @@ package ec.tecAzuayM5a.cuencananandroid.modelo;
 import java.util.Date;
 
 public class Usuario  {
-
     private Long id_usuario;
     private String cedula;
     private String nombres;
     private String apellidos;
     private String mail;
     private String direccion;
-    private char genero;
     private Date fecha_nacimiento;
-    private String nombre_usuario;
     private String contrasena;
     private String celular;
     private String foto;
 
-//\\//\\Getter Setter\\//\\//
 
-
+    public Usuario(String cedula, String nombres, String apellidos, String mail, String direccion, Date fecha_nacimiento, String contrasena, String celular, String foto) {
+        this.cedula = cedula;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.mail = mail;
+        this.direccion = direccion;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.contrasena = contrasena;
+        this.celular = celular;
+        this.foto = foto;
+    }
+    public Usuario() {
+    }
     public Long getId_usuario() {
         return id_usuario;
     }
@@ -68,14 +76,6 @@ public class Usuario  {
         this.direccion = direccion;
     }
 
-    public char getGenero() {
-        return genero;
-    }
-
-    public void setGenero(char genero) {
-        this.genero = genero;
-    }
-
     public Date getFecha_nacimiento() {
         return fecha_nacimiento;
     }
@@ -83,15 +83,6 @@ public class Usuario  {
     public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
-
-    public String getNombre_usuario() {
-        return nombre_usuario;
-    }
-
-    public void setNombre_usuario(String nombre_usuario) {
-        this.nombre_usuario = nombre_usuario;
-    }
-
     public String getContrasena() {
         return contrasena;
     }

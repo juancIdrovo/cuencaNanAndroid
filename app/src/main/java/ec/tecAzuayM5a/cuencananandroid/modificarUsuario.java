@@ -50,7 +50,7 @@ import java.util.Locale;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
 
 public class modificarUsuario extends AppCompatActivity {
-   /* EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
+   EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
     Button btnGuarda, btnCancelar;
     Button btnSeleccionarFoto;
 
@@ -72,12 +72,11 @@ public class modificarUsuario extends AppCompatActivity {
         cedula = getIntent().getStringExtra("cedula");
         apellidos = getIntent().getStringExtra("apellidos");
         direccion = getIntent().getStringExtra("direccion");
-        telefono = getIntent().getStringExtra("telefono");
+        telefono = getIntent().getStringExtra("celular");
         userEmail = getIntent().getStringExtra("user_email");
         imageUri = Uri.parse(getIntent().getStringExtra("image_uri"));
         contrasena  = getIntent().getStringExtra("contrasena");
         fecha_nac = getIntent().getStringExtra("fecha_nac");
-
 
         txtNombres = findViewById(R.id.txtnombres);
         txtApellidos = findViewById(R.id.txtapellidos);
@@ -87,10 +86,10 @@ public class modificarUsuario extends AppCompatActivity {
         txtcedula = findViewById(R.id.txtcedula);
         txtFecha = findViewById(R.id.txtFechaNac);
         txtContrasena = findViewById(R.id.txtcontrasena);
-        btnGuarda = findViewById(R.id.btnGuardar);
         imageView = findViewById(R.id.fotoPerfil);
         btnCancelar = findViewById(R.id.btnCancelar);
         btnSeleccionarFoto = findViewById(R.id.btnfotito);
+        btnGuarda = findViewById(R.id.btnGuardar);
         updateUI();
         btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +103,6 @@ public class modificarUsuario extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Obtener datos del estudiante modificado
                 String nuevosNombres = txtNombres.getText().toString();
                 String nuevosApellidos = txtApellidos.getText().toString();
                 String nuevoCorreo = txtCorreo.getText().toString();
@@ -119,20 +117,19 @@ public class modificarUsuario extends AppCompatActivity {
                         fecha = sdf.parse(nuevaFecha);
                     } catch (ParseException e) {
                         e.printStackTrace();
-                        // Manejar la excepción si la cadena no se puede convertir a Date
                     }
                 }
 
 
-                Usuario estudianteModificado = new Usuario(cedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion, nuevoTelefono, null, fecha, nuevaContrasena, cedula);
+                Usuario usuModi = new Usuario(cedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion,fecha ,nuevaContrasena, nuevoTelefono,null);
 
-                updateStudent(estudianteModificado,
+                updateStudent(usuModi,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 Toast.makeText(modificarUsuario.this, "Estudiante modificado correctamente", Toast.LENGTH_SHORT).show();
                                 Toast.makeText(modificarUsuario.this, "Vuelva a iniciar sesion para que se Actualizen sus datos", Toast.LENGTH_SHORT).show();
-onBackPressed();
+                                 onBackPressed();
                             }
                         },
                         new Response.ErrorListener() {
@@ -143,8 +140,7 @@ onBackPressed();
                                     String responseBody = new String(error.networkResponse.data);
                                     Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
                                 }
-                                // Mostrar un mensaje de error al usuario (puedes personalizarlo según tus necesidades)
-                                Toast.makeText(modificarUsuario.this, "Error al modificar estudiante. Consulta el LogCat para más detalles.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(modificarUsuario.this, "Error al modificar sus datos, intentelo de nuevo mas tarde", Toast.LENGTH_SHORT).show();
                             }
                         }
                 );
@@ -154,7 +150,6 @@ onBackPressed();
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Agregar el código para ir a la actividad "perfil_usuario"
                 onBackPressed();
 
             }
@@ -163,22 +158,22 @@ onBackPressed();
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.43.81:8080/api/estudiantes/" + usuario.getCedula();
+        String url = "http://192.168.43.81:8080/api/usuario/" + usuario.getId_usuario();
 
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("nombres", usuario.getNombres());
             jsonBody.put("apellidos", usuario.getApellidos());
-            jsonBody.put("correo", usuario.getCorreo());
+            jsonBody.put("mail", usuario.getMail());
             jsonBody.put("direccion", usuario.getDireccion());
-            jsonBody.put("telf", usuario.getTelf());
+            jsonBody.put("celular", usuario.getCelular());
             jsonBody.put("contrasena", usuario.getContrasena());
-            if (usuario.getFecha_nac() != null) {
+            if (usuario.getFecha_nacimiento() != null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                String fechaFormateada = sdf.format(usuario.getFecha_nac());
-                jsonBody.put("fecha_nac", fechaFormateada);
+                String fechaFormateada = sdf.format(usuario.getFecha_nacimiento());
+                jsonBody.put("fecha_nacimiento", fechaFormateada);
             } else {
-                Log.e("RegistroEstudiante", "La fecha es null, no se añadió al JSONObject");
+                Log.e("Error", "La fecha es null, no se añadió al JSONObject");
             }
             if (imageUri != null) {
                 String base64Image = convertirImagenBase64(imageUri);
@@ -189,11 +184,7 @@ onBackPressed();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonBody, successListener, errorListener);
-
         requestQueue.add(request);
     }
     @Override
@@ -221,16 +212,12 @@ onBackPressed();
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
-
-            // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
-
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the chosen date
             String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
@@ -257,16 +244,11 @@ onBackPressed();
         tvTelefono.setText(telefono);
         tvcontrasenia.setText(contrasena);
         tvFecha.setText(fecha_nac);
-
-
-        // Verifica que la URL de la imagen no sea nula
         if (imageUri != null) {
             // Intenta cargar la imagen con Glide
             Glide.with(this)
                     .load(imageUri)
                     .apply(new RequestOptions()
-                             // Imagen de marcador de posición mientras carga
-                              // Imagen de marcador de posición en caso de error
                     )
                     .listener(new RequestListener<Drawable>() {
                         @Override
@@ -302,7 +284,7 @@ onBackPressed();
             return null;
         }
     }
-*/
+
 }
 
 

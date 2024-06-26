@@ -120,7 +120,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchPuntosDeInteres(String query, String type) {
-        String baseUrl = "http://192.168.0.209:8080/api/tipospuntosinteres";
+        String baseUrl = "http://192.168.0.123:8080/api/tipospuntosinteres";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {

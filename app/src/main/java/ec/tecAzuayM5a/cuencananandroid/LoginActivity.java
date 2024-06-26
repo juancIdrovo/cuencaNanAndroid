@@ -32,12 +32,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
         btnAceptar = findViewById(R.id.btnLogIn);
         btnRegistarse = findViewById(R.id.btnRegistro);
         txtEmail = findViewById(R.id.inputEmail);
         txtPass = findViewById(R.id.inputPassword);
-
         btnRegistarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
     public void Login(View view) {
         if (txtEmail.getText().toString().equals("")) {
             Toast.makeText(this, "Ingrese el correo", Toast.LENGTH_LONG).show();
@@ -55,10 +52,8 @@ public class LoginActivity extends AppCompatActivity {
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Espere un momento...");
             progressDialog.show();
-
             mail = txtEmail.getText().toString().trim();
             pass = txtPass.getText().toString().trim();
-
             JSONObject jsonBody = new JSONObject();
             try {
                 jsonBody.put("mail", mail);
@@ -66,32 +61,28 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             progressDialog.dismiss();
                             Log.d("LoginActivity", "Respuesta del servidor: " + response.toString());
-
                             try {
                                 String status = response.optString("status", "");
-
                                 if (!status.equals("error")) {
                                     Log.d("LoginActivity", "Inicio de sesión exitoso para el correo: " + mail);
 
                                     // Extraer datos del usuario de la respuesta
                                     String nombre = response.optString("nombres", "");
-                                    String correo = response.optString("correo", "");
-                                    String imageUri = response.optString("foto", "");
-                                    String cedula = response.optString("cedula", "");
+                                    String correo = response.optString("mail", "");
+                                  //  String imageUri = response.optString("foto", "");
+                                    String id = response.optString("id_usuario", "");
 
-                                    // Pasar los datos del usuario como extras
-                                    Intent intent = new Intent(LoginActivity.this, PerfilUsuarioActivity.class);
-                                    intent.putExtra("user_name", nombre);
-                                    intent.putExtra("user_email", correo);
-                                    intent.putExtra("cedula", cedula);
-                                    intent.putExtra("image_uri", imageUri);
+                                    Intent intent = new Intent(LoginActivity.this, Layoutprincipal.class);
+                                    intent.putExtra("nombre", nombre);
+                                    intent.putExtra("mail", correo);
+                                    intent.putExtra("id_usuario", id);
+                              //      intent.putExtra("image_uri", imageUri);
 
                                     finish();
                                     startActivity(intent);
@@ -116,6 +107,8 @@ public class LoginActivity extends AppCompatActivity {
             requestQueue.add(request);
         }
     }
+
+
 }
 
 
