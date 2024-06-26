@@ -49,10 +49,7 @@
             android:name=".PerfilUsuarioActivity"
             android:exported="true">
         </activity>
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
         <activity
             android:name=".PuntosDeInteresActivity"
             android:exported="true">

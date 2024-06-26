@@ -68,7 +68,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
 
         // Configurar los botones
         Button btnVerEnMapa = findViewById(R.id.btnVerEnMapa);
-        Button btnAddPoint = findViewById(R.id.btnAddPoint);
+     //   Button btnAddPoint = findViewById(R.id.btnAddPoint);
 
         btnVerEnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,13 +97,13 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
             }
         });
 
-        btnAddPoint.setOnClickListener(new View.OnClickListener() {
+      /*  btnAddPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(PuntosDeInteresActivity.this, "Función no implementada", Toast.LENGTH_SHORT).show();
             }
         });
-
+*/
         // Configurar el botón de búsqueda
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +129,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchPuntosDeInteres(String query, String type) {
-        String baseUrl = "http://192.168.0.209:8080/api/tipospuntosinteres";
+        String baseUrl = "http://192.168.0.123:8080/api/tipospuntosinteres";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {

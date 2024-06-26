@@ -89,8 +89,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-finish();
+            public void onClick(View view) {finish();
                 startActivity(new Intent(PerfilUsuarioActivity.this, LoginActivity.class).putExtra("cedula",cedula));
 
             }
