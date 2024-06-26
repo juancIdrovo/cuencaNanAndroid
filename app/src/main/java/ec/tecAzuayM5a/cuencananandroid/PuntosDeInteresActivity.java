@@ -21,6 +21,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,13 +42,14 @@ import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
 
 
 
-public class PuntosDeInteresActivity extends AppCompatActivity {
+public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private List<TipoPuntoInteres> puntosDeInteres;
     private TipoPuntoInteresAdapter adapter;
     private EditText searchInput;
     private Spinner searchType;
     private TipoPuntoInteres selectedPunto;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,46 +70,30 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
                 selectedPunto = puntosDeInteres.get(position);
                 // Opcional: Cambiar color del elemento seleccionado
                 highlightSelectedItem(listView, position);
+                // Actualiza el mapa con el punto seleccionado
+                updateMap(selectedPunto);
             }
         });
 
         // Configurar los botones
         Button btnVerEnMapa = findViewById(R.id.btnVerEnMapa);
-        Button btnAddPoint = findViewById(R.id.btnAddPoint);
 
         btnVerEnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (selectedPunto != null) {
-                    // Obtén la latitud y longitud del punto seleccionado
-                    double latitud = selectedPunto.getLatitud();
-                    double longitud = selectedPunto.getLongitud();
-
-                    // Crea un URI para Google Maps
-                    String uri = String.format("geo:%f,%f?q=%f,%f(%s)", latitud, longitud, latitud, longitud, selectedPunto.getNombre());
-
-                    // Crea un Intent para abrir Google Maps
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                    intent.setPackage("com.google.android.apps.maps");
-
-                    // Verifica si hay una aplicación para manejar el Intent
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(PuntosDeInteresActivity.this, "Google Maps no está instalado", Toast.LENGTH_SHORT).show();
-                    }
+                    updateMap(selectedPunto);
                 } else {
                     Toast.makeText(PuntosDeInteresActivity.this, "Por favor selecciona un punto de interés", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        btnAddPoint.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(PuntosDeInteresActivity.this, "Función no implementada", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Inicializar el mapa
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment_pi);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
         // Configurar el botón de búsqueda
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -198,5 +189,21 @@ public class PuntosDeInteresActivity extends AppCompatActivity {
             }
         }
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        // Configuración inicial del mapa
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+    }
+
+    private void updateMap(TipoPuntoInteres punto) {
+        if (mMap != null) {
+            LatLng location = new LatLng(punto.getLatitud(), punto.getLongitud());
+            mMap.clear();
+            mMap.addMarker(new MarkerOptions().position(location).title(punto.getNombre()));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        }
     }
 }

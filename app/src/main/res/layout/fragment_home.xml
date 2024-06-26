@@ -8,11 +8,12 @@
 
     <FrameLayout
         android:id="@+id/map_container"
-        android:layout_width="370dp"
-        android:layout_height="492dp"
+        android:layout_width="409dp"
+        android:layout_height="725dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
