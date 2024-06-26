@@ -88,7 +88,7 @@ public class RegistroUsuario extends AppCompatActivity {
             JSONObject jsonBody = new JSONObject();
             jsonBody.put("file", encodedImage);
 
-            String urlUpload = "http://172.18.32.1:8080/api/assets/upload";
+            String urlUpload = "http://192.168.0.209:8080/api/assets/upload";
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlUpload, jsonBody,
                     new Response.Listener<JSONObject>() {

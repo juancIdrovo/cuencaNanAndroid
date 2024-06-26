@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/search_input"
-        android:entries="@array/search_types" />
+        />
 
     <Button
         android:id="@+id/search_button"
@@ -27,7 +27,7 @@
     <ListView
         android:id="@+id/points_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="202dp"
         android:layout_below="@id/search_button" />
 
     <Button
