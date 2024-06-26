@@ -186,12 +186,14 @@ public class RegistroUsuario extends AppCompatActivity {
                 String fechaFormateada = sdf.format(fecha);
                 jsonBody.put("fecha_nac", fechaFormateada);
             }
-            if (fotoUrl != null) {
+          /*  if (fotoUrl != null) {
                 jsonBody.put("fotoUrl", fotoUrl);
             } else {
                 Toast.makeText(this, "Debe seleccionar una imagen primero.", Toast.LENGTH_SHORT).show();
                 return;
             }
+            
+           */
 
         } catch (JSONException e) {
             e.printStackTrace();
