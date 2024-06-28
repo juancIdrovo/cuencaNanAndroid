@@ -6,31 +6,20 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/category_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Categoría:"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:textColor="@color/rosadointenso"/>
-
-    <TextView
         android:id="@+id/name_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textStyle="bold"
         android:text="Nombre:"
         android:textSize="16sp"
+        android:textStyle="bold"
         android:textColor="@color/rosadointenso"/>
 
     <TextView
-        android:id="@+id/description_text"
+        android:id="@+id/categoria_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textStyle="bold"
-        android:text="Descripción:"
+        android:text="Categoría:"
         android:textSize="16sp"
         android:textColor="@color/rosadointenso"/>
 </LinearLayout>

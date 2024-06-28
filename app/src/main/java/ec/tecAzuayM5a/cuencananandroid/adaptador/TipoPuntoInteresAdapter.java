@@ -45,15 +45,15 @@ public class TipoPuntoInteresAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item_punto_interes, parent, false);
         }
 
-        TextView categoryText = convertView.findViewById(R.id.category_text);
+       // TextView categoryText = convertView.findViewById(R.id.category_text);
         TextView nameText = convertView.findViewById(R.id.name_text);
-        TextView descriptionText = convertView.findViewById(R.id.description_text);
+       // TextView descriptionText = convertView.findViewById(R.id.description_text);
 
         TipoPuntoInteres punto = puntosDeInteres.get(position);
 
-        categoryText.setText(punto.getCategoria());
+      //  categoryText.setText(punto.getCategoria());
         nameText.setText(punto.getNombre());
-        descriptionText.setText(punto.getDescripcion());
+      //  descriptionText.setText(punto.getDescripcion());
 
         Log.d("PuntosDeInteresAdapter", "Posición: " + position + ", Nombre: " + punto.getNombre() + ", Descripción: " + punto.getDescripcion() + ", Categoría: " + punto.getCategoria());
 

@@ -43,9 +43,13 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import ec.tecAzuayM5a.cuencananandroid.adaptador.PuntosDeInteresAdapter;
 import ec.tecAzuayM5a.cuencananandroid.adaptador.TipoPuntoInteresAdapter;
+import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
 import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
 
 
@@ -68,11 +72,11 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private FusedLocationProviderClient fusedLocationClient;
     private boolean locationPermissionGranted;
-    private List<TipoPuntoInteres> puntosDeInteres;
-    private TipoPuntoInteresAdapter adapter;
+    private List<PuntosDeInteres> puntosDeInteres;
+    private PuntosDeInteresAdapter adapter;
     private EditText searchInput;
     private Spinner searchType;
-    private TipoPuntoInteres selectedPunto;
+    private PuntosDeInteres  selectedPunto;
     private GoogleMap mMap;
 
     @Override
@@ -83,7 +87,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         puntosDeInteres = new ArrayList<>();
-        adapter = new TipoPuntoInteresAdapter(this, puntosDeInteres);
+        adapter = new PuntosDeInteresAdapter(this, puntosDeInteres);
         ListView listView = findViewById(R.id.points_list);
         listView.setAdapter(adapter);
 
@@ -122,11 +126,19 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
             public void onClick(View v) {
                 String query = searchInput.getText().toString().trim();
                 String selectedType = searchType.getSelectedItem().toString();
-                fetchPuntosDeInteres(query, selectedType);
+                try {
+                    fetchPuntosDeInteres(query, selectedType);
+                } catch (UnsupportedEncodingException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
-        fetchPuntosDeInteres(null, null);
+        try {
+            fetchPuntosDeInteres(null, null);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
         getLocationPermission();
     }
@@ -141,27 +153,20 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         }
     }
 
-    private void fetchPuntosDeInteres(String query, String type) {
-        String baseUrl = "http://192.168.0.209:8080/api/tipospuntosinteres";
+    private void fetchPuntosDeInteres(String query, String category) throws UnsupportedEncodingException {
+        String baseUrl = "http://192.168.18.17:8080/api/puntosinteres";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
-            urlBuilder.append("/buscar?");
-            try {
-                switch (type) {
-                    case "Nombre":
-                        urlBuilder.append("nombre=").append(URLEncoder.encode(query, "UTF-8"));
-                        break;
-                    case "Descripción":
-                        urlBuilder.append("descripcion=").append(URLEncoder.encode(query, "UTF-8"));
-                        break;
-                    case "Categoría":
-                        urlBuilder.append("categoria=").append(URLEncoder.encode(query, "UTF-8"));
-                        break;
-                }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            urlBuilder.append("?nombre=").append(URLEncoder.encode(query, "UTF-8"));
+        }
+        if (category != null && !category.isEmpty()) {
+            if (query == null || query.isEmpty()) {
+                urlBuilder.append("?");
+            } else {
+                urlBuilder.append("&");
             }
+            urlBuilder.append("categoria=").append(URLEncoder.encode(category, "UTF-8"));
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -188,7 +193,8 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         queue.add(jsonArrayRequest);
     }
 
-    private void parsePuntosDeInteres(JSONArray jsonArray) {
+
+    /*private void parsePuntosDeInteres(JSONArray jsonArray) {
         puntosDeInteres.clear();
         if (jsonArray.length() == 0) {
             Toast.makeText(this, "No se encontraron puntos de interés", Toast.LENGTH_SHORT).show();
@@ -196,22 +202,23 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                int id = jsonObject.getInt("idtipospuntosinteres");
+                Long id = jsonObject.getLong("idPuntoInteres");
+                Long idAdministrador = jsonObject.getLong("idAdministrador");
+                Long idTipoPuntoInteres = jsonObject.getLong("idTipoPuntoInteres");
+                Long idFoto = jsonObject.getLong("idFoto");
                 String nombre = jsonObject.getString("nombre").trim();
-                String descripcion = jsonObject.getString("descripcion");
-                String categoria = jsonObject.getString("categoria");
-                JSONArray listaPuntosInteres = jsonObject.getJSONArray("listaPuntosInteres");
-                double latitud = listaPuntosInteres.getJSONObject(0).getDouble("latitud");
-                double longitud = listaPuntosInteres.getJSONObject(0).getDouble("longitud");
+                double latitud = jsonObject.getDouble("latitud");
+                double longitud = jsonObject.getDouble("longitud");
 
-                TipoPuntoInteres punto = new TipoPuntoInteres(id, nombre, descripcion, categoria, latitud, longitud);
+                PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud);
                 puntosDeInteres.add(punto);
             } catch (JSONException e) {
                 Log.e("PuntosDeInteres", "Error parseando JSON", e);
             }
         }
         adapter.notifyDataSetChanged();
-    }
+    }*/
+
 
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
@@ -288,13 +295,80 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         getDeviceLocation();
     }
 
-    private void updateMap(TipoPuntoInteres punto) {
+    private void updateMap(PuntosDeInteres punto) {
         if (mMap != null) {
             LatLng location = new LatLng(punto.getLatitud(), punto.getLongitud());
             mMap.clear();
             mMap.addMarker(new MarkerOptions().position(location).title(punto.getNombre()));
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         }
+    }
+
+    // Método para obtener categorías y asociarlas con puntos de interés
+    private void fetchCategorias(final List<PuntosDeInteres> puntos) {
+        String url = "http://192.168.18.17:8080/api/tipospuntosinteres";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d("PuntosDeInteres", "Categorías recibidas: " + response.toString());
+                        Map<Long, String> categorias = new HashMap<>();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                Long idTipoPuntoInteres = jsonObject.getLong("idtipospuntosinteres");
+                                String categoria = jsonObject.getString("categoria");
+                                categorias.put(idTipoPuntoInteres, categoria);
+                            } catch (JSONException e) {
+                                Log.e("PuntosDeInteres", "Error parseando JSON de categorías", e);
+                            }
+                        }
+                        for (PuntosDeInteres punto : puntos) {
+                            punto.setCategoria(categorias.get(punto.getIdTipoPuntoInteres()));
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("PuntosDeInteres", "Error al obtener categorías: " + error.toString());
+                    }
+                });
+
+        queue.add(jsonArrayRequest);
+    }
+
+    private void parsePuntosDeInteres(JSONArray jsonArray) {
+        puntosDeInteres.clear();
+        if (jsonArray.length() == 0) {
+            Toast.makeText(this, "No se encontraron puntos de interés", Toast.LENGTH_SHORT).show();
+        }
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Long id = jsonObject.getLong("idPuntoInteres");
+                Long idAdministrador = jsonObject.getLong("idAdministrador");
+                Long idTipoPuntoInteres = jsonObject.getLong("idTipoPuntoInteres");
+                Long idFoto = jsonObject.getLong("idFoto");
+                String nombre = jsonObject.getString("nombre").trim();
+                double latitud = jsonObject.getDouble("latitud");
+                double longitud = jsonObject.getDouble("longitud");
+
+                PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud, null);
+                puntosDeInteres.add(punto);
+            } catch (JSONException e) {
+                Log.e("PuntosDeInteres", "Error parseando JSON", e);
+            }
+        }
+
+        // Después de obtener los puntos de interés, obtenemos las categorías
+        fetchCategorias(puntosDeInteres);
     }
 }
 

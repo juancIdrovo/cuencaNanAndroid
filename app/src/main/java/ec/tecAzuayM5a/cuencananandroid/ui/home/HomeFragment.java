@@ -44,7 +44,7 @@ import ec.tecAzuayM5a.cuencananandroid.adaptador.TipoPuntoInteresAdapter;
 import ec.tecAzuayM5a.cuencananandroid.databinding.FragmentHomeBinding;
 import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback {
+/*public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private FragmentHomeBinding binding;
         private List<TipoPuntoInteres> puntosDeInteres;
@@ -208,7 +208,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         private void updateMap(TipoPuntoInteres punto) {
             if (myMap != null) {
-                LatLng location = new LatLng(punto.getLatitud(), punto.getLongitud());
+               LatLng location = new LatLng(punto.getLatitud(), punto.getLongitud());
                 myMap.clear();
                 myMap.addMarker(new MarkerOptions().position(location).title(punto.getNombre()));
                 myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
@@ -223,4 +223,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             }
         }
     }
+*/
+
+
 

@@ -43,7 +43,7 @@ import java.util.List;
 import ec.tecAzuayM5a.cuencananandroid.adaptador.TipoPuntoInteresAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
 
-public class PuntosInteres extends Fragment implements OnMapReadyCallback {
+/*public class PuntosInteres extends Fragment implements OnMapReadyCallback {
 
     private List<TipoPuntoInteres> puntosDeInteres;
     private TipoPuntoInteresAdapter adapter;
@@ -225,4 +225,4 @@ public class PuntosInteres extends Fragment implements OnMapReadyCallback {
         }
         adapter.notifyDataSetChanged();
     }
-}
+}*/
