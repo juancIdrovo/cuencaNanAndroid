@@ -39,7 +39,7 @@ public class Layoutprincipal extends AppCompatActivity {
     private String cedula;
     Button btnmodificar,  btnCrearUbicacion, btnVerUbicaciones, btnPuntosInteres;
     ImageView opt;
-    String url = "http://192.168.18.17:8080/api/usuarios/";
+    String url = "http://192.168.100.196:8080/api/usuarios/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,41 +93,25 @@ public class Layoutprincipal extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         TextView tvName = headerView.findViewById(R.id.tvName);
         TextView tvMail = headerView.findViewById(R.id.tvMail);
-        //ImageView ivUserImage = findViewById(R.id.fotoPerfil);
+        ImageView ivUserImage = headerView.findViewById(R.id.fotoPerfil);
+
         if (tvName != null && tvMail != null) {
             tvName.setText(userName);
             tvMail.setText(userEmail);
         } else {
             Log.e("Layoutprincipal", "TextView es nulo");
         }
-        // Verifica que la URL de la imagen no sea nula
-     /*   if (imageUri != null) {
-            // Intenta cargar la imagen con Glide
+
+        if (imageUri != null && !imageUri.toString().isEmpty()) {
             Glide.with(this)
                     .load(imageUri)
                     .apply(new RequestOptions()
-                            // Imagen de marcador de posición en caso de error
-                    )
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            // Manejar fallo de carga de imagen aquí
-                            Log.e("PerfilUsuarioActivity", "Error al cargar la imagen con Glide: " + e.getMessage());
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            // La imagen se cargó correctamente
-                            return false;
-                        }
-                    })
+                            .error(R.drawable.luffiperfil) // Usar imagen predeterminada si hay error
+                            .placeholder(R.drawable.luffiperfil)) // Imagen predeterminada mientras se carga
                     .into(ivUserImage);
         } else {
-            // URL de la imagen nula o vacía, usa una imagen de marcador de posición
             ivUserImage.setImageResource(R.drawable.luffiperfil);
-            */
-
-
+        }
     }
+
 }

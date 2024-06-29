@@ -4,44 +4,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
-    <EditText
-        android:id="@+id/search_input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Buscar" />
-
-    <Spinner
-        android:id="@+id/search_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/search_input"
-        />
-
-    <Button
-        android:id="@+id/search_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/search_type"
-        android:text="Buscar" />
-
-    <ListView
-        android:id="@+id/points_list"
-        android:layout_width="match_parent"
-        android:layout_height="202dp"
-        android:layout_below="@id/search_button" />
-
-    <Button
-        android:id="@+id/btnVerEnMapa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/points_list"
-        android:text="Ver en Mapa" />
-
     <FrameLayout
         android:id="@+id/map_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btnVerEnMapa"
         android:layout_marginTop="-2dp" />
 
 </RelativeLayout>

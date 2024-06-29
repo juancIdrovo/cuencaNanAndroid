@@ -15,7 +15,7 @@
         android:id="@+id/nav_puntosInteres"
         android:name="ec.tecAzuayM5a.cuencananandroid.PuntosInteres"
         android:label="@string/menu_puntosinteres"
-        tools:layout="@layout/fragment_puntos_interes" />
+        tools:layout="+@layout/fragment_puntos_interes" />
     <fragment
         android:id="@+id/fragmentForo"
         android:name="ec.tecAzuayM5a.cuencananandroid.FragmentForo"

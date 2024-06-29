@@ -41,7 +41,6 @@
         android:backgroundTintMode="add"
         android:breakStrategy="high_quality"
         android:capitalize="characters"
-
         android:foregroundTint="@color/white"
         android:text="TextView"
         android:textAlignment="center"

@@ -35,6 +35,9 @@ public class PuntosDeInteres {
         this.categoria = categoria;
     }
 
+    public PuntosDeInteres(int idPuntoInteres, String nombre, double latitud, double longitud) {
+    }
+
     // Getters y Setters
 
     public String getCategoria() {
