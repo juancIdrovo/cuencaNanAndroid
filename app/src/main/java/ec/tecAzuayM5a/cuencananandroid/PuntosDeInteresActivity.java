@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -78,6 +79,9 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     private Spinner searchType;
     private PuntosDeInteres  selectedPunto;
     private GoogleMap mMap;
+    private List<TipoPuntoInteres> tipoPuntosInteresList;
+    private ArrayAdapter<TipoPuntoInteres> tipoPuntoAdapter;
+    private ListView pointsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,18 +107,9 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
             }
         });
 
-        Button btnVerEnMapa = findViewById(R.id.btnVerEnMapa);
 
-        btnVerEnMapa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (selectedPunto != null) {
-                    updateMap(selectedPunto);
-                } else {
-                    Toast.makeText(PuntosDeInteresActivity.this, "Por favor selecciona un punto de interés", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment_pi);
         if (mapFragment != null) {
@@ -154,19 +149,11 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchPuntosDeInteres(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.18.17:8080/api/puntosinteres";
+        String baseUrl = "http://192.168.100.196:8080/api/puntosinteres";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
-            urlBuilder.append("?nombre=").append(URLEncoder.encode(query, "UTF-8"));
-        }
-        if (category != null && !category.isEmpty()) {
-            if (query == null || query.isEmpty()) {
-                urlBuilder.append("?");
-            } else {
-                urlBuilder.append("&");
-            }
-            urlBuilder.append("categoria=").append(URLEncoder.encode(category, "UTF-8"));
+            urlBuilder.append("/nombre/").append(URLEncoder.encode(query, "UTF-8"));
         }
 
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -192,32 +179,6 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
 
         queue.add(jsonArrayRequest);
     }
-
-
-    /*private void parsePuntosDeInteres(JSONArray jsonArray) {
-        puntosDeInteres.clear();
-        if (jsonArray.length() == 0) {
-            Toast.makeText(this, "No se encontraron puntos de interés", Toast.LENGTH_SHORT).show();
-        }
-        for (int i = 0; i < jsonArray.length(); i++) {
-            try {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Long id = jsonObject.getLong("idPuntoInteres");
-                Long idAdministrador = jsonObject.getLong("idAdministrador");
-                Long idTipoPuntoInteres = jsonObject.getLong("idTipoPuntoInteres");
-                Long idFoto = jsonObject.getLong("idFoto");
-                String nombre = jsonObject.getString("nombre").trim();
-                double latitud = jsonObject.getDouble("latitud");
-                double longitud = jsonObject.getDouble("longitud");
-
-                PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud);
-                puntosDeInteres.add(punto);
-            } catch (JSONException e) {
-                Log.e("PuntosDeInteres", "Error parseando JSON", e);
-            }
-        }
-        adapter.notifyDataSetChanged();
-    }*/
 
 
     private void getLocationPermission() {
@@ -306,7 +267,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
 
     // Método para obtener categorías y asociarlas con puntos de interés
     private void fetchCategorias(final List<PuntosDeInteres> puntos) {
-        String url = "http://192.168.18.17:8080/api/tipospuntosinteres";
+        String url = "http://192.168.100.196:8080/api/tipospuntosinteres";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -360,13 +321,15 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
                 double latitud = jsonObject.getDouble("latitud");
                 double longitud = jsonObject.getDouble("longitud");
 
-                PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud, null);
-                puntosDeInteres.add(punto);
+                // Filtra por coincidencias parciales si no lo hace el servidor
+                if (searchInput.getText().toString().isEmpty() || nombre.toLowerCase().contains(searchInput.getText().toString().toLowerCase())) {
+                    PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud, null);
+                    puntosDeInteres.add(punto);
+                }
             } catch (JSONException e) {
                 Log.e("PuntosDeInteres", "Error parseando JSON", e);
             }
         }
-
         // Después de obtener los puntos de interés, obtenemos las categorías
         fetchCategorias(puntosDeInteres);
     }

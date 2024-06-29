@@ -62,41 +62,35 @@
     <ListView
         android:id="@+id/points_list"
         android:layout_width="wrap_content"
-        android:layout_height="174dp"
+        android:layout_height="271dp"
         android:layout_above="@id/map_fragment_pi"
         android:layout_below="@id/header_layout"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="9dp"
         android:layout_weight="1"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
     <!-- Fragmento del mapa -->
+
+    <!-- Botón en el pie de página -->
+
     <fragment
         android:id="@+id/map_fragment_pi"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="381dp"
-        android:layout_height="302dp"
+        android:layout_width="378dp"
+        android:layout_height="256dp"
         android:layout_above="@id/footer_layout"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="-23dp" />
 
-    <!-- Botón en el pie de página -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="376dp"
+        android:layout_height="5dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dp"
+        android:gravity="center"
         android:orientation="horizontal"
         android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btnVerEnMapa"
-            android:layout_width="0dp"
-            android:layout_height="58dp"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:textSize="12dp"
-            android:text="Ver en Mapa" />
-    </LinearLayout>
+        android:paddingBottom="8dp" />
 </RelativeLayout>
