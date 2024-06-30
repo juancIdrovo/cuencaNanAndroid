@@ -10,6 +10,7 @@ public class PuntosDeInteres {
     private double longitud;
     private String categoria;
     private String descripcion;
+    private Foto foto;
 
     public PuntosDeInteres() {
     }
@@ -24,6 +25,26 @@ public class PuntosDeInteres {
         this.longitud = longitud;
         this.categoria = categoria;
         this.descripcion = descripcion;
+    }
+
+    public PuntosDeInteres(Long id, Long idAdministrador, Long idTipoPuntoInteres, Long idFoto, String nombre, double latitud, double longitud, String categoria, String descripcion, Foto foto) {
+        this.id = id;
+        this.idAdministrador = idAdministrador;
+        this.idTipoPuntoInteres = idTipoPuntoInteres;
+        this.idFoto = idFoto;
+        this.nombre = nombre;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
+        this.foto = foto;  // Inicializa el campo foto aquí
+    }
+    public Foto getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Foto foto) {
+        this.foto = foto;
     }
 
     public PuntosDeInteres(int idPuntoInteres, String nombre, double latitud, double longitud) {

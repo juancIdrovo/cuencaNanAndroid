@@ -7,10 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
@@ -38,13 +41,23 @@ public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
 
         TextView nameText = convertView.findViewById(R.id.name_text);
         TextView categoriaText = convertView.findViewById(R.id.categoria_txt);
-        TextView descripcionText = convertView.findViewById(R.id.descripcion_txt); // Nuevo TextView para la descripción
+        TextView descripcionText = convertView.findViewById(R.id.descripcion_txt);
+        ImageView fotoView = convertView.findViewById(R.id.foto_view);
 
         nameText.setText(punto.getNombre());
-        categoriaText.setText(punto.getCategoria()); // Mostrar categoría
-        descripcionText.setText(punto.getDescripcion()); // Mostrar descripción
+        categoriaText.setText(punto.getCategoria());
+        descripcionText.setText(punto.getDescripcion());
+
+        if (punto.getFoto() != null && punto.getFoto().getUrl() != null) {
+            Glide.with(context)
+                    .load(punto.getFoto().getUrl())
+                    .placeholder(R.drawable.placeholder)
+                    .into(fotoView);
+        } else {
+            fotoView.setImageResource(R.drawable.placeholder);
+        }
 
         return convertView;
     }
-
 }
+

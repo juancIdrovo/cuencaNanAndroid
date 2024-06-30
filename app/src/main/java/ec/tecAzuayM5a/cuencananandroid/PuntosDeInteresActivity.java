@@ -27,6 +27,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +51,7 @@ import java.util.Map;
 
 import ec.tecAzuayM5a.cuencananandroid.adaptador.PuntosDeInteresAdapter;
 import ec.tecAzuayM5a.cuencananandroid.adaptador.TipoPuntoInteresAdapter;
+import ec.tecAzuayM5a.cuencananandroid.modelo.Foto;
 import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
 import ec.tecAzuayM5a.cuencananandroid.modelo.TipoPuntoInteres;
 
@@ -317,19 +319,34 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
                 String nombre = jsonObject.getString("nombre").trim();
                 double latitud = jsonObject.getDouble("latitud");
                 double longitud = jsonObject.getDouble("longitud");
-                String descripcion = jsonObject.getString("descripcion"); // Extraer descripción
+                String descripcion = jsonObject.getString("descripcion");
 
-                // Filtra por coincidencias parciales si no lo hace el servidor
-                if (searchInput.getText().toString().isEmpty() || nombre.toLowerCase().contains(searchInput.getText().toString().toLowerCase())) {
-                    PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud, null, descripcion);
-                    puntosDeInteres.add(punto);
-                }
+                PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud, null, descripcion);
+                puntosDeInteres.add(punto);
+
+                fetchFoto(idFoto, punto); // Llamar a fetchFoto para cargar la URL de la foto
             } catch (JSONException e) {
                 Log.e("PuntosDeInteres", "Error parseando JSON", e);
             }
         }
-        // Después de obtener los puntos de interés, obtenemos las categorías
         fetchCategorias(puntosDeInteres);
+    }
+    private void fetchFoto(Long idFoto, PuntosDeInteres punto) {
+        String url = "http://192.168.100.196:8080/api/foto/" + idFoto;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        String fotoUrl = response.getString("foto");
+                        punto.setFoto(new Foto(idFoto, fotoUrl));
+                        adapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("PuntosDeInteres", "Error al obtener la foto: " + error.toString())
+        );
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
 }
