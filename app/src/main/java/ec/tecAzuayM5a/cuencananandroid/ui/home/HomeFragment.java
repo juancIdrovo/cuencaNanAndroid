@@ -23,11 +23,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -67,8 +69,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
         mapFragment.getMapAsync(this);
 
-        fetchPuntosDeInteres();
-
         return root;
     }
 
@@ -82,7 +82,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         myMap = googleMap;
         LatLng cuenca = new LatLng(-2.9001285, -79.00589649999999);
-        updateMapLocation(cuenca, "Cuenca");
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cuenca, 12));
+        fetchPuntosDeInteres();
     }
 
     private void fetchPuntosDeInteres() {
@@ -115,14 +116,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private void parsePuntosDeInteres(JSONArray jsonArray) {
         puntosDeInteres.clear();
+        Log.d("PuntosDeInteres", "Procesando JSON: " + jsonArray.toString());
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 int idPuntoInteres = jsonObject.getInt("idPuntoInteres");
-                String nombre = jsonObject.getString("nombre").trim();
+                String nombre = jsonObject.getString("nombre");
                 double latitud = jsonObject.getDouble("latitud");
                 double longitud = jsonObject.getDouble("longitud");
 
+                Log.d("PuntosDeInteres", "Añadiendo Punto: " + nombre + ", Lat: " + latitud + ", Lon: " + longitud);
                 PuntosDeInteres punto = new PuntosDeInteres(idPuntoInteres, nombre, latitud, longitud);
                 puntosDeInteres.add(punto);
             } catch (JSONException e) {
@@ -131,27 +134,33 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    private void updateMapMarkers() {
-        if (myMap != null) {
-            myMap.clear();
-            for (PuntosDeInteres punto : puntosDeInteres) {
-                LatLng location = new LatLng(punto.getLatitud(), punto.getLongitud());
-                myMap.addMarker(new MarkerOptions().position(location).title(punto.getNombre()));
-            }
-            if (!puntosDeInteres.isEmpty()) {
-                LatLng firstLocation = new LatLng(puntosDeInteres.get(0).getLatitud(), puntosDeInteres.get(0).getLongitud());
-                myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 12));
-            }
-        }
-    }
 
-    private void updateMapLocation(LatLng latLng, String title) {
-        if (myMap != null) {
-            myMap.addMarker(new MarkerOptions().position(latLng).title(title));
-            myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+    private void updateMapMarkers() {
+        if (myMap == null) {
+            Log.d("PuntosDeInteres", "GoogleMap no está inicializado.");
+            return;
         }
+
+        Log.d("PuntosDeInteres", "Actualizando marcadores en el mapa.");
+        myMap.clear(); // Limpia todos los marcadores existentes
+
+        if (puntosDeInteres.isEmpty()) {
+            Log.d("PuntosDeInteres", "No hay puntos de interés para mostrar.");
+            return;
+        }
+
+        for (PuntosDeInteres punto : puntosDeInteres) {
+            LatLng location = new LatLng(punto.getLatitud(), punto.getLongitud());
+            myMap.addMarker(new MarkerOptions().position(location).title(punto.getNombre()));
+            Log.d("PuntosDeInteres", "Marcador añadido: " + punto.getNombre());
+        }
+
+        // Ajusta la cámara al primer punto de interés
+        LatLng firstLocation = new LatLng(puntosDeInteres.get(0).getLatitud(), puntosDeInteres.get(0).getLongitud());
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(firstLocation, 12));
     }
 }
+
 
 
 

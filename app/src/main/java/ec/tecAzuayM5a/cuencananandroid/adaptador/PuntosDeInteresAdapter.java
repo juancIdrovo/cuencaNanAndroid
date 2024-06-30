@@ -38,10 +38,13 @@ public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
 
         TextView nameText = convertView.findViewById(R.id.name_text);
         TextView categoriaText = convertView.findViewById(R.id.categoria_txt);
+        TextView descripcionText = convertView.findViewById(R.id.descripcion_txt); // Nuevo TextView para la descripción
 
         nameText.setText(punto.getNombre());
         categoriaText.setText(punto.getCategoria()); // Mostrar categoría
+        descripcionText.setText(punto.getDescripcion()); // Mostrar descripción
 
         return convertView;
     }
+
 }

@@ -18,7 +18,7 @@
 
     <string-array name="search_options">
         <item>Nombre</item>
-        <item>Descripción</item>
+        <item>Categoria</item>
 
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->

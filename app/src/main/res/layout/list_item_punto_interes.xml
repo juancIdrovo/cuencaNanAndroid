@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre:"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@color/rosadointenso"/>
+        android:textColor="@color/azulFB"/>
 
     <TextView
         android:id="@+id/categoria_txt"
@@ -21,5 +21,13 @@
         android:layout_marginTop="4dp"
         android:text="Categoría:"
         android:textSize="16sp"
-        android:textColor="@color/rosadointenso"/>
+        android:textColor="@color/azulFB"/>
+    <TextView
+        android:id="@+id/descripcion_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Descripción:"
+        android:textSize="16sp"
+        android:textColor="@color/azulFB"/>
 </LinearLayout>

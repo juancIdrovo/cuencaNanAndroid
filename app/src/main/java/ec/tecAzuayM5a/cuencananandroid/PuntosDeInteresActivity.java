@@ -307,9 +307,6 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
 
     private void parsePuntosDeInteres(JSONArray jsonArray) {
         puntosDeInteres.clear();
-        if (jsonArray.length() == 0) {
-            Toast.makeText(this, "No se encontraron puntos de interés", Toast.LENGTH_SHORT).show();
-        }
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -320,10 +317,11 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
                 String nombre = jsonObject.getString("nombre").trim();
                 double latitud = jsonObject.getDouble("latitud");
                 double longitud = jsonObject.getDouble("longitud");
+                String descripcion = jsonObject.getString("descripcion"); // Extraer descripción
 
                 // Filtra por coincidencias parciales si no lo hace el servidor
                 if (searchInput.getText().toString().isEmpty() || nombre.toLowerCase().contains(searchInput.getText().toString().toLowerCase())) {
-                    PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud, null);
+                    PuntosDeInteres punto = new PuntosDeInteres(id, idAdministrador, idTipoPuntoInteres, idFoto, nombre, latitud, longitud, null, descripcion);
                     puntosDeInteres.add(punto);
                 }
             } catch (JSONException e) {
@@ -333,5 +331,6 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         // Después de obtener los puntos de interés, obtenemos las categorías
         fetchCategorias(puntosDeInteres);
     }
+
 }
 

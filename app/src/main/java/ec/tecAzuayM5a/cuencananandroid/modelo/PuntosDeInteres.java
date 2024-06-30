@@ -1,7 +1,6 @@
 package ec.tecAzuayM5a.cuencananandroid.modelo;
 
 public class PuntosDeInteres {
-
     private Long id;
     private Long idAdministrador;
     private Long idTipoPuntoInteres;
@@ -10,21 +9,12 @@ public class PuntosDeInteres {
     private double latitud;
     private double longitud;
     private String categoria;
+    private String descripcion;
 
     public PuntosDeInteres() {
     }
 
-    public PuntosDeInteres(Long id, Long idAdministrador, Long idTipoPuntoInteres, Long idFoto, String nombre, double latitud, double longitud) {
-        this.id = id;
-        this.idAdministrador = idAdministrador;
-        this.idTipoPuntoInteres = idTipoPuntoInteres;
-        this.idFoto = idFoto;
-        this.nombre = nombre;
-        this.latitud = latitud;
-        this.longitud = longitud;
-    }
-
-    public PuntosDeInteres(Long id, Long idAdministrador, Long idTipoPuntoInteres, Long idFoto, String nombre, double latitud, double longitud, String categoria) {
+    public PuntosDeInteres(Long id, Long idAdministrador, Long idTipoPuntoInteres, Long idFoto, String nombre, double latitud, double longitud, String categoria, String descripcion) {
         this.id = id;
         this.idAdministrador = idAdministrador;
         this.idTipoPuntoInteres = idTipoPuntoInteres;
@@ -33,19 +23,10 @@ public class PuntosDeInteres {
         this.latitud = latitud;
         this.longitud = longitud;
         this.categoria = categoria;
+        this.descripcion = descripcion;
     }
 
     public PuntosDeInteres(int idPuntoInteres, String nombre, double latitud, double longitud) {
-    }
-
-    // Getters y Setters
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -102,5 +83,21 @@ public class PuntosDeInteres {
 
     public void setLongitud(double longitud) {
         this.longitud = longitud;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

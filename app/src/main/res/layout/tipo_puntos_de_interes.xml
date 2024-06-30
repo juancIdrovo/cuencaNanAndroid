@@ -77,8 +77,8 @@
     <fragment
         android:id="@+id/map_fragment_pi"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="378dp"
-        android:layout_height="256dp"
+        android:layout_width="391dp"
+        android:layout_height="262dp"
         android:layout_above="@id/footer_layout"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="-23dp" />
@@ -88,7 +88,7 @@
         android:layout_width="376dp"
         android:layout_height="5dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="4dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingTop="8dp"
