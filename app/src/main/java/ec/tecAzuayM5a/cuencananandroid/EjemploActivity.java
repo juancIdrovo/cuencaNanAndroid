@@ -20,8 +20,9 @@ public class EjemploActivity extends AppCompatActivity {
         arrayList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recyclerview);
-        arrayList.add(new Foro(R.drawable.ic_launcher_background,R.drawable.post,"title","mensaje"))
+        arrayList.add(new Foro(R.drawable.ic_launcher_background,R.drawable.opcion64  ,"title","mensaje"))
 
-        recyclerView.setAdapter();
+    RecyclerAdapter recyclerAdapter = new RecyclerAdapter(arrayList);
+    recyclerView.setAdapter(recyclerAdapter);
     }
 }
