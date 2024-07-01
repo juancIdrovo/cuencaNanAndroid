@@ -62,9 +62,10 @@
     <ListView
         android:id="@+id/points_list"
         android:layout_width="wrap_content"
-        android:layout_height="271dp"
+        android:layout_height="285dp"
         android:layout_above="@id/map_fragment_pi"
         android:layout_below="@id/header_layout"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="9dp"
         android:layout_weight="1"
         android:divider="@android:color/darker_gray"

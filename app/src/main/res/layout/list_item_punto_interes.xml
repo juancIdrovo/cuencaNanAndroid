@@ -22,6 +22,7 @@
         android:text="Categoría:"
         android:textSize="16sp"
         android:textColor="@color/maradito"/>
+
     <TextView
         android:id="@+id/descripcion_txt"
         android:layout_width="wrap_content"
@@ -37,4 +38,37 @@
         android:layout_height="200dp"
         android:scaleType="centerCrop"/>
 
+    <!-- Layout horizontal para el icono de rating y el valor del rating -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/rating_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/rating"
+            android:layout_marginEnd="8dp"/>
+
+        <TextView
+            android:id="@+id/rating_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating:"
+            android:textSize="16sp"
+            android:textColor="@color/azulFB"/>
+    </LinearLayout>
+
+    <!-- Botón para calificar -->
+    <Button
+        android:id="@+id/rate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:text="Calificar" />
 </LinearLayout>
+

@@ -151,7 +151,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchPuntosDeInteres(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.100.196:8080/api/puntosinteres";
+        String baseUrl = "http://192.168.18.17:8080/api/puntosinteres";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -269,7 +269,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
 
     // Método para obtener categorías y asociarlas con puntos de interés
     private void fetchCategorias(final List<PuntosDeInteres> puntos) {
-        String url = "http://192.168.100.196:8080/api/tipospuntosinteres";
+        String url = "http://192.168.18.17:8080/api/tipospuntosinteres";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -332,7 +332,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         fetchCategorias(puntosDeInteres);
     }
     private void fetchFoto(Long idFoto, PuntosDeInteres punto) {
-        String url = "http://192.168.100.196:8080/api/foto/" + idFoto;
+        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

@@ -1,12 +1,14 @@
 package ec.tecAzuayM5a.cuencananandroid.adaptador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import ec.tecAzuayM5a.cuencananandroid.R;
+import ec.tecAzuayM5a.cuencananandroid.RatePuntoDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
 
 public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
@@ -43,6 +46,7 @@ public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
         TextView categoriaText = convertView.findViewById(R.id.categoria_txt);
         TextView descripcionText = convertView.findViewById(R.id.descripcion_txt);
         ImageView fotoView = convertView.findViewById(R.id.foto_view);
+        Button rateButton = convertView.findViewById(R.id.rate_button);
 
         nameText.setText(punto.getNombre());
         categoriaText.setText(punto.getCategoria());
@@ -57,7 +61,14 @@ public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
             fotoView.setImageResource(R.drawable.placeholder);
         }
 
+        rateButton.setOnClickListener(v -> {
+            Intent intent = new Intent(context, RatePuntoDeInteresActivity.class);
+            intent.putExtra("PUNTO_INTERES_ID", punto.getId());
+            context.startActivity(intent);
+        });
+
         return convertView;
     }
 }
+
 
