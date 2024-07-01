@@ -9,7 +9,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_modificarperfil">Modificar Perfil</string>
-
     <string name="menu_mapa">Mapa</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -113,5 +112,7 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_ejemploac">ejemploac</string>
+    <string name="title_activity_ejemplo">EjemploA</string>
 
 </resources>
