@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,10 +16,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,20 +31,25 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://172.18.32.1:8080/api/usuarios";
+    private String urlRegistro = "http://192.168.1.25:8080/api/usuarios";
+    private String urlUpload = "http://192.168.1.25:8080/api/assets/upload";
     private RequestQueue requestQueue;
     private static final int REQUEST_IMAGE_PICK = 1;
     private ImageView imageView;
     private Uri imageUri;
-    private String fotoUrl;
+    private String fotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,22 +89,18 @@ public class RegistroUsuario extends AppCompatActivity {
             InputStream inputStream = getContentResolver().openInputStream(imageUri);
             byte[] imageBytes = new byte[inputStream.available()];
             inputStream.read(imageBytes);
-            String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
-            JSONObject jsonBody = new JSONObject();
-            jsonBody.put("file", encodedImage);
-
-            String urlUpload = "http://192.168.0.209:8080/api/assets/upload";
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlUpload, jsonBody,
-                    new Response.Listener<JSONObject>() {
+            VolleyMultipartRequest request = new VolleyMultipartRequest(Request.Method.POST, urlUpload,
+                    new Response.Listener<NetworkResponse>() {
                         @Override
-                        public void onResponse(JSONObject response) {
+                        public void onResponse(NetworkResponse response) {
                             try {
-                                fotoUrl = response.getString("url");
-                                Log.d("Registro", "URL de la imagen: " + fotoUrl);
+                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                                JSONObject jsonResponse = new JSONObject(jsonString);
+                                fotoPath = jsonResponse.getString("key"); // Guardar la clave en fotoPath
+                                Log.d("Registro", "Clave de la imagen: " + fotoPath);
                                 Toast.makeText(RegistroUsuario.this, "Imagen subida exitosamente.", Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
+                            } catch (JSONException | UnsupportedEncodingException e) {
                                 e.printStackTrace();
                                 Toast.makeText(RegistroUsuario.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
                             }
@@ -116,38 +118,21 @@ public class RegistroUsuario extends AppCompatActivity {
                             Log.e("Registro", "Error en la solicitud: " + errorMessage, error);
                             Toast.makeText(RegistroUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
                         }
-                    });
+                    }) {
+                @Override
+                protected Map<String, DataPart> getByteData() {
+                    Map<String, DataPart> params = new HashMap<>();
+                    params.put("file", new DataPart("image.jpg", imageBytes, "image/jpeg"));
+                    return params;
+                }
+            };
 
-            requestQueue.add(request);
+            Volley.newRequestQueue(this).add(request);
 
-        } catch (IOException | JSONException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(this, "Error al leer la imagen.", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
-            ((TextInputEditText) getActivity().findViewById(R.id.txtFechaNac)).setText(selectedDate);
-        }
-    }
-
-    public void showDatePickerDialog(View view) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void clickbtnGuardar(View view) {
@@ -170,6 +155,14 @@ public class RegistroUsuario extends AppCompatActivity {
             }
         }
 
+        if (fotoPath != null) {
+            enviarSolicitudRegistro(cedula, nombres, apellidos, mail, direccion, nombre_usuario, contrasena, telefono, fecha, fotoPath);
+        } else {
+            Toast.makeText(this, "Debe seleccionar una imagen primero y esperar a que se suba.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void enviarSolicitudRegistro(String cedula, String nombres, String apellidos, String mail, String direccion, String nombre_usuario, String contrasena, String telefono, Date fecha, String fotoPath) {
         JSONObject jsonBody = new JSONObject();
 
         try {
@@ -184,17 +177,9 @@ public class RegistroUsuario extends AppCompatActivity {
             if (fecha != null) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                 String fechaFormateada = sdf.format(fecha);
-                jsonBody.put("fecha_nac", fechaFormateada);
+                jsonBody.put("fecha_nacimiento", fechaFormateada);
             }
-          /*  if (fotoUrl != null) {
-                jsonBody.put("fotoUrl", fotoUrl);
-            } else {
-                Toast.makeText(this, "Debe seleccionar una imagen primero.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-           */
-
+            jsonBody.put("fotoPath", fotoPath);
         } catch (JSONException e) {
             e.printStackTrace();
         }

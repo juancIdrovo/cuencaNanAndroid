@@ -2,20 +2,6 @@
 <project version="4">
   <component name="deploymentTargetSelector">
     <selectionStates>
-      <SelectionState runConfigName="LoginActivity">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="PuntosDeInteresActivity">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-06-26T16:34:45.630602800Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\juan_\.android\avd\Pixel_3a_API_34_extension_level_7_x86_64.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
       <SelectionState runConfigName="RegistroUsuario">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
@@ -31,6 +17,9 @@
         <DialogSelection />
       </SelectionState>
       <SelectionState runConfigName="EjemploActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="modificarUsuario">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

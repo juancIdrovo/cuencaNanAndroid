@@ -74,7 +74,7 @@ public class modificarUsuario extends AppCompatActivity {
         direccion = getIntent().getStringExtra("direccion");
         telefono = getIntent().getStringExtra("celular");
         userEmail = getIntent().getStringExtra("user_email");
-        imageUri = Uri.parse(getIntent().getStringExtra("image_uri"));
+       // imageUri = Uri.parse(getIntent().getStringExtra("image_uri"));
         contrasena  = getIntent().getStringExtra("contrasena");
         fecha_nac = getIntent().getStringExtra("fecha_nac");
 
@@ -158,7 +158,7 @@ public class modificarUsuario extends AppCompatActivity {
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.43.81:8080/api/usuario/" + usuario.getId_usuario();
+        String url = "http://192.168.1.25:8080/api/usuario/" + usuario.getId_usuario();
 
         JSONObject jsonBody = new JSONObject();
         try {
