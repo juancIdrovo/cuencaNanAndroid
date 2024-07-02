@@ -1,7 +1,9 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPass;
 
     String mail, pass;
-    String url = "http://192.168.1.25:8080/api/usuarios/loginusuario";
+    String url = "http://192.168.100.196:8080/api/usuarios/loginusuario";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,13 +39,22 @@ public class LoginActivity extends AppCompatActivity {
         btnRegistarse = findViewById(R.id.btnRegistro);
         txtEmail = findViewById(R.id.inputEmail);
         txtPass = findViewById(R.id.inputPassword);
+
         btnRegistarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegistroUsuario.class));
             }
         });
+
+        btnAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Login(v);
+            }
+        });
     }
+
     public void Login(View view) {
         if (txtEmail.getText().toString().equals("")) {
             Toast.makeText(this, "Ingrese el correo", Toast.LENGTH_LONG).show();
@@ -75,14 +87,18 @@ public class LoginActivity extends AppCompatActivity {
                                     // Extraer datos del usuario de la respuesta
                                     String nombre = response.optString("nombres", "");
                                     String correo = response.optString("mail", "");
-                                  //  String imageUri = response.optString("foto", "");
                                     String id = response.optString("id_usuario", "");
+
+                                    // Guardar el ID del usuario en SharedPreferences
+                                    SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putLong("userId", Long.parseLong(id));
+                                    editor.apply();
 
                                     Intent intent = new Intent(LoginActivity.this, Layoutprincipal.class);
                                     intent.putExtra("nombre", nombre);
                                     intent.putExtra("mail", correo);
                                     intent.putExtra("id_usuario", id);
-                              //      intent.putExtra("image_uri", imageUri);
 
                                     finish();
                                     startActivity(intent);
@@ -107,8 +123,7 @@ public class LoginActivity extends AppCompatActivity {
             requestQueue.add(request);
         }
     }
-
-
 }
+
 
 
