@@ -43,8 +43,8 @@ import java.util.Map;
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.1.25:8080/api/usuarios";
-    private String urlUpload = "http://192.168.1.25:8080/api/assets/upload";
+    private String urlRegistro = "http://192.168.0.123:8080/api/usuarios";
+    private String urlUpload = "http://192.168.0.123:8080/api/assets/upload";
     private RequestQueue requestQueue;
     private static final int REQUEST_IMAGE_PICK = 1;
     private ImageView imageView;

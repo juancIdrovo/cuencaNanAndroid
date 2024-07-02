@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 
 public class EjemploActivity extends AppCompatActivity {
-
+/*
     private RecyclerView recyclerView;
     private ArrayList<Foro> arrayList;
     @Override
@@ -25,4 +25,6 @@ public class EjemploActivity extends AppCompatActivity {
     RecyclerAdapter recyclerAdapter = new RecyclerAdapter(arrayList);
     recyclerView.setAdapter(recyclerAdapter);
     }
+}
+*/
 }

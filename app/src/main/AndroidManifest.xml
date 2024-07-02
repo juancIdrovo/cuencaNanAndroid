@@ -39,15 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Layoutprincipal"
-            android:exported="true"
-            android:label="@string/title_activity_layoutprincipal"
-            android:theme="@style/Theme.CuencaNanAndroid.NoActionBar">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+
 
         <activity
             android:name=".RegistroUsuario"
@@ -76,6 +68,8 @@
             android:exported="true">
 
         </activity>
+
+
 
 
     </application>

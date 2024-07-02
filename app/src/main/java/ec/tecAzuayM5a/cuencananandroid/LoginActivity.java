@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPass;
 
     String mail, pass;
-    String url = "http://192.168.1.25:8080/api/usuarios/loginusuario";
+    String url = "http://192.168.0.123:8080/api/usuarios/loginusuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                                     editor.putLong("userId", Long.parseLong(id));
                                     editor.apply();
 
-                                    Intent intent = new Intent(LoginActivity.this, Layoutprincipal.class);
+                                    Intent intent = new Intent(LoginActivity.this, PerfilUsuarioActivity.class);
                                     intent.putExtra("nombre", nombre);
                                     intent.putExtra("mail", correo);
                                     intent.putExtra("id_usuario", id);
