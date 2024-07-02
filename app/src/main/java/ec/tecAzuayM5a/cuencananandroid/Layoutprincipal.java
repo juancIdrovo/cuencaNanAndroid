@@ -59,16 +59,17 @@ public class Layoutprincipal extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         userName = getIntent().getStringExtra("nombre");
-        long_id = getIntent().getStringExtra("long_id");
+        long_id = getIntent().getStringExtra("id_usuario");
         userEmail = getIntent().getStringExtra("mail");
-     //   imageUri = Uri.parse(getIntent().getStringExtra("image_uri"));
         updateUI();
         setSupportActionBar(binding.appBarLayoutprincipal.toolbar);
         binding.appBarLayoutprincipal.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JSONObject jsonBody = new JSONObject();
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url+long_id, jsonBody,
+                String url = "http://192.168.1.25:8080/api/usuarios/" + long_id;
+
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, jsonBody,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
@@ -76,22 +77,20 @@ public class Layoutprincipal extends AppCompatActivity {
                                     String status = response.optString("status", "");
 
                                     if (!status.equals("error")) {
-
                                         String nombre = response.optString("nombres", "");
-                                        String correo = response.optString("correo", "");
-                                        String imageUri = response.optString("foto", "");
+                                        String correo = response.optString("mail", "");
                                         String cedula = response.optString("cedula", "");
                                         String apellido = response.optString("apellidos", "");
                                         String direccion = response.optString("direccion", "");
-                                        String telefono = response.optString("telf", "");
+                                        String telefono = response.optString("celular", "");
                                         String contrasena = response.optString("contrasena", "");
-                                        String fecha_nac = response.optString("fecha_nac", "");
+                                        String fecha_nac = response.optString("fecha_nacimiento", "");
 
                                         Intent intent = new Intent(Layoutprincipal.this, modificarUsuario.class);
                                         intent.putExtra("user_name", nombre);
                                         intent.putExtra("user_email", correo);
-                                        intent.putExtra("cedula",cedula);
-                                        intent.putExtra("image_uri", imageUri.toString());
+                                        intent.putExtra("cedula", cedula);
+                                        // intent.putExtra("image_uri", imageUri.toString()); // Asegúrate de que imageUri está definido
                                         intent.putExtra("apellidos", apellido);
                                         intent.putExtra("direccion", direccion);
                                         intent.putExtra("telefono", telefono);
@@ -115,11 +114,8 @@ public class Layoutprincipal extends AppCompatActivity {
 
                 RequestQueue requestQueue = Volley.newRequestQueue(Layoutprincipal.this);
                 requestQueue.add(request);
-
             }
-
         });
-
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each

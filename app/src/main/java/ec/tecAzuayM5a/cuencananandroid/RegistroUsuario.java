@@ -50,6 +50,7 @@ public class RegistroUsuario extends AppCompatActivity {
     private ImageView imageView;
     private Uri imageUri;
     private String fotoPath;
+    private TextInputEditText txtFechaNac;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class RegistroUsuario extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         Button btnSeleccionarFoto = findViewById(R.id.btnSeleccionarFoto);
         imageView = findViewById(R.id.imageViewfoto);
+        txtFechaNac = findViewById(R.id.txtFechaNac);
 
         btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +68,23 @@ public class RegistroUsuario extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_IMAGE_PICK);
             }
         });
+    }
+
+    public void showDatePickerDialog(View view) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                txtFechaNac.setText(selectedDate);
+            }
+        }, year, month, day);
+
+        datePickerDialog.show();
     }
 
     @Override
@@ -179,7 +198,7 @@ public class RegistroUsuario extends AppCompatActivity {
                 String fechaFormateada = sdf.format(fecha);
                 jsonBody.put("fecha_nacimiento", fechaFormateada);
             }
-            jsonBody.put("fotoPath", fotoPath);
+            jsonBody.put("fotoPath", fotoPath); // Usar fotoPath para la clave de la imagen
         } catch (JSONException e) {
             e.printStackTrace();
         }

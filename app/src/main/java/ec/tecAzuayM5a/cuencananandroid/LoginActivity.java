@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPass;
 
     String mail, pass;
-    String url = "http://192.168.100.196:8080/api/usuarios/loginusuario";
+    String url = "http://192.168.1.25:8080/api/usuarios/loginusuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,14 +82,13 @@ public class LoginActivity extends AppCompatActivity {
                             try {
                                 String status = response.optString("status", "");
                                 if (!status.equals("error")) {
-                                    Log.d("LoginActivity", "Inicio de sesión exitoso para el correo: " + mail);
 
-                                    // Extraer datos del usuario de la respuesta
                                     String nombre = response.optString("nombres", "");
                                     String correo = response.optString("mail", "");
                                     String id = response.optString("id_usuario", "");
+                                    String image = response.optString("fotoPath", "" );
 
-                                    // Guardar el ID del usuario en SharedPreferences
+
                                     SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putLong("userId", Long.parseLong(id));
@@ -99,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("nombre", nombre);
                                     intent.putExtra("mail", correo);
                                     intent.putExtra("id_usuario", id);
+
 
                                     finish();
                                     startActivity(intent);
