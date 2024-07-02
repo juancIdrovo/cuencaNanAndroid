@@ -14,16 +14,16 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/menu_gallery" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/calificarPuntoInteres"
+            android:icon="@drawable/rating"
+            android:title="Calificar Ubicación" />
         <item
             android:id="@+id/puntosInteres"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Perfil" />
+            android:icon="@drawable/logo_app_sin_fondo"
+            android:title="Puntos de Interes" />
         <item
             android:id="@+id/fragmentForo"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Perfil" />
+            android:title="Foro" />
     </group>
 </menu>
