@@ -158,7 +158,7 @@ public class modificarUsuario extends AppCompatActivity {
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.1.25:8080/api/usuario/" + usuario.getId_usuario();
+        String url = "http://192.168.0.123:8080/api/usuarios/" + usuario.getId_usuario();
 
         JSONObject jsonBody = new JSONObject();
         try {

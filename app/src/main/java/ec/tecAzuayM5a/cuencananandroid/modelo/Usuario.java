@@ -2,7 +2,7 @@ package ec.tecAzuayM5a.cuencananandroid.modelo;
 
 import java.util.Date;
 
-public class Usuario  {
+public class Usuario {
     private Long id_usuario;
     private String cedula;
     private String nombres;
@@ -12,10 +12,12 @@ public class Usuario  {
     private Date fecha_nacimiento;
     private String contrasena;
     private String celular;
-    private String foto;
+    private String fotoUrl;
+    private String fotoPath;
 
 
-    public Usuario(String cedula, String nombres, String apellidos, String mail, String direccion, Date fecha_nacimiento, String contrasena, String celular, String foto) {
+    public Usuario(Long id_usuario, String cedula, String nombres, String apellidos, String mail, String direccion, Date fecha_nacimiento, String contrasena, String celular, String fotoUrl, String fotoPath) {
+        this.id_usuario = id_usuario;
         this.cedula = cedula;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -24,10 +26,37 @@ public class Usuario  {
         this.fecha_nacimiento = fecha_nacimiento;
         this.contrasena = contrasena;
         this.celular = celular;
-        this.foto = foto;
+        this.fotoUrl = fotoUrl;
+        this.fotoPath = fotoPath;
     }
+
+    public Usuario(Long id_usuario, String cedula, String nombres, String apellidos, String mail, String direccion, Date fecha_nacimiento, String contrasena, String celular, String fotoUrl) {
+        this.id_usuario = id_usuario;
+        this.cedula = cedula;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.mail = mail;
+        this.direccion = direccion;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.contrasena = contrasena;
+        this.celular = celular;
+        this.fotoUrl = fotoUrl;
+    }
+    public Usuario(String cedula, String nombres, String apellidos, String mail, String direccion, Date fecha_nacimiento, String contrasena, String celular, String fotoUrl) {
+        this.cedula = cedula;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.mail = mail;
+        this.direccion = direccion;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.contrasena = contrasena;
+        this.celular = celular;
+        this.fotoUrl = fotoUrl;
+    }
+
     public Usuario() {
     }
+
     public Long getId_usuario() {
         return id_usuario;
     }
@@ -83,6 +112,7 @@ public class Usuario  {
     public void setFecha_nacimiento(Date fecha_nacimiento) {
         this.fecha_nacimiento = fecha_nacimiento;
     }
+
     public String getContrasena() {
         return contrasena;
     }
@@ -99,11 +129,19 @@ public class Usuario  {
         this.celular = celular;
     }
 
-    public String getFoto() {
-        return foto;
+    public String getFotoUrl() {
+        return fotoUrl;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
+    }
+
+    public String getFotoPath() {
+        return fotoPath;
+    }
+
+    public void setFotoPath(String fotoPath) {
+        this.fotoPath = fotoPath;
     }
 }

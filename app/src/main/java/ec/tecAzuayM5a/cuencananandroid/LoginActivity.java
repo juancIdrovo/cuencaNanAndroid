@@ -78,7 +78,6 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             progressDialog.dismiss();
-                            Log.d("LoginActivity", "Respuesta del servidor: " + response.toString());
                             try {
                                 String status = response.optString("status", "");
                                 if (!status.equals("error")) {
@@ -86,8 +85,8 @@ public class LoginActivity extends AppCompatActivity {
                                     String nombre = response.optString("nombres", "");
                                     String correo = response.optString("mail", "");
                                     String id = response.optString("id_usuario", "");
-                                    String image = response.optString("fotoPath", "" );
-
+                                    String fotoPath = response.optString("fotoPath", "");
+                                    String fotoUrl = response.optString("fotoUrl", "");
 
                                     SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -98,7 +97,9 @@ public class LoginActivity extends AppCompatActivity {
                                     intent.putExtra("nombre", nombre);
                                     intent.putExtra("mail", correo);
                                     intent.putExtra("id_usuario", id);
-
+                                    intent.putExtra("fotoPath", fotoPath);
+                                    intent.putExtra("fotoUrl", fotoUrl);
+                                    Log.d("LoginActivity", "Respuesta del servidor: " + response.toString());
 
                                     finish();
                                     startActivity(intent);
