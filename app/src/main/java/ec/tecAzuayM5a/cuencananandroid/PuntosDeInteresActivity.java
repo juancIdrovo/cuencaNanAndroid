@@ -79,7 +79,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     private PuntosDeInteresAdapter adapter;
     private EditText searchInput;
     private Spinner searchType;
-    private PuntosDeInteres  selectedPunto;
+    private PuntosDeInteres selectedPunto;
     private GoogleMap mMap;
     private List<TipoPuntoInteres> tipoPuntosInteresList;
     private ArrayAdapter<TipoPuntoInteres> tipoPuntoAdapter;
@@ -108,10 +108,6 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
                 updateMap(selectedPunto);
             }
         });
-
-
-
-
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment_pi);
         if (mapFragment != null) {
@@ -182,7 +178,6 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         queue.add(jsonArrayRequest);
     }
 
-
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -202,13 +197,10 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         locationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    locationPermissionGranted = true;
-                    getDeviceLocation();
-                }
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
+                getDeviceLocation();
             }
         }
     }
@@ -250,15 +242,16 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         }
     }
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("PuntosDeInteres", "Google Map está listo");
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         getDeviceLocation();
     }
 
-    private void updateMap(PuntosDeInteres punto) {
+    public void updateMap(PuntosDeInteres punto) {
+        Log.d("PuntosDeInteres", "Actualizando el mapa con el punto de interés: " + punto.getNombre());
         if (mMap != null) {
             LatLng location = new LatLng(punto.getLatitud(), punto.getLongitud());
             mMap.clear();
@@ -267,7 +260,6 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         }
     }
 
-    // Método para obtener categorías y asociarlas con puntos de interés
     private void fetchCategorias(final List<PuntosDeInteres> puntos) {
         String url = "http://192.168.18.17:8080/api/tipospuntosinteres";
 
@@ -312,7 +304,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                Long id = jsonObject.getLong("idPuntoInteres");
+                Long id = jsonObject.getLong("id");
                 Long idAdministrador = jsonObject.getLong("idAdministrador");
                 Long idTipoPuntoInteres = jsonObject.getLong("idTipoPuntoInteres");
                 Long idFoto = jsonObject.getLong("idFoto");
@@ -331,6 +323,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         }
         fetchCategorias(puntosDeInteres);
     }
+
     private void fetchFoto(Long idFoto, PuntosDeInteres punto) {
         String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
 
@@ -348,6 +341,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         );
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
-
 }
+
+
 

@@ -95,7 +95,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     }
 
     private void loadUserData() {
-        String url = "http://192.168.0.123:8080/api/usuarios/" + long_id;
+        String url = "http://192.168.18.17:8080/api/usuarios/" + long_id;
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {

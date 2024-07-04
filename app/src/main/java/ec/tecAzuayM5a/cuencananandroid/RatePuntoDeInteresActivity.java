@@ -3,6 +3,7 @@ package ec.tecAzuayM5a.cuencananandroid;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -19,126 +21,161 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import ec.tecAzuayM5a.cuencananandroid.modelo.Usuariopuntosinteres;
+
 public class RatePuntoDeInteresActivity extends AppCompatActivity {
+
+    private ImageView fotoView;
     private TextView nombreText;
     private TextView descripcionText;
-    private ImageView fotoView;
-    private EditText comentarioEditText;
     private RatingBar ratingBar;
+    private EditText comentarioEditText;
     private Button submitButton;
+
     private Long puntoInteresId;
+    private Long userId;
+    private Long existingRatingId = null; // Para almacenar el ID de la valoración existente
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_punto_de_interes);
 
+        fotoView = findViewById(R.id.foto_view);
         nombreText = findViewById(R.id.nombre_text);
         descripcionText = findViewById(R.id.descripcion_text);
-        fotoView = findViewById(R.id.foto_view);
-        comentarioEditText = findViewById(R.id.comentario_edit_text);
         ratingBar = findViewById(R.id.rating_bar);
+        comentarioEditText = findViewById(R.id.comentario_edit_text);
         submitButton = findViewById(R.id.submit_button);
 
         puntoInteresId = getIntent().getLongExtra("PUNTO_INTERES_ID", -1);
+        userId = getIntent().getLongExtra("USER_ID", -1);
 
-        cargarPuntoDeInteres(puntoInteresId);
+        loadPuntoInteresDetails(puntoInteresId);
 
         submitButton.setOnClickListener(v -> {
-            enviarCalificacionYComentario();
+            try {
+                enviarCalificacionYComentario();
+            } catch (JSONException e) {
+                Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + e.toString());
+                Toast.makeText(this, "Error al enviar la valoración y comentario", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
-    private void cargarPuntoDeInteres(Long id) {
-        String url = "http://192.168.100.196:8080/api/puntosinteres/" + id;
+    private void loadPuntoInteresDetails(Long puntoInteresId) {
+        String url = "http://192.168.18.17:8080/api/puntosinteres/" + puntoInteresId;
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        String nombre = response.getString("nombre");
+                        String descripcion = response.getString("descripcion");
+                        Long idFoto = response.getLong("idFoto");
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String nombre = response.getString("nombre");
-                            String descripcion = response.getString("descripcion");
-                            String fotoUrl = response.getString("foto");
+                        nombreText.setText(nombre);
+                        descripcionText.setText(descripcion);
+                        fetchFoto(idFoto);
 
-                            nombreText.setText(nombre);
-                            descripcionText.setText(descripcion);
-
-                            Glide.with(RatePuntoDeInteresActivity.this)
-                                    .load(fotoUrl)
-                                    .placeholder(R.drawable.placeholder)
-                                    .into(fotoView);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            // Manejar error de JSON
-                        }
+                        // Cargar valoración y comentario existente
+                        loadExistingRatingAndComment(userId, puntoInteresId);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Manejar error de la solicitud
-                        error.printStackTrace();
-                    }
-                });
+                error -> Log.e("RatePuntoDeInteres", "Error al cargar los detalles del punto de interés: " + error.toString())
+        );
 
-        queue.add(jsonObjectRequest);
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
-    private void enviarCalificacionYComentario() {
-        String url = "http://192.168.100.196:8080/api/usuariopuntosinteres";
-        RequestQueue queue = Volley.newRequestQueue(this);
+    private void fetchFoto(Long idFoto) {
+        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
 
-        Long userId = getUserId();
-        if (userId == -1) {
-            Toast.makeText(this, "Error: Usuario no autenticado", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("idusuario", userId);
-            postData.put("idpuntosinteres", puntoInteresId);
-            postData.put("calificacion", (int) ratingBar.getRating());
-            postData.put("comentarios", comentarioEditText.getText().toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST, url, postData,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Toast.makeText(RatePuntoDeInteresActivity.this, "Calificación enviada exitosamente", Toast.LENGTH_SHORT).show();
-                        finish();
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        String fotoUrl = response.getString("foto");
+                        Glide.with(this)
+                                .load(fotoUrl)
+                                .placeholder(R.drawable.logo_appc_con_fondo)
+                                .into(fotoView);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                        Toast.makeText(RatePuntoDeInteresActivity.this, "Error al enviar la calificación", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                error -> Log.e("RatePuntoDeInteres", "Error al cargar la foto: " + error.toString())
+        );
 
-        queue.add(jsonObjectRequest);
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
+    private void loadExistingRatingAndComment(Long userId, Long puntoInteresId) {
+        String url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
 
-    private Long getUserId() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getLong("userId", -1); // -1 es el valor predeterminado si no se encuentra el ID
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        existingRatingId = response.getLong("idusuariopuntosinteres");
+                        int calificacion = response.getInt("calificacion");
+                        String comentarios = response.getString("comentarios");
+
+                        ratingBar.setRating(calificacion);
+                        comentarioEditText.setText(comentarios);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("RatePuntoDeInteres", "Error al cargar la valoración y comentario existente: " + error.toString())
+        );
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+    }
+
+    private void enviarCalificacionYComentario() throws JSONException {
+        int calificacion = (int) ratingBar.getRating();
+        String comentarios = comentarioEditText.getText().toString();
+
+        Usuariopuntosinteres usuariopuntosinteres = new Usuariopuntosinteres();
+        usuariopuntosinteres.setIdusuario(userId);
+        usuariopuntosinteres.setIdpuntosinteres(puntoInteresId);
+        usuariopuntosinteres.setCalificacion(calificacion);
+        usuariopuntosinteres.setComentarios(comentarios);
+
+        String url;
+        int method;
+
+        if (existingRatingId != null) {
+            // Si ya existe una valoración, la actualizamos
+            url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + existingRatingId;
+            method = Request.Method.PUT;
+        } else {
+            // Si no existe, creamos una nueva
+            url = "http://192.168.18.17:8080/api/usuariopuntosinteres";
+            method = Request.Method.POST;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url, new JSONObject(new Gson().toJson(usuariopuntosinteres)),
+                response -> Toast.makeText(this, "Valoración enviada", Toast.LENGTH_SHORT).show(),
+                error -> Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + error.toString())
+        );
+
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }
+
+
+
+
+
 
 
 
