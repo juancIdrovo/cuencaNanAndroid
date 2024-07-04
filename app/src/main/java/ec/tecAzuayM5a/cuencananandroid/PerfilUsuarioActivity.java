@@ -1,13 +1,18 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +35,8 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
     private String userName;
     private String userEmail;
-    private Uri imageUri;
+    private String fotoPath;
+    private String fotoUrl;
     private String long_id;
     ImageView opt;
     Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso;
@@ -39,17 +45,27 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.perfil_usuairo);
-
         userName = getIntent().getStringExtra("nombre");
         long_id = getIntent().getStringExtra("id_usuario");
         userEmail = getIntent().getStringExtra("mail");
-      //  btnHorario = findViewById(R.id.btnSchedule1);
-        btnDocente = findViewById(R.id.btnCrearUbicacion);
-        btnCurso = findViewById(R.id.btnPuntosInteres);
+        fotoPath = getIntent().getStringExtra("fotoPath");
+        fotoUrl = getIntent().getStringExtra("fotoUrl");
+        Log.d("PerfilUsuarioActivity", "Nombre: " + userName + ", Email: " + userEmail + ", Foto URL: " + fotoUrl);
+
 
         updateUI();
 
+        btnDocente = findViewById(R.id.btnCrearUbicacion);
+        btnCurso = findViewById(R.id.btnPuntosInteres);
+
         opt = findViewById(R.id.btnOptions);
+        opt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+
 
         btnCurso.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +86,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
 
     }
+
     private void updateUI() {
         TextView tvName = findViewById(R.id.tvName);
         TextView tvMail = findViewById(R.id.tvMail);
@@ -79,67 +96,110 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             tvName.setText(userName);
             tvMail.setText(userEmail);
         } else {
-            Log.e("PerfilUsuarioActivity", "TextView es nulo");
+            Log.e("PerfilUsuarioActivity", "TextView is null");
         }
 
-        if (imageUri != null && !imageUri.toString().isEmpty()) {
+        if (fotoUrl != null && !fotoUrl.isEmpty()) {
+            Log.d("PerfilUsuarioActivity", "Loading image from URL: " + fotoUrl);
             Glide.with(this)
-                    .load(imageUri)
+                    .load(fotoUrl)
                     .apply(new RequestOptions()
                             .error(R.drawable.luffiperfil)
                             .placeholder(R.drawable.luffiperfil))
                     .into(ivUserImage);
         } else {
+            Log.e("PerfilUsuarioActivity", "Foto URL is null or empty");
             ivUserImage.setImageResource(R.drawable.luffiperfil);
         }
     }
 
     private void loadUserData() {
         String url = "http://192.168.18.17:8080/api/usuarios/" + long_id;
+    private void showPopupMenu(View view) {
+        // Inflate the popup menu layout
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.activity_menu_desplegaable, null);
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String status = response.optString("status", "");
+        // Create the PopupWindow
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.setOutsideTouchable(true);
 
-                            if (!status.equals("error")) {
-                                String nombre = response.optString("nombres", "");
-                                String correo = response.optString("mail", "");
-                                String cedula = response.optString("cedula", "");
-                                String apellido = response.optString("apellidos", "");
-                                String direccion = response.optString("direccion", "");
-                                String telefono = response.optString("celular", "");
-                                String contrasena = response.optString("contrasena", "");
-                                String fecha_nac = response.optString("fecha_nacimiento", "");
+        // Find the buttons in the popup menu
+        Button modifyProfileButton = popupView.findViewById(R.id.modify_profile_button);
+        Button signOutButton = popupView.findViewById(R.id.sign_out_button);
 
-                                Intent intent = new Intent(PerfilUsuarioActivity.this, modificarUsuario.class);
-                                intent.putExtra("user_name", nombre);
-                                intent.putExtra("user_email", correo);
-                                intent.putExtra("cedula", cedula);
-                                intent.putExtra("apellidos", apellido);
-                                intent.putExtra("direccion", direccion);
-                                intent.putExtra("telefono", telefono);
-                                intent.putExtra("contrasena", contrasena);
-                                intent.putExtra("fecha_nac", fecha_nac);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(PerfilUsuarioActivity.this, "Autenticación fallida", Toast.LENGTH_LONG).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        // Set click listeners for the buttons
+
+
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("PerfilUsuarioActivity", "Error en la solicitud: " + error.getMessage());
-                Toast.makeText(PerfilUsuarioActivity.this, "Error en la solicitud: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            public void onClick(View view) {
+                finish();
+                startActivity(new Intent(PerfilUsuarioActivity.this, LoginActivity.class).putExtra("long_id", long_id));
+
             }
         });
 
-        RequestQueue requestQueue = Volley.newRequestQueue(PerfilUsuarioActivity.this);
-        requestQueue.add(request);
+        modifyProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String url = "http://192.168.0.123:8080/api/usuarios/" + long_id;
+
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    String status = response.optString("status", "");
+
+                                    if (!status.equals("error")) {
+                                        String nombre = response.optString("nombres", "");
+                                        String correo = response.optString("mail", "");
+                                        String cedula = response.optString("cedula", "");
+                                        String apellido = response.optString("apellidos", "");
+                                        String direccion = response.optString("direccion", "");
+                                        String telefono = response.optString("celular", "");
+                                        String contrasena = response.optString("contrasena", "");
+                                        String fecha_nac = response.optString("fecha_nacimiento", "");
+                                        String fotoPath = response.optString("fotoPath", "");
+                                        String fotoUrl = response.optString("fotoUrl", "");
+
+
+                                        Intent intent = new Intent(PerfilUsuarioActivity.this, modificarUsuario.class);
+                                        intent.putExtra("user_name", nombre);
+                                        intent.putExtra("user_email", correo);
+                                        intent.putExtra("cedula", cedula);
+                                        intent.putExtra("apellidos", apellido);
+                                        intent.putExtra("direccion", direccion);
+                                        intent.putExtra("telefono", telefono);
+                                        intent.putExtra("contrasena", contrasena);
+                                        intent.putExtra("fecha_nac", fecha_nac);
+                                        intent.putExtra("fotoPath", fotoPath);
+                                        intent.putExtra("fotoUrl", fotoUrl);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(PerfilUsuarioActivity.this, "Autenticación fallida", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("PerfilUsuarioActivity", "Error en la solicitud: " + error.getMessage());
+                        Toast.makeText(PerfilUsuarioActivity.this, "Error en la solicitud: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                RequestQueue requestQueue = Volley.newRequestQueue(PerfilUsuarioActivity.this);
+                requestQueue.add(request);
+            }
+        });
+
+        // Show the popup menu
+        popupWindow.showAsDropDown(view);
     }
 }
