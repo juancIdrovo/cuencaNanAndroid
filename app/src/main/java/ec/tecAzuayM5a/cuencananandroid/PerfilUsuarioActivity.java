@@ -66,7 +66,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             }
         });
 
-
         btnCurso.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,93 +112,91 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         }
     }
 
-    private void loadUserData() {
-        String url = "http://192.168.18.17:8080/api/usuarios/" + long_id;
-    private void showPopupMenu(View view) {
-        // Inflate the popup menu layout
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.activity_menu_desplegaable, null);
+        private void showPopupMenu (View view){
+            // Inflate the popup menu layout
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = inflater.inflate(R.layout.activity_menu_desplegaable, null);
 
-        // Create the PopupWindow
-        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        popupWindow.setOutsideTouchable(true);
+            // Create the PopupWindow
+            PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            popupWindow.setOutsideTouchable(true);
 
-        // Find the buttons in the popup menu
-        Button modifyProfileButton = popupView.findViewById(R.id.modify_profile_button);
-        Button signOutButton = popupView.findViewById(R.id.sign_out_button);
+            // Find the buttons in the popup menu
+            Button modifyProfileButton = popupView.findViewById(R.id.modify_profile_button);
+            Button signOutButton = popupView.findViewById(R.id.sign_out_button);
 
-        // Set click listeners for the buttons
+            // Set click listeners for the buttons
 
 
-        signOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                startActivity(new Intent(PerfilUsuarioActivity.this, LoginActivity.class).putExtra("long_id", long_id));
+            signOutButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                    startActivity(new Intent(PerfilUsuarioActivity.this, LoginActivity.class).putExtra("long_id", long_id));
 
-            }
-        });
+                }
+            });
 
-        modifyProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            modifyProfileButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                String url = "http://192.168.0.123:8080/api/usuarios/" + long_id;
+                    String url = "http://192.168.0.123:8080/api/usuarios/" + long_id;
 
-                JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    String status = response.optString("status", "");
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        String status = response.optString("status", "");
 
-                                    if (!status.equals("error")) {
-                                        String nombre = response.optString("nombres", "");
-                                        String correo = response.optString("mail", "");
-                                        String cedula = response.optString("cedula", "");
-                                        String apellido = response.optString("apellidos", "");
-                                        String direccion = response.optString("direccion", "");
-                                        String telefono = response.optString("celular", "");
-                                        String contrasena = response.optString("contrasena", "");
-                                        String fecha_nac = response.optString("fecha_nacimiento", "");
-                                        String fotoPath = response.optString("fotoPath", "");
-                                        String fotoUrl = response.optString("fotoUrl", "");
+                                        if (!status.equals("error")) {
+                                            String nombre = response.optString("nombres", "");
+                                            String correo = response.optString("mail", "");
+                                            String cedula = response.optString("cedula", "");
+                                            String apellido = response.optString("apellidos", "");
+                                            String direccion = response.optString("direccion", "");
+                                            String telefono = response.optString("celular", "");
+                                            String contrasena = response.optString("contrasena", "");
+                                            String fecha_nac = response.optString("fecha_nacimiento", "");
+                                            String fotoPath = response.optString("fotoPath", "");
+                                            String fotoUrl = response.optString("fotoUrl", "");
 
 
-                                        Intent intent = new Intent(PerfilUsuarioActivity.this, modificarUsuario.class);
-                                        intent.putExtra("user_name", nombre);
-                                        intent.putExtra("user_email", correo);
-                                        intent.putExtra("cedula", cedula);
-                                        intent.putExtra("apellidos", apellido);
-                                        intent.putExtra("direccion", direccion);
-                                        intent.putExtra("telefono", telefono);
-                                        intent.putExtra("contrasena", contrasena);
-                                        intent.putExtra("fecha_nac", fecha_nac);
-                                        intent.putExtra("fotoPath", fotoPath);
-                                        intent.putExtra("fotoUrl", fotoUrl);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(PerfilUsuarioActivity.this, "Autenticación fallida", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(PerfilUsuarioActivity.this, modificarUsuario.class);
+                                            intent.putExtra("user_name", nombre);
+                                            intent.putExtra("user_email", correo);
+                                            intent.putExtra("cedula", cedula);
+                                            intent.putExtra("apellidos", apellido);
+                                            intent.putExtra("direccion", direccion);
+                                            intent.putExtra("telefono", telefono);
+                                            intent.putExtra("contrasena", contrasena);
+                                            intent.putExtra("fecha_nac", fecha_nac);
+                                            intent.putExtra("fotoPath", fotoPath);
+                                            intent.putExtra("fotoUrl", fotoUrl);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(PerfilUsuarioActivity.this, "Autenticación fallida", Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("PerfilUsuarioActivity", "Error en la solicitud: " + error.getMessage());
-                        Toast.makeText(PerfilUsuarioActivity.this, "Error en la solicitud: " + error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("PerfilUsuarioActivity", "Error en la solicitud: " + error.getMessage());
+                            Toast.makeText(PerfilUsuarioActivity.this, "Error en la solicitud: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
 
-                RequestQueue requestQueue = Volley.newRequestQueue(PerfilUsuarioActivity.this);
-                requestQueue.add(request);
-            }
-        });
+                    RequestQueue requestQueue = Volley.newRequestQueue(PerfilUsuarioActivity.this);
+                    requestQueue.add(request);
+                }
+            });
 
-        // Show the popup menu
-        popupWindow.showAsDropDown(view);
-    }
+            // Show the popup menu
+            popupWindow.showAsDropDown(view);
+        }
 }
