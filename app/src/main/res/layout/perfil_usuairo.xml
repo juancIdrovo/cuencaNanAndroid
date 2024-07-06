@@ -3,33 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondocolores">
+    android:background="@drawable/fondo1">
 
     <Button
-        android:id="@+id/btnCrearUbicacion"
-        android:layout_width="265dp"
-        android:layout_height="69dp"
+        android:id="@+id/btnForo"
+        android:layout_width="wrap_content"
+        android:layout_height="99dp"
         android:layout_below="@id/btnPuntosInteres"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="71dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="201dp"
+        android:layout_marginTop="-105dp"
         android:background="@drawable/rounded_button"
-
-        android:text="Crear un marcador"
+        android:drawableLeft="@drawable/foro"
+        android:text="Foro"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold" />
 
+
     <Button
         android:id="@+id/btnVerUbicaciones"
-        android:layout_width="265dp"
-        android:layout_height="69dp"
-        android:layout_below="@id/btnCrearUbicacion"
+        android:layout_width="169dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnForo"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="72dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="25dp"
         android:background="@drawable/rounded_button"
-
+        android:drawableLeft="@drawable/mapa"
+        android:drawablePadding="10dp"
         android:text="Mi Mapa"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -37,15 +39,15 @@
 
     <Button
         android:id="@+id/btnPuntosInteres"
-        android:layout_width="265dp"
-        android:layout_height="69dp"
+        android:layout_width="160dp"
+        android:layout_height="109dp"
         android:layout_below="@id/tvMail"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="27dp"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/white"
-
+        android:drawableLeft="@drawable/mundo"
         android:text="Puntos de Interes"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -63,13 +65,13 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fotoPerfil"
-        android:layout_width="236dp"
-        android:layout_height="237dp"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
 
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="87dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="88dp"
         android:src="@drawable/luffiperfil"
         app:civ_border_color="@color/maradito"
@@ -86,7 +88,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="279dp"
         android:backgroundTint="@color/white"
         android:backgroundTintMode="add"
         android:breakStrategy="high_quality"
