@@ -1,0 +1,23 @@
+<!-- res/menu/bottom_nav_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_mapa"
+        android:icon="@drawable/mapa"
+        android:title="" />
+    <item
+        android:id="@+id/navigation_puntos"
+        android:icon="@drawable/mundo"
+        android:title="" />
+    <item
+        android:id="@+id/navigation_casa"
+        android:icon="@drawable/logo_app_sin_fondo"
+        android:title="" />
+    <item
+        android:id="@+id/navigation_eventos"
+        android:icon="@drawable/evento"
+        android:title="" />
+    <item
+        android:id="@+id/navigation_foro"
+        android:icon="@drawable/foro"
+        android:title="" />
+</menu>

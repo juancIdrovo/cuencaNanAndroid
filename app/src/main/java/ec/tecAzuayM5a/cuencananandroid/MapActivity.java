@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -49,6 +50,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        // Hacer zoom en el punto específico
+        LatLng cuencaLocation = new LatLng(-2.8974172, -79.0044893);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cuencaLocation, 15)); // Zoom level 15, ajusta según sea necesario
     }
 
     private void fetchPuntosInteres() {
