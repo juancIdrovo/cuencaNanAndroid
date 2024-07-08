@@ -27,10 +27,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="RatePuntoDeInteresActivity">
+      <SelectionState runConfigName="PuntosDeInteresActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PuntosDeInteresActivity">
+      <SelectionState runConfigName="EjemploActivity">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

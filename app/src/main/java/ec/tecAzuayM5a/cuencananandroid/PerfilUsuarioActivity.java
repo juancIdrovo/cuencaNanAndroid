@@ -39,7 +39,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private String fotoUrl;
     private String long_id;
     ImageView opt;
-    Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso;
+    Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso, btnForo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
         btnDocente = findViewById(R.id.btnCrearUbicacion);
         btnCurso = findViewById(R.id.btnPuntosInteres);
+        btnForo = findViewById(R.id.btnVerUbicaciones);
 
         opt = findViewById(R.id.btnOptions);
         opt.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +80,14 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 startActivity(new Intent(PerfilUsuarioActivity.this, RatePuntoDeInteresActivity.class));
+
+            }
+        });
+        btnForo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(PerfilUsuarioActivity.this, EjemploActivity.class));
 
             }
         });

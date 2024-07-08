@@ -1,36 +1,47 @@
 package ec.tecAzuayM5a.cuencananandroid.modelo;
-
 public class Foro {
-
-    private int iconoperfil;
-    private int imagen;
+    private Long idForo;
+    private Long idUsuario;
+    private String respuesta;
     private String titulo;
-    private String mensaje;
-
-    public Foro(int iconoperfil, int imagen, String titulo, String mensaje) {
-        this.iconoperfil = iconoperfil;
-        this.imagen = imagen;
-        this.titulo = titulo;
-        this.mensaje = mensaje;
-    }
 
     public Foro() {
     }
 
-    public int getIconoperfil() {
-        return iconoperfil;
+    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo) {
+        this.idForo = idForo;
+        this.idUsuario = idUsuario;
+        this.respuesta = respuesta;
+        this.titulo = titulo;
+    }
+    public Foro(Long idForo, Long idUsuario, String respuesta) {
+        this.idForo = idForo;
+        this.idUsuario = idUsuario;
+        this.respuesta = respuesta;
     }
 
-    public void setIconoperfil(int iconoperfil) {
-        this.iconoperfil = iconoperfil;
+    public Long getIdForo() {
+        return idForo;
     }
 
-    public int getImagen() {
-        return imagen;
+    public void setIdForo(Long idForo) {
+        this.idForo = idForo;
     }
 
-    public void setImagen(int imagen) {
-        this.imagen = imagen;
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
     }
 
     public String getTitulo() {
@@ -39,13 +50,5 @@ public class Foro {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
-    }
-
-    public String getMensaje() {
-        return mensaje;
-    }
-
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
     }
 }
