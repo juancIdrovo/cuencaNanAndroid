@@ -13,6 +13,9 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+      <SelectionState runConfigName="EjemploActivity">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
       <SelectionState runConfigName="PuntosDeInteresActivity">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-07-08T15:13:48.703336700Z">
@@ -24,10 +27,10 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="EventosActivity">
+      <SelectionState runConfigName="RegistroUsuario">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MapActivity">
+      <SelectionState runConfigName="ForoActivity">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-07-08T14:19:21.910063300Z">
           <Target type="DEFAULT_BOOT">

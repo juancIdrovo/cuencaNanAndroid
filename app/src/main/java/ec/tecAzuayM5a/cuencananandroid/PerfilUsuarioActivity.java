@@ -35,6 +35,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private String fotoUrl;
     private String long_id;
     ImageView opt;
+    Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso, btnForo;
     Button btnMapa,  btnforo, btnEventos, btnPuntoInteres;
 
     @Override
@@ -75,7 +76,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(PerfilUsuarioActivity.this, RatePuntoDeInteresActivity.class));
+                startActivity(new Intent(PerfilUsuarioActivity.this, ForoActivity.class));
 
             }
         });
@@ -96,8 +97,16 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
             }
         });
+/*        btnForo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                startActivity(new Intent(PerfilUsuarioActivity.this, ForoActivity.class));
 
+            }
+        });
+
+*/
     }
 
     private void updateUI() {
@@ -166,6 +175,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                                         String status = response.optString("status", "");
 
                                         if (!status.equals("error")) {
+                                            String id_usuario = response.optString("id_usuario", "");
                                             String nombre = response.optString("nombres", "");
                                             String correo = response.optString("mail", "");
                                             String cedula = response.optString("cedula", "");
@@ -179,6 +189,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
 
                                             Intent intent = new Intent(PerfilUsuarioActivity.this, modificarUsuario.class);
+                                            intent.putExtra("id_usuario", id_usuario);
                                             intent.putExtra("user_name", nombre);
                                             intent.putExtra("user_email", correo);
                                             intent.putExtra("cedula", cedula);

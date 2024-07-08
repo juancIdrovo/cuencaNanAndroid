@@ -66,6 +66,11 @@
             android:exported="true">
 
         </activity>
+        <activity
+            android:name=".ForoActivity"
+            android:exported="true">
+
+        </activity>
 
         <activity
             android:name=".RatePuntoDeInteresActivity"

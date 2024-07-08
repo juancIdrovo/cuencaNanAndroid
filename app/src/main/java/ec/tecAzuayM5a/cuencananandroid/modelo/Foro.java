@@ -1,36 +1,72 @@
 package ec.tecAzuayM5a.cuencananandroid.modelo;
-
 public class Foro {
-
-    private int iconoperfil;
-    private int imagen;
+    private Long idForo;
+    private Long idUsuario;
+    private String respuesta;
     private String titulo;
-    private String mensaje;
+    private Long idFoto;
+    private Foto foto;
+    private String usuarioFotoUrl;
 
-    public Foro(int iconoperfil, int imagen, String titulo, String mensaje) {
-        this.iconoperfil = iconoperfil;
-        this.imagen = imagen;
-        this.titulo = titulo;
-        this.mensaje = mensaje;
-    }
 
     public Foro() {
     }
 
-    public int getIconoperfil() {
-        return iconoperfil;
+    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo, Long idFoto) {
+        this.idForo = idForo;
+        this.idUsuario = idUsuario;
+        this.respuesta = respuesta;
+        this.titulo = titulo;
+        this.idFoto = idFoto;
     }
 
-    public void setIconoperfil(int iconoperfil) {
-        this.iconoperfil = iconoperfil;
+    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo, Long idFoto, Foto foto) {
+        this.idForo = idForo;
+        this.idUsuario = idUsuario;
+        this.respuesta = respuesta;
+        this.titulo = titulo;
+        this.idFoto = idFoto;
+        this.foto = foto;
     }
 
-    public int getImagen() {
-        return imagen;
+    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo, Long idFoto, Foto foto, String usuarioFotoUrl) {
+        this.idForo = idForo;
+        this.idUsuario = idUsuario;
+        this.respuesta = respuesta;
+        this.titulo = titulo;
+        this.idFoto = idFoto;
+        this.foto = foto;
+        this.usuarioFotoUrl = usuarioFotoUrl;
+    }
+    public Foto getFoto() {
+        return foto;
     }
 
-    public void setImagen(int imagen) {
-        this.imagen = imagen;
+    public void setFoto(Foto foto) {
+        this.foto = foto;
+    }
+    public Long getIdForo() {
+        return idForo;
+    }
+
+    public void setIdForo(Long idForo) {
+        this.idForo = idForo;
+    }
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
     }
 
     public String getTitulo() {
@@ -41,11 +77,18 @@ public class Foro {
         this.titulo = titulo;
     }
 
-    public String getMensaje() {
-        return mensaje;
+    public Long getIdFoto() {
+        return idFoto;
     }
 
-    public void setMensaje(String mensaje) {
-        this.mensaje = mensaje;
+    public void setIdFoto(Long idFoto) {
+        this.idFoto = idFoto;
+    }
+    public String getUsuarioFotoUrl() {
+        return usuarioFotoUrl;
+    }
+
+    public void setUsuarioFotoUrl(String usuarioFotoUrl) {
+        this.usuarioFotoUrl = usuarioFotoUrl;
     }
 }

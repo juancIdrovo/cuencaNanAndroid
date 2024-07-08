@@ -57,6 +57,7 @@ public class modificarUsuario extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
     private String userName, apellidos, direccion, contrasena, telefono, fecha_nac;
     private String userEmail;
+    private String id_usuario;
     private Uri imageUri;
     private String cedula;
     private ImageView imageView;
@@ -67,7 +68,7 @@ public class modificarUsuario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modificar_datos_estudiante);
-
+        id_usuario = getIntent().getStringExtra("id_usuario");
         userName = getIntent().getStringExtra("user_name");
         cedula = getIntent().getStringExtra("cedula");
         apellidos = getIntent().getStringExtra("apellidos");
@@ -158,7 +159,7 @@ public class modificarUsuario extends AppCompatActivity {
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.0.123:8080/api/usuarios/" + usuario.getId_usuario();
+        String url = "http://192.168.0.123:8080/api/usuarios/" + id_usuario;
 
         JSONObject jsonBody = new JSONObject();
         try {

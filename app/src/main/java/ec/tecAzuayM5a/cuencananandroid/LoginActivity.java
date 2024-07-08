@@ -27,9 +27,8 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
     Button btnAceptar, btnRegistarse;
     EditText txtEmail, txtPass;
-
     String mail, pass;
-    String url = "http://192.168.0.111:8080/api/usuarios/loginusuario";
+    String url = "http://192.168.0.123:8080/api/usuarios/loginusuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
