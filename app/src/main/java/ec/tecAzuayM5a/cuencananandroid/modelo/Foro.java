@@ -4,22 +4,35 @@ public class Foro {
     private Long idUsuario;
     private String respuesta;
     private String titulo;
+    private Long idFoto;
+    private Foto foto;
 
     public Foro() {
     }
 
-    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo) {
+    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo, Long idFoto) {
         this.idForo = idForo;
         this.idUsuario = idUsuario;
         this.respuesta = respuesta;
         this.titulo = titulo;
+        this.idFoto = idFoto;
     }
-    public Foro(Long idForo, Long idUsuario, String respuesta) {
+
+    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo, Long idFoto, Foto foto) {
         this.idForo = idForo;
         this.idUsuario = idUsuario;
         this.respuesta = respuesta;
+        this.titulo = titulo;
+        this.idFoto = idFoto;
+        this.foto = foto;
+    }
+    public Foto getFoto() {
+        return foto;
     }
 
+    public void setFoto(Foto foto) {
+        this.foto = foto;
+    }
     public Long getIdForo() {
         return idForo;
     }
@@ -50,5 +63,13 @@ public class Foro {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public Long getIdFoto() {
+        return idFoto;
+    }
+
+    public void setIdFoto(Long idFoto) {
+        this.idFoto = idFoto;
     }
 }

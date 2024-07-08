@@ -101,7 +101,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                startActivity(new Intent(PerfilUsuarioActivity.this, EjemploActivity.class));
+                startActivity(new Intent(PerfilUsuarioActivity.this, ForoActivity.class));
 
             }
         });

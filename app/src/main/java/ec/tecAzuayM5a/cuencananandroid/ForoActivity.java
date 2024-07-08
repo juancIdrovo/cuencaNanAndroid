@@ -4,22 +4,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.SupportMapFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,46 +27,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ec.tecAzuayM5a.cuencananandroid.adaptador.ForoAdapter;
-import ec.tecAzuayM5a.cuencananandroid.adaptador.PuntosDeInteresAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
+import ec.tecAzuayM5a.cuencananandroid.modelo.Foto;
 import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
 
-public class EjemploActivity extends AppCompatActivity {
+public class ForoActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private RecyclerAdapter recyclerAdapter;
+    private ListView listView;
     private List<Foro> foros;
     private ForoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ejemplo);
+        setContentView(R.layout.foro);
 
         foros = new ArrayList<>();
         adapter = new ForoAdapter(this, foros);
-        ListView listView = findViewById(R.id.points_list);
+        listView = findViewById(R.id.points_list);
         listView.setAdapter(adapter);
-        try {
-            fetchForo(null, null);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Aquí puedes manejar la selección de un elemento de la lista
             }
         });
+
         try {
             fetchForo(null, null);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-
     }
+
     private void fetchForo(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.0.123:8080/api/foros";
+        String baseUrl = "http://192.168.1.25:8080/api/foros";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -93,8 +85,8 @@ public class EjemploActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("PuntosDeInteres", "Error al obtener datos: " + error.toString());
-                        Toast.makeText(EjemploActivity.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
+                        Log.e("Foro", "Error al obtener datos: " + error.toString());
+                        Toast.makeText(ForoActivity.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -108,15 +100,34 @@ public class EjemploActivity extends AppCompatActivity {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 Long idForo = jsonObject.getLong("idForo");
                 Long idUsuario = jsonObject.getLong("idUsuario");
-                //String titulo = jsonObject.getString("titulo").trim();
                 String respuesta = jsonObject.getString("respuesta");
+                String titulo  = jsonObject.getString("titulo");
+                Long idFoto = jsonObject.getLong("idFoto");
 
-                Foro foro = new Foro(idForo, idUsuario, respuesta);
+                Foro foro = new Foro(idForo, idUsuario, respuesta, titulo, idFoto);
                 foros.add(foro);
-
+                fetchFoto(idFoto, foro); //
             } catch (JSONException e) {
-                Log.e("PuntosDeInteres", "Error parseando JSON", e);
+                Log.e("Foro", "Error parseando JSON", e);
             }
         }
+        adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
+    }
+    private void fetchFoto(Long idFoto, Foro foro) {
+        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                response -> {
+                    try {
+                        String fotoUrl = response.getString("foto");
+                        foro.setFoto(new Foto(idFoto, fotoUrl));
+                        adapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Log.e("PuntosDeInteres", "Error al obtener la foto: " + error.toString())
+        );
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }

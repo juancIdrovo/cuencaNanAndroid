@@ -67,7 +67,7 @@
 
         </activity>
         <activity
-            android:name=".EjemploActivity"
+            android:name=".ForoActivity"
             android:exported="true">
 
         </activity>
