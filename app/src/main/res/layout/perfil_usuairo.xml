@@ -3,53 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondocolores">
-
-    <Button
-        android:id="@+id/btnCrearUbicacion"
-        android:layout_width="265dp"
-        android:layout_height="69dp"
-        android:layout_below="@id/btnPuntosInteres"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="71dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/rounded_button"
-
-        android:text="Crear un marcador"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/btnVerUbicaciones"
-        android:layout_width="265dp"
-        android:layout_height="69dp"
-        android:layout_below="@id/btnCrearUbicacion"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/rounded_button"
-
-        android:text="Mi Mapa"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/btnPuntosInteres"
-        android:layout_width="265dp"
-        android:layout_height="69dp"
-        android:layout_below="@id/tvMail"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="69dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/white"
-
-        android:text="Puntos de Interes"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    android:background="@drawable/fondo1">
 
     <ImageView
         android:id="@+id/btnOptions"
@@ -63,13 +17,12 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fotoPerfil"
-        android:layout_width="236dp"
-        android:layout_height="237dp"
-
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="87dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="88dp"
         android:src="@drawable/luffiperfil"
         app:civ_border_color="@color/maradito"
@@ -81,23 +34,12 @@
         android:id="@+id/tvName"
         android:layout_width="309dp"
         android:layout_height="wrap_content"
-
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/fotoPerfil"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="292dp"
-        android:backgroundTint="@color/white"
-        android:backgroundTintMode="add"
-        android:breakStrategy="high_quality"
-        android:capitalize="characters"
-        android:foregroundTint="@color/white"
-
+        android:layout_marginTop="20dp"
         android:text="TextView"
         android:textAlignment="center"
-        android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textColorHighlight="#C51E1E"
         android:textSize="30dp"
         android:textStyle="bold|italic" />
 
@@ -105,16 +47,73 @@
         android:id="@+id/tvMail"
         android:layout_width="312dp"
         android:layout_height="37dp"
-        android:layout_below="@+id/tvName"
-        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvName"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="22dp"
-        android:backgroundTint="@color/white"
+        android:layout_marginTop="10dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="italic" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/tvMail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <Button
+            android:id="@+id/btnPuntosInteres"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/frost_botton"
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/mundo"
+            android:text="Puntos de Interes"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnForo"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/frost_botton"
+            android:drawableLeft="@drawable/foro"
+            android:text="Foro"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnVerUbicaciones"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/frost_botton"
+            android:drawableLeft="@drawable/mapa"
+            android:drawablePadding="10dp"
+            android:text="Mi Mapa"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnEventos"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="@drawable/frost_botton"
+            android:drawableLeft="@drawable/evento"
+            android:text="Eventos"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </RelativeLayout>
+

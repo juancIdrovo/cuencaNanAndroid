@@ -3,11 +3,9 @@ package ec.tecAzuayM5a.cuencananandroid;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,7 +14,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -27,7 +24,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 
@@ -40,6 +36,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private String long_id;
     ImageView opt;
     Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso, btnForo;
+    Button btnMapa,  btnforo, btnEventos, btnPuntoInteres;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +52,10 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
         updateUI();
 
-        btnDocente = findViewById(R.id.btnCrearUbicacion);
-        btnCurso = findViewById(R.id.btnPuntosInteres);
-        btnForo = findViewById(R.id.btnVerUbicaciones);
-
+        btnforo = findViewById(R.id.btnForo);
+        btnPuntoInteres = findViewById(R.id.btnPuntosInteres);
+        btnMapa = findViewById(R.id.btnVerUbicaciones);
+        btnEventos = findViewById(R.id.btnEventos);
         opt = findViewById(R.id.btnOptions);
         opt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +64,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             }
         });
 
-        btnCurso.setOnClickListener(new View.OnClickListener() {
+        btnPuntoInteres.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -75,11 +72,28 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
             }
         });
-        btnDocente.setOnClickListener(new View.OnClickListener() {
+        /*btnforo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 startActivity(new Intent(PerfilUsuarioActivity.this, RatePuntoDeInteresActivity.class));
+
+            }
+        });*/
+        btnMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(PerfilUsuarioActivity.this, MapActivity.class));
+
+            }
+        });
+
+        btnEventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(PerfilUsuarioActivity.this, EventosActivity.class));
 
             }
         });
