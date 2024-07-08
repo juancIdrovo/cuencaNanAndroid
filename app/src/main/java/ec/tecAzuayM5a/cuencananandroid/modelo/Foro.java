@@ -6,6 +6,8 @@ public class Foro {
     private String titulo;
     private Long idFoto;
     private Foto foto;
+    private String usuarioFotoUrl;
+
 
     public Foro() {
     }
@@ -25,6 +27,16 @@ public class Foro {
         this.titulo = titulo;
         this.idFoto = idFoto;
         this.foto = foto;
+    }
+
+    public Foro(Long idForo, Long idUsuario, String respuesta, String titulo, Long idFoto, Foto foto, String usuarioFotoUrl) {
+        this.idForo = idForo;
+        this.idUsuario = idUsuario;
+        this.respuesta = respuesta;
+        this.titulo = titulo;
+        this.idFoto = idFoto;
+        this.foto = foto;
+        this.usuarioFotoUrl = usuarioFotoUrl;
     }
     public Foto getFoto() {
         return foto;
@@ -71,5 +83,12 @@ public class Foro {
 
     public void setIdFoto(Long idFoto) {
         this.idFoto = idFoto;
+    }
+    public String getUsuarioFotoUrl() {
+        return usuarioFotoUrl;
+    }
+
+    public void setUsuarioFotoUrl(String usuarioFotoUrl) {
+        this.usuarioFotoUrl = usuarioFotoUrl;
     }
 }

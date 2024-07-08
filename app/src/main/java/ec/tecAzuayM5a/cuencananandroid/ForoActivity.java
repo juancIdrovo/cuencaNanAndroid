@@ -32,7 +32,6 @@ import ec.tecAzuayM5a.cuencananandroid.modelo.Foto;
 import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
 
 public class ForoActivity extends AppCompatActivity {
-
     private ListView listView;
     private List<Foro> foros;
     private ForoAdapter adapter;
@@ -62,7 +61,7 @@ public class ForoActivity extends AppCompatActivity {
     }
 
     private void fetchForo(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/foros";
+        String baseUrl = "http://192.168.0.123:8080/api/foros";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -114,7 +113,7 @@ public class ForoActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
     }
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://192.168.0.123:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -130,4 +129,5 @@ public class ForoActivity extends AppCompatActivity {
         );
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
+
 }
