@@ -1,6 +1,7 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -64,6 +65,13 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
         searchTypeSpinner = findViewById(R.id.search_type);
         searchInput = findViewById(R.id.search_input);
         Button searchButton = findViewById(R.id.search_button);
+
+        Button buttonMapa = findViewById(R.id.button_mapa);
+        Button buttonPuntos = findViewById(R.id.button_puntos);
+        Button buttonCasa = findViewById(R.id.button_casa);
+        Button buttonEventos = findViewById(R.id.button_eventos);
+        Button buttonForo = findViewById(R.id.button_foro);
+
         requestQueue = Volley.newRequestQueue(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment_pi);
@@ -79,6 +87,54 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
                 buscarEventos();
             }
         });
+
+        ///btns nav///
+
+        // buttonForo.setOnClickListener(new View.OnClickListener() {
+        //   @Override
+        //   public void onClick(View view) {
+
+        //     startActivity(new Intent(MapActivity.this, RatePuntoDeInteresActivity.class));
+
+        //  }
+        // });
+
+        buttonMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(EventosActivity.this, MapActivity.class));
+
+            }
+        });
+
+        buttonCasa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(EventosActivity.this, PerfilUsuarioActivity.class));
+
+            }
+        });
+
+        buttonPuntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(EventosActivity.this, PuntosDeInteresActivity.class));
+
+            }
+        });
+
+        buttonEventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(EventosActivity.this, EventosActivity.class));
+
+            }
+        });
+
     }
 
     @Override
@@ -89,10 +145,10 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchEventos() {
-        String urlEventos = "http://192.168.18.17:8080/api/eventos";
-        String urlTipoEventos = "http://192.168.18.17:8080/api/tipo_eventos";
-        String urlEventosPuntoInteres = "http://192.168.18.17:8080/api/eventospuntointeres";
-        String urlPuntosInteres = "http://192.168.18.17:8080/api/puntosinteres";
+        String urlEventos = "http://192.168.0.111:8080/api/eventos";
+        String urlTipoEventos = "http://192.168.0.111:8080/api/tipo_eventos";
+        String urlEventosPuntoInteres = "http://192.168.0.111:8080/api/eventospuntointeres";
+        String urlPuntosInteres = "http://192.168.0.111:8080/api/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestEventos = new JsonArrayRequest(
                 Request.Method.GET,
@@ -229,7 +285,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchFoto(Long idFoto, Eventos evento) {
-        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
+        String url = "http://192.168.0.111:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

@@ -7,13 +7,13 @@
 
     <ImageView
         android:id="@+id/btnOptions"
-        android:layout_width="43dp"
-        android:layout_height="48dp"
+        android:layout_width="37dp"
+        android:layout_height="41dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="19dp"
         android:contentDescription="Botón de opciones"
-        android:src="@drawable/opcion64" />
+        android:src="@drawable/menu64" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fotoPerfil"

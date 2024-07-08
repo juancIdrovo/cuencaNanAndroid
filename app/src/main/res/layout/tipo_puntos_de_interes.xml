@@ -61,37 +61,85 @@
     <!-- ListView de puntos de interés -->
     <ListView
         android:id="@+id/points_list"
-        android:layout_width="wrap_content"
-        android:layout_height="285dp"
+        android:layout_width="395dp"
+        android:layout_height="234dp"
         android:layout_above="@id/map_fragment_pi"
         android:layout_below="@id/header_layout"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="9dp"
-        android:layout_weight="1"
+        android:layout_marginBottom="10dp"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
     <!-- Fragmento del mapa -->
-
-    <!-- Botón en el pie de página -->
-
     <fragment
         android:id="@+id/map_fragment_pi"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="391dp"
-        android:layout_height="262dp"
+        android:layout_width="377dp"
+        android:layout_height="186dp"
         android:layout_above="@id/footer_layout"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="-23dp" />
+        android:layout_marginBottom="1dp" />
 
+    <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="376dp"
-        android:layout_height="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="2dp"
+        android:background="?attr/selectableItemBackground"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_mapa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/mapa32"
+            android:text=""
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_puntos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/mundo32"
+            android:text=""
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_casa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/logosinfondo32"
+            android:text=""
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_eventos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/evento32"
+            android:text=""
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_foro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/foro32"
+            android:text=""
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 </RelativeLayout>
+

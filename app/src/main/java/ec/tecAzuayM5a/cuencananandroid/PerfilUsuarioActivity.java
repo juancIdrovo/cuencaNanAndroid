@@ -71,14 +71,14 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
             }
         });
-        /*btnforo.setOnClickListener(new View.OnClickListener() {
+        btnforo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 startActivity(new Intent(PerfilUsuarioActivity.this, RatePuntoDeInteresActivity.class));
 
             }
-        });*/
+        });
         btnMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,7 +156,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String url = "http://192.168.0.123:8080/api/usuarios/" + long_id;
+                    String url = "http://192.168.0.111:8080/api/usuarios/" + long_id;
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {

@@ -39,16 +39,84 @@
 
     <EditText
         android:id="@+id/comentario_edit_text"
-        android:layout_width="381dp"
-        android:layout_height="59dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="Agregar un comentario" />
 
     <Button
         android:id="@+id/submit_button"
-        android:layout_width="114dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Enviar" />
+
+    <!-- Spacer to push footer to the bottom -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Footer con botones -->
+    <LinearLayout
+        android:id="@+id/footer_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_mapa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/mapa32"
+            android:text="Mapa"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_puntos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/mundo32"
+            android:text="Puntos"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_casa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/logosinfondo32"
+            android:text="Casa"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_eventos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/evento32"
+            android:text="Eventos"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/button_foro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:drawableTop="@drawable/foro32"
+            android:text="Foro"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
 </LinearLayout>
+
 

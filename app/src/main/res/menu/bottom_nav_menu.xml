@@ -1,23 +1,24 @@
-<!-- res/menu/bottom_nav_menu.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_mapa"
         android:icon="@drawable/mapa"
-        android:title="" />
+        android:title="Mapa" />
     <item
         android:id="@+id/navigation_puntos"
         android:icon="@drawable/mundo"
-        android:title="" />
+        android:title="Puntos" />
     <item
         android:id="@+id/navigation_casa"
         android:icon="@drawable/logo_app_sin_fondo"
-        android:title="" />
+        android:title="Casa" />
     <item
         android:id="@+id/navigation_eventos"
         android:icon="@drawable/evento"
-        android:title="" />
+        android:title="Eventos" />
     <item
         android:id="@+id/navigation_foro"
         android:icon="@drawable/foro"
-        android:title="" />
+        android:title="Foro" />
 </menu>
+

@@ -100,6 +100,13 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         searchInput = findViewById(R.id.search_input);
         searchType = findViewById(R.id.search_type);
         Button searchButton = findViewById(R.id.search_button);
+
+        Button buttonMapa = findViewById(R.id.button_mapa);
+        Button buttonPuntos = findViewById(R.id.button_puntos);
+        Button buttonCasa = findViewById(R.id.button_casa);
+        Button buttonEventos = findViewById(R.id.button_eventos);
+        Button buttonForo = findViewById(R.id.button_foro);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -127,6 +134,54 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
             }
         });
 
+
+        ///btns nav///
+
+        // buttonForo.setOnClickListener(new View.OnClickListener() {
+        //   @Override
+        //   public void onClick(View view) {
+
+        //     startActivity(new Intent(MapActivity.this, RatePuntoDeInteresActivity.class));
+
+        //  }
+        // });
+
+        buttonMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(PuntosDeInteresActivity.this, MapActivity.class));
+
+            }
+        });
+
+        buttonCasa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(PuntosDeInteresActivity.this, PerfilUsuarioActivity.class));
+
+            }
+        });
+
+        buttonPuntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(PuntosDeInteresActivity.this, PuntosDeInteresActivity.class));
+
+            }
+        });
+
+        buttonEventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(PuntosDeInteresActivity.this, EventosActivity.class));
+
+            }
+        });
+
         try {
             fetchPuntosDeInteres(null, null);
         } catch (UnsupportedEncodingException e) {
@@ -147,7 +202,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchPuntosDeInteres(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.18.17:8080/api/puntosinteres";
+        String baseUrl = "http://192.168.0.111:8080/api/puntosinteres";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -261,7 +316,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchCategorias(final List<PuntosDeInteres> puntos) {
-        String url = "http://192.168.18.17:8080/api/tipospuntosinteres";
+        String url = "http://192.168.0.111:8080/api/tipospuntosinteres";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -325,7 +380,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchFoto(Long idFoto, PuntosDeInteres punto) {
-        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
+        String url = "http://192.168.0.111:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

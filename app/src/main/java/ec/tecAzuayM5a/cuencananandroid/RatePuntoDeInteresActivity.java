@@ -1,9 +1,11 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,6 +58,12 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         comentarioEditText = findViewById(R.id.comentario_edit_text);
         submitButton = findViewById(R.id.submit_button);
 
+        Button buttonMapa = findViewById(R.id.button_mapa);
+        Button buttonPuntos = findViewById(R.id.button_puntos);
+        Button buttonCasa = findViewById(R.id.button_casa);
+        Button buttonEventos = findViewById(R.id.button_eventos);
+        Button buttonForo = findViewById(R.id.button_foro);
+
         puntoInteresId = getIntent().getLongExtra("PUNTO_INTERES_ID", -1);
         userId = getIntent().getLongExtra("USER_ID", -1);
 
@@ -69,10 +77,58 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error al enviar la valoración y comentario", Toast.LENGTH_SHORT).show();
             }
         });
+
+        ///btns nav///
+
+        // buttonForo.setOnClickListener(new View.OnClickListener() {
+        //   @Override
+        //   public void onClick(View view) {
+
+        //     startActivity(new Intent(MapActivity.this, RatePuntoDeInteresActivity.class));
+
+        //  }
+        // });
+
+        buttonMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(RatePuntoDeInteresActivity.this, MapActivity.class));
+
+            }
+        });
+
+        buttonCasa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(RatePuntoDeInteresActivity.this, PerfilUsuarioActivity.class));
+
+            }
+        });
+
+        buttonPuntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class));
+
+            }
+        });
+
+        buttonEventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(RatePuntoDeInteresActivity.this, EventosActivity.class));
+
+            }
+        });
+
     }
 
     private void loadPuntoInteresDetails(Long puntoInteresId) {
-        String url = "http://192.168.18.17:8080/api/puntosinteres/" + puntoInteresId;
+        String url = "http://192.168.0.111:8080/api/puntosinteres/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -98,7 +154,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto) {
-        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
+        String url = "http://192.168.0.111:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -119,7 +175,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadExistingRatingAndComment(Long userId, Long puntoInteresId) {
-        String url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
+        String url = "http://192.168.0.111:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -155,11 +211,11 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
         if (existingRatingId != null) {
             // Si ya existe una valoración, la actualizamos
-            url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + existingRatingId;
+            url = "http://192.168.0.111:8080/api/usuariopuntosinteres/" + existingRatingId;
             method = Request.Method.PUT;
         } else {
             // Si no existe, creamos una nueva
-            url = "http://192.168.18.17:8080/api/usuariopuntosinteres";
+            url = "http://192.168.0.111:8080/api/usuariopuntosinteres";
             method = Request.Method.POST;
         }
 
