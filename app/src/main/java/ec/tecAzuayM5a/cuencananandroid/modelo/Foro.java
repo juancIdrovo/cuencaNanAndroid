@@ -7,6 +7,7 @@ public class Foro {
     private Long idFoto;
     private Foto foto;
     private String usuarioFotoUrl;
+    private String comentario;
 
 
     public Foro() {

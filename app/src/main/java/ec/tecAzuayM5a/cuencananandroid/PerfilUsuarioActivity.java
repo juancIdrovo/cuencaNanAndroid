@@ -75,9 +75,9 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         btnforo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                startActivity(new Intent(PerfilUsuarioActivity.this, ForoActivity.class));
-
+                Intent intent = new Intent(PerfilUsuarioActivity.this, ForoActivity.class);
+                intent.putExtra("id_usuario", long_id);
+                startActivity(intent);
             }
         });
         btnMapa.setOnClickListener(new View.OnClickListener() {
@@ -97,16 +97,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
             }
         });
-/*        btnForo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                startActivity(new Intent(PerfilUsuarioActivity.this, ForoActivity.class));
-
-            }
-        });
-
-*/
     }
 
     private void updateUI() {

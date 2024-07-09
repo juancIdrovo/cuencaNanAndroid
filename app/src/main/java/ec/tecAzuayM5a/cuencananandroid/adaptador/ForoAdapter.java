@@ -86,7 +86,7 @@ public class ForoAdapter extends ArrayAdapter<Foro> {
         protected String doInBackground(Long... params) {
             Long idUsuario = params[0];
             try {
-                URL url = new URL("http://192.168.0.123:8080/api/usuarios/" + idUsuario); // Cambia a tu URL base
+                URL url = new URL("http://192.168.1.25:8080/api/usuarios/" + idUsuario);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");
