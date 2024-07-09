@@ -36,7 +36,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     private String long_id;
     ImageView opt;
     Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso, btnForo;
-    Button btnMapa,  btnforo, btnEventos, btnPuntoInteres;
+    Button btnMapa, buttonForo, btnEventos, btnPuntoInteres;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
         updateUI();
 
-        btnforo = findViewById(R.id.btnForo);
+        buttonForo = findViewById(R.id.btnForo);
         btnPuntoInteres = findViewById(R.id.btnPuntosInteres);
         btnMapa = findViewById(R.id.btnVerUbicaciones);
         btnEventos = findViewById(R.id.btnEventos);
@@ -72,7 +72,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
             }
         });
-        btnforo.setOnClickListener(new View.OnClickListener() {
+        buttonForo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PerfilUsuarioActivity.this, ForoActivity.class);
@@ -156,7 +156,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String url = "http://192.168.0.111:8080/api/usuarios/" + long_id;
+                    String url = "http://192.168.18.17:8080/api/usuarios/" + long_id;
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {

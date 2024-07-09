@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- ImageView para la foto del punto de interés -->
     <ImageView
         android:id="@+id/foto_view"
         android:layout_width="match_parent"
@@ -118,5 +117,6 @@
     </LinearLayout>
 
 </LinearLayout>
+
 
 

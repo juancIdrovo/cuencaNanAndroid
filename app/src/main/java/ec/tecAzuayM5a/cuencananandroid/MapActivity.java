@@ -78,14 +78,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Button buttonEventos = findViewById(R.id.button_eventos);
         Button buttonForo = findViewById(R.id.button_foro);
 
-       // buttonForo.setOnClickListener(new View.OnClickListener() {
-         //   @Override
-         //   public void onClick(View view) {
+        buttonForo.setOnClickListener(new View.OnClickListener() {
+           @Override
+          public void onClick(View view) {
 
-           //     startActivity(new Intent(MapActivity.this, RatePuntoDeInteresActivity.class));
+                startActivity(new Intent(MapActivity.this, ForoActivity.class));
 
-          //  }
-       // });
+            }
+        });
 
         buttonMapa.setOnClickListener(new View.OnClickListener() {
             @Override
