@@ -57,7 +57,6 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.rating_bar);
         comentarioEditText = findViewById(R.id.comentario_edit_text);
         submitButton = findViewById(R.id.submit_button);
-
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
         Button buttonCasa = findViewById(R.id.button_casa);
@@ -65,7 +64,17 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         Button buttonForo = findViewById(R.id.button_foro);
 
         puntoInteresId = getIntent().getLongExtra("PUNTO_INTERES_ID", -1);
-        userId = getIntent().getLongExtra("USER_ID", -1);
+
+        // Obtén el userId del usuario que inició sesión
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        userId = sharedPreferences.getLong("userId", -1);
+
+        if (userId == -1) {
+            Log.e("RatePuntoDeInteres", "User ID is not found in SharedPreferences");
+            Toast.makeText(this, "User ID is not found. Please log in again.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
 
         loadPuntoInteresDetails(puntoInteresId);
 
@@ -79,56 +88,15 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         });
 
         ///btns nav///
-
-        // buttonForo.setOnClickListener(new View.OnClickListener() {
-        //   @Override
-        //   public void onClick(View view) {
-
-        //     startActivity(new Intent(MapActivity.this, RatePuntoDeInteresActivity.class));
-
-        //  }
-        // });
-
-        buttonMapa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(RatePuntoDeInteresActivity.this, MapActivity.class));
-
-            }
-        });
-
-        buttonCasa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(RatePuntoDeInteresActivity.this, PerfilUsuarioActivity.class));
-
-            }
-        });
-
-        buttonPuntos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class));
-
-            }
-        });
-
-        buttonEventos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(RatePuntoDeInteresActivity.this, EventosActivity.class));
-
-            }
-        });
-
+        buttonForo.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, ForoActivity.class)));
+        buttonMapa.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, MapActivity.class)));
+        buttonCasa.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, PerfilUsuarioActivity.class)));
+        buttonPuntos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class)));
+        buttonEventos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, EventosActivity.class)));
     }
 
     private void loadPuntoInteresDetails(Long puntoInteresId) {
-        String url = "http://192.168.0.111:8080/api/puntosinteres/" + puntoInteresId;
+        String url = "http://192.168.18.17:8080/api/puntosinteres/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -154,7 +122,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto) {
-        String url = "http://192.168.0.111:8080/api/foto/" + idFoto;
+        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -175,22 +143,31 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadExistingRatingAndComment(Long userId, Long puntoInteresId) {
-        String url = "http://192.168.0.111:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
+        String url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        existingRatingId = response.getLong("idusuariopuntosinteres");
-                        int calificacion = response.getInt("calificacion");
-                        String comentarios = response.getString("comentarios");
+                        if (response.length() > 0) { // Verifica si existe una calificación
+                            existingRatingId = response.getLong("idusuariopuntosinteres");
+                            int calificacion = response.getInt("calificacion");
+                            String comentarios = response.getString("comentarios");
 
-                        ratingBar.setRating(calificacion);
-                        comentarioEditText.setText(comentarios);
+                            ratingBar.setRating(calificacion);
+                            comentarioEditText.setText(comentarios);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 },
-                error -> Log.e("RatePuntoDeInteres", "Error al cargar la valoración y comentario existente: " + error.toString())
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.statusCode == 409) {
+                        Log.e("RatePuntoDeInteres", "Múltiples valoraciones encontradas para el mismo usuario y punto de interés");
+                        Toast.makeText(this, "Múltiples valoraciones encontradas. Por favor, contacte al administrador.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Log.e("RatePuntoDeInteres", "Error al cargar la valoración y comentario existente: " + error.toString());
+                    }
+                }
         );
 
         Volley.newRequestQueue(this).add(jsonObjectRequest);
@@ -200,26 +177,26 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         int calificacion = (int) ratingBar.getRating();
         String comentarios = comentarioEditText.getText().toString();
 
-        Usuariopuntosinteres usuariopuntosinteres = new Usuariopuntosinteres();
-        usuariopuntosinteres.setIdusuario(userId);
-        usuariopuntosinteres.setIdpuntosinteres(puntoInteresId);
-        usuariopuntosinteres.setCalificacion(calificacion);
-        usuariopuntosinteres.setComentarios(comentarios);
+        JSONObject jsonBody = new JSONObject();
+        jsonBody.put("idusuario", userId);
+        jsonBody.put("idpuntosinteres", puntoInteresId);
+        jsonBody.put("calificacion", calificacion);
+        jsonBody.put("comentarios", comentarios);
 
         String url;
         int method;
 
         if (existingRatingId != null) {
             // Si ya existe una valoración, la actualizamos
-            url = "http://192.168.0.111:8080/api/usuariopuntosinteres/" + existingRatingId;
+            url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + existingRatingId;
             method = Request.Method.PUT;
         } else {
             // Si no existe, creamos una nueva
-            url = "http://192.168.0.111:8080/api/usuariopuntosinteres";
+            url = "http://192.168.18.17:8080/api/usuariopuntosinteres";
             method = Request.Method.POST;
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url, new JSONObject(new Gson().toJson(usuariopuntosinteres)),
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url, jsonBody,
                 response -> Toast.makeText(this, "Valoración enviada", Toast.LENGTH_SHORT).show(),
                 error -> Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + error.toString())
         );
@@ -227,6 +204,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }
+
 
 
 

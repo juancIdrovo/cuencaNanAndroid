@@ -90,14 +90,14 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
 
         ///btns nav///
 
-        // buttonForo.setOnClickListener(new View.OnClickListener() {
-        //   @Override
-        //   public void onClick(View view) {
+         buttonForo.setOnClickListener(new View.OnClickListener() {
+          @Override
+           public void onClick(View view) {
 
-        //     startActivity(new Intent(MapActivity.this, RatePuntoDeInteresActivity.class));
+            startActivity(new Intent(EventosActivity.this, ForoActivity.class));
 
-        //  }
-        // });
+          }
+        });
 
         buttonMapa.setOnClickListener(new View.OnClickListener() {
             @Override
