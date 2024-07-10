@@ -64,6 +64,9 @@ public class ForoUsuarioActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
     }
+    private void fetchForoByUserId() throws UnsupportedEncodingException {
+        String baseUrl = "http://192.168.18.17:8080/api/foros";
+        StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
     private void fetchForo(String idUsuario) throws UnsupportedEncodingException {
         String baseUrl = "http://192.168.1.25:8080/api/foros/usuario/" + URLEncoder.encode(long_id, "UTF-8");
@@ -114,7 +117,7 @@ public class ForoUsuarioActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

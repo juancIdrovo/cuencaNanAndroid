@@ -5,78 +5,23 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/foto_view"
+    <ListView
+        android:id="@+id/comments_list_view"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:id="@+id/nombre_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nombre del Punto de Interés"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
-    <TextView
-        android:id="@+id/descripcion_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Descripción del Punto de Interés"
-        android:textSize="16sp"/>
-
-    <RatingBar
-        android:id="@+id/rating_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:numStars="5"
-        android:stepSize="1.0"/>
-
-    <EditText
-        android:id="@+id/comentario_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Agregar un comentario" />
-
-    <!-- Spacer to push footer to the bottom -->
-    <LinearLayout
-        android:layout_width="323dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/submit_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:text="Enviar" />
-
-        <Button
-            android:id="@+id/comentarios_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Comentarios" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp" />
 
     <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
         android:layout_width="wrap_content"
-        android:layout_height="54dp"
+        android:layout_height="63dp"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <Button
             android:id="@+id/button_mapa"
@@ -136,7 +81,3 @@
     </LinearLayout>
 
 </LinearLayout>
-
-
-
-

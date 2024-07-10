@@ -62,15 +62,15 @@ public class ForoComentarioActivity extends AppCompatActivity {
 
         ///btns nav///
 
-        // buttonForo.setOnClickListener(new View.OnClickListener() {
-        //   @Override
-        //   public void onClick(View view) {
+       /*  buttonForo.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
 
-        //     startActivity(new Intent(MapActivity.this, RatePuntoDeInteresActivity.class));
+            startActivity(new Intent(ForoComentarioActivity.this, foroActivity.class));
 
-        //  }
-        // });
-
+         }
+         });
+*/
         buttonMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,7 +110,7 @@ public class ForoComentarioActivity extends AppCompatActivity {
     }
 
     private void loadForoDetails(Long foroid) {
-        String url = "http://192.168.1.25:8080/api/puntosinteres/" + foroid;
+        String url = "http://192.168.18.17:8080/api/puntosinteres/" + foroid;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
@@ -149,7 +149,7 @@ public class ForoComentarioActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

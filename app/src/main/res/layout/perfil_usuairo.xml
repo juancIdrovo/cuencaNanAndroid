@@ -11,14 +11,14 @@
         android:layout_height="41dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="19dp"
+        android:layout_marginEnd="20dp"
         android:contentDescription="Botón de opciones"
         android:src="@drawable/menu64" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/fotoPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_width="251dp"
+        android:layout_height="218dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="87dp"
@@ -49,7 +49,7 @@
         android:layout_height="37dp"
         android:layout_below="@id/tvName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="25dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textColor="@color/white"
@@ -57,14 +57,14 @@
         android:textStyle="italic" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@id/tvMail"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btnPuntosInteres"
