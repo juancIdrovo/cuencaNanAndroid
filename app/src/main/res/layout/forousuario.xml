@@ -6,26 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ForoActivity">
 
-    <Button
-        android:id="@+id/btnpublicar"
-        android:layout_width="178dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="14dp"
-        android:text="Publicar"
-        app:layout_constraintEnd_toStartOf="@+id/btnPublicaciones"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvForo" />
-
     <TextView
-        android:id="@+id/tvForo"
+        android:id="@+id/tvForo2"
         android:layout_width="309dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/fotoPerfil"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
-        android:text="Foro de CuencaÑan"
+        android:text="Tus publicaciones"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30dp"
@@ -36,27 +24,14 @@
 
     <ListView
         android:id="@+id/points_list"
-        android:layout_width="409dp"
-        android:layout_height="538dp"
+        android:layout_width="379dp"
+        android:layout_height="600dp"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/btnPublicaciones"
-        android:layout_width="169dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="34dp"
-        android:text="Tus publicaciones"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnpublicar"
-        app:layout_constraintTop_toBottomOf="@+id/tvForo" />
+        app:layout_constraintVertical_bias="0.717" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

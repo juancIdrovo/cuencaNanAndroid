@@ -29,26 +29,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ec.tecAzuayM5a.cuencananandroid.adaptador.ForoAdapter;
+import ec.tecAzuayM5a.cuencananandroid.adaptador.ForoUsuarioAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foto;
 
-public class ForoActivity2 extends AppCompatActivity {
+public class ForoUsuarioActivity extends AppCompatActivity {
     private ListView listView;
     private List<Foro> foros;
-    private ForoAdapter adapter;
+    private ForoUsuarioAdapter adapter;
     private Button btnpublicar;
     private String long_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.foro);
+        setContentView(R.layout.forousuario);
 
         foros = new ArrayList<>();
-        adapter = new ForoAdapter(this, foros);
+        adapter = new ForoUsuarioAdapter(this, foros);
         listView = findViewById(R.id.points_list);
         listView.setAdapter(adapter);
-        btnpublicar = findViewById(R.id.btnpublicar);
         long_id = getIntent().getStringExtra("id_usuario");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,33 +58,21 @@ public class ForoActivity2 extends AppCompatActivity {
             }
         });
 
-        btnpublicar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ForoActivity2.this, PostForo.class);
-                intent.putExtra("id_usuario", long_id);
-                startActivity(intent);
-            }
-        });
-
         try {
-            fetchForoByUserId();
+            fetchForo(long_id);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
-    private void fetchForoByUserId() throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/foros";
-        StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
-        // Fijar el idUsuario a 6
-        urlBuilder.append("?id_usuario=").append(URLEncoder.encode("6", "UTF-8"));
+    private void fetchForo(String idUsuario) throws UnsupportedEncodingException {
+        String baseUrl = "http://192.168.1.25:8080/api/foros/usuario/" + URLEncoder.encode(long_id, "UTF-8");
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                urlBuilder.toString(),
+                baseUrl,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -97,7 +85,7 @@ public class ForoActivity2 extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("Foro", "Error al obtener datos: " + error.toString());
-                        Toast.makeText(ForoActivity2.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForoUsuarioActivity.this, "Error al obtener datos", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -109,32 +97,22 @@ public class ForoActivity2 extends AppCompatActivity {
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                 Long idForo = jsonObject.getLong("idForo");
-
-                Long idUsuario = jsonObject.has("idUsuario") && !jsonObject.isNull("idUsuario")
-                        ? jsonObject.getLong("idUsuario")
-                        : null;
-
+                Long idUsuario = jsonObject.getLong("idUsuario");
                 String respuesta = jsonObject.getString("respuesta");
                 String titulo  = jsonObject.getString("titulo");
-
-                Long idFoto = jsonObject.has("idFoto") && !jsonObject.isNull("idFoto")
-                        ? jsonObject.getLong("idFoto")
-                        : null;
+                Long idFoto = jsonObject.getLong("idFoto");
 
                 Foro foro = new Foro(idForo, idUsuario, respuesta, titulo, idFoto);
                 foros.add(foro);
-
-                if (idFoto != null) {
-                    fetchFoto(idFoto, foro);
-                }
+                fetchFoto(idFoto, foro);
             } catch (JSONException e) {
                 Log.e("Foro", "Error parseando JSON", e);
             }
         }
-        adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
     }
+
     private void fetchFoto(Long idFoto, Foro foro) {
         String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
 
@@ -150,7 +128,6 @@ public class ForoActivity2 extends AppCompatActivity {
                 },
                 error -> Log.e("PuntosDeInteres", "Error al obtener la foto: " + error.toString())
         );
-
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }

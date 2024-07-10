@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,8 +37,9 @@ import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
 public class ForoActivity extends AppCompatActivity {
     private ListView listView;
     private List<Foro> foros;
+    private TextView tx;
     private ForoAdapter adapter;
-private Button btnpublicar;
+private Button btnpublicar, btnusuario;
     private String long_id;
 
 
@@ -51,6 +53,8 @@ private Button btnpublicar;
         listView = findViewById(R.id.points_list);
         listView.setAdapter(adapter);
         btnpublicar = findViewById(R.id.btnpublicar);
+        btnusuario = findViewById(R.id.btnPublicaciones);
+        tx = findViewById(R.id.tvForo);
         long_id = getIntent().getStringExtra("id_usuario");
 
 
@@ -65,6 +69,16 @@ private Button btnpublicar;
             public void onClick(View view) {
 
                 Intent intent = new Intent(ForoActivity.this, PostForo.class);
+                intent.putExtra("id_usuario", long_id);
+                startActivity(intent);
+
+            }
+        });
+        btnusuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(ForoActivity.this, ForoUsuarioActivity.class);
                 intent.putExtra("id_usuario", long_id);
                 startActivity(intent);
 

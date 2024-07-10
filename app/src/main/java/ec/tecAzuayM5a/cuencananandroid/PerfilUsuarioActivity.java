@@ -43,11 +43,11 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.perfil_usuairo);
         userName = getIntent().getStringExtra("nombre");
-        long_id = getIntent().getStringExtra("id_usuario");
+        long_id = ("1");
         userEmail = getIntent().getStringExtra("mail");
         fotoPath = getIntent().getStringExtra("fotoPath");
         fotoUrl = getIntent().getStringExtra("fotoUrl");
-        Log.d("PerfilUsuarioActivity", "Nombre: " + userName + ", Email: " + userEmail + ", Foto URL: " + fotoUrl);
+        Log.d("PerfilUsuarioActivity", "Nombre: " + long_id + ", Email: " + userEmail + ", Foto URL: " + fotoUrl);
 
 
         updateUI();

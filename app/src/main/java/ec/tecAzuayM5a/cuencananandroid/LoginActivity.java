@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnAceptar, btnRegistarse;
     EditText txtEmail, txtPass;
     String mail, pass;
-    String url = "http://192.168.18.17:8080/api/usuarios/loginusuario";
+    String url = "http://192.168.1.25:8080/api/usuarios/loginusuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +87,6 @@ public class LoginActivity extends AppCompatActivity {
                                     String fotoPath = response.optString("fotoPath", "");
                                     String fotoUrl = response.optString("fotoUrl", "");
 
-                                    SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putLong("userId", Long.parseLong(id));
-                                    editor.apply();
 
                                     Intent intent = new Intent(LoginActivity.this, PerfilUsuarioActivity.class);
                                     intent.putExtra("nombre", nombre);
