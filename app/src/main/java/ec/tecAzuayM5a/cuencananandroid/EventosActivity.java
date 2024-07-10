@@ -145,10 +145,10 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchEventos() {
-        String urlEventos = "http://192.168.18.17:8080/api/eventos";
-        String urlTipoEventos = "http://192.168.18.17:8080/api/tipo_eventos";
-        String urlEventosPuntoInteres = "http://192.168.18.17:8080/api/eventospuntointeres";
-        String urlPuntosInteres = "http://192.168.18.17:8080/api/puntosinteres";
+        String urlEventos = "http://192.168.1.25:8080/api/eventos";
+        String urlTipoEventos = "http://192.168.1.25:8080/api/tipo_eventos";
+        String urlEventosPuntoInteres = "http://192.168.1.25:8080/api/eventospuntointeres";
+        String urlPuntosInteres = "http://192.168.1.25:8080/api/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestEventos = new JsonArrayRequest(
                 Request.Method.GET,
@@ -285,7 +285,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchFoto(Long idFoto, Eventos evento) {
-        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
+        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

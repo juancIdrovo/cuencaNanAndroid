@@ -4,6 +4,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -12,15 +20,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +32,7 @@ import java.util.Map;
 
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 
-public class PostForo extends AppCompatActivity {
+public class ModificarForo extends AppCompatActivity {
     private String long_id;
     private TextView tvtitulo, tvdescripcion;
     private Button btpost, btnSeleccionarFoto;
@@ -48,34 +47,59 @@ public class PostForo extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_foro);
+        setContentView(R.layout.modificar_foro);
         long_id = getIntent().getStringExtra("id_usuario");
-        btpost = findViewById(R.id.btnpost);
-        tvtitulo = findViewById(R.id.tvtitulo);
-        tvdescripcion = findViewById(R.id.tvdescripcion);
-        btnSeleccionarFoto = findViewById(R.id.btnimagen);
-        imageView = findViewById(R.id.imagenpost);
+        btpost = findViewById(R.id.btnpost1);
+        tvtitulo = findViewById(R.id.tvtitulo1);
+        tvdescripcion = findViewById(R.id.tvdescripcion1);
+        btnSeleccionarFoto = findViewById(R.id.btnimagen1);
+        imageView = findViewById(R.id.imagenpost1);
+        Intent intent = getIntent();
+        if (intent.hasExtra("idForo")) {
+            Long idForo = intent.getLongExtra("idForo", -1);
+            long_id = intent.getStringExtra("idUsuario");
+            String respuesta = intent.getStringExtra("respuesta");
+            String titulo = intent.getStringExtra("titulo");
+            Long idFoto = intent.getLongExtra("idFoto", -1);
 
-        btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_IMAGE_PICK);
-            }
-        });
+            // Rellenar los campos con los datos
+            tvtitulo.setText(titulo);
+            tvdescripcion.setText(respuesta);
+            // Si tienes una URL para la foto, puedes cargarla en el ImageView
 
-        btpost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (imageUri != null) {
-                    uploadImageAndPostForo(imageUri);
-                } else {
-                    postForo(null);
+            // Cambiar la funcionalidad del botón para actualizar
+            btpost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (imageUri != null) {
+                        uploadImageAndPostForo(imageUri, idForo);
+                    } else {
+                        postForo(idForo, null);
+                    }
                 }
-            }
-        });
-    }
+            });
+        } else {
+            // Funcionalidad para un nuevo foro
+            btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, REQUEST_IMAGE_PICK);
+                }
+            });
 
+            btpost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (imageUri != null) {
+                        uploadImageAndPostForo(imageUri, null);
+                    } else {
+                        postForo(null, null);
+                    }
+                }
+            });
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -91,7 +115,8 @@ public class PostForo extends AppCompatActivity {
             }
         }
     }
-    private void uploadImageAndPostForo(Uri imageUri) {
+
+    private void uploadImageAndPostForo(Uri imageUri, Long idForo) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(imageUri);
             byte[] imageBytes = new byte[inputStream.available()];
@@ -106,10 +131,10 @@ public class PostForo extends AppCompatActivity {
                                 JSONObject jsonResponse = new JSONObject(jsonString);
                                 fotoId = jsonResponse.optLong("fotoid", -1);
                                 Log.d("PostForo", "ID de la foto: " + fotoId);
-                                postForo(fotoId == -1 ? null : fotoId); // Publicar el foro con el ID de la foto
+                                postForo(idForo, fotoId == -1 ? null : fotoId); // Publicar o actualizar el foro con el ID de la foto
                             } catch (JSONException | UnsupportedEncodingException e) {
                                 e.printStackTrace();
-                                Toast.makeText(PostForo.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ModificarForo.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
                             }
                         }
                     },
@@ -123,7 +148,7 @@ public class PostForo extends AppCompatActivity {
                                 errorMessage = "Error desconocido en la solicitud.";
                             }
                             Log.e("PostForo", "Error en la solicitud: " + errorMessage, error);
-                            Toast.makeText(PostForo.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
+                            Toast.makeText(ModificarForo.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
                         }
                     }) {
                 @Override
@@ -142,7 +167,7 @@ public class PostForo extends AppCompatActivity {
         }
     }
 
-    private void postForo(Long fotoId) {
+    private void postForo(Long idForo, Long fotoId) {
         String titulo = tvtitulo.getText().toString();
         String descripcion = tvdescripcion.getText().toString();
 
@@ -155,16 +180,22 @@ public class PostForo extends AppCompatActivity {
             if (fotoId != null) {
                 jsonBody.put("idFoto", fotoId);
             }
+            if (idForo != null) {
+                jsonBody.put("idForo", idForo);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlRegistro, jsonBody,
+        String url = idForo != null ? urlRegistro + "/" + idForo : urlRegistro; // URL para actualizar o crear
+        int method = idForo != null ? Request.Method.PUT : Request.Method.POST;
+
+        JsonObjectRequest request = new JsonObjectRequest(method, url, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("PostForo", "Respuesta del servidor: " + response.toString());
-                        startActivity(new Intent(PostForo.this, ForoActivity.class));
+                        startActivity(new Intent(ModificarForo.this, ForoActivity.class));
                         finish();
                     }
                 }, new Response.ErrorListener() {
@@ -178,10 +209,10 @@ public class PostForo extends AppCompatActivity {
                 }
 
                 Log.e("PostForo", "Error en la solicitud: " + errorMessage, error);
-                Toast.makeText(PostForo.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
+                Toast.makeText(ModificarForo.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
             }
         });
 
-        Volley.newRequestQueue(PostForo.this).add(request);
+        Volley.newRequestQueue(ModificarForo.this).add(request);
     }
 }

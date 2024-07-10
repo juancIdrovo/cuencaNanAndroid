@@ -43,7 +43,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.perfil_usuairo);
         userName = getIntent().getStringExtra("nombre");
-        long_id = ("1");
+        long_id = getIntent().getStringExtra("id_usuario");
         userEmail = getIntent().getStringExtra("mail");
         fotoPath = getIntent().getStringExtra("fotoPath");
         fotoUrl = getIntent().getStringExtra("fotoUrl");
@@ -156,7 +156,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String url = "http://192.168.18.17:8080/api/usuarios/" + long_id;
+                    String url = "http://192.168.1.25:8080/api/usuarios/" + long_id;
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {
@@ -180,7 +180,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
 
 
                                             Intent intent = new Intent(PerfilUsuarioActivity.this, modificarUsuario.class);
-                                            intent.putExtra("id_usuario", id_usuario);
+                                            intent.putExtra("id_usuario",long_id);
                                             intent.putExtra("user_name", nombre);
                                             intent.putExtra("user_email", correo);
                                             intent.putExtra("cedula", cedula);

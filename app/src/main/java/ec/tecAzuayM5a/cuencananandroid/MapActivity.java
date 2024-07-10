@@ -138,7 +138,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void fetchPuntosInteres() {
-        String urlPuntosInteres = "http://192.168.18.17:8080/api/puntosinteres";
+        String urlPuntosInteres = "http://192.168.1.25:8080/api/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestPuntosInteres = new JsonArrayRequest(
                 Request.Method.GET,

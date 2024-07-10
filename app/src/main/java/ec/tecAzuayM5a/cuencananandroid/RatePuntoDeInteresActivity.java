@@ -104,7 +104,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadPuntoInteresDetails(Long puntoInteresId) {
-        String url = "http://192.168.18.17:8080/api/puntosinteres/" + puntoInteresId;
+        String url = "http://192.168.1.25:8080/api/puntosinteres/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -130,7 +130,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto) {
-        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
+        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -151,7 +151,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadExistingRatingAndComment(Long userId, Long puntoInteresId) {
-        String url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
+        String url = "http://192.168.1.25:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -196,11 +196,11 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
         if (existingRatingId != null) {
             // Si ya existe una valoración, la actualizamos
-            url = "http://192.168.18.17:8080/api/usuariopuntosinteres/" + existingRatingId;
+            url = "http://192.168.1.25:8080/api/usuariopuntosinteres/" + existingRatingId;
             method = Request.Method.PUT;
         } else {
             // Si no existe, creamos una nueva
-            url = "http://192.168.18.17:8080/api/usuariopuntosinteres";
+            url = "http://192.168.1.25:8080/api/usuariopuntosinteres";
             method = Request.Method.POST;
         }
 
@@ -212,6 +212,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }
+
 
 
 

@@ -89,7 +89,7 @@ public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
     }
 
     private void fetchAverageRating(Long puntoInteresId, TextView ratingText) {
-        String url = "http://192.168.18.17:8080/api/puntosinteres/" + puntoInteresId + "/media-calificaciones";
+        String url = "http://192.168.1.25:8080/api/puntosinteres/" + puntoInteresId + "/media-calificaciones";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {

@@ -57,7 +57,7 @@ public class modificarUsuario extends AppCompatActivity {
     private static final int REQUEST_IMAGE_PICK = 1;
     private String userName, apellidos, direccion, contrasena, telefono, fecha_nac;
     private String userEmail;
-    private String id_usuario;
+    private String long_id;
     private Uri imageUri;
     private String cedula;
     private ImageView imageView;
@@ -68,7 +68,7 @@ public class modificarUsuario extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modificar_datos_estudiante);
-        id_usuario = getIntent().getStringExtra("id_usuario");
+        long_id = getIntent().getStringExtra("id_usuario");
         userName = getIntent().getStringExtra("user_name");
         cedula = getIntent().getStringExtra("cedula");
         apellidos = getIntent().getStringExtra("apellidos");
@@ -136,7 +136,7 @@ public class modificarUsuario extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("VolleyError", "Error al modificar estudiante: " + error.getMessage(), error);
+                                Log.e("VolleyError", "Error al modificar estudiante: " + long_id);
                                 if (error.networkResponse != null && error.networkResponse.data != null) {
                                     String responseBody = new String(error.networkResponse.data);
                                     Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
@@ -159,7 +159,7 @@ public class modificarUsuario extends AppCompatActivity {
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.18.17:8080/api/usuarios/" + id_usuario;
+        String url = "http://192.168.1.25:8080/api/usuarios/" + long_id;
 
         JSONObject jsonBody = new JSONObject();
         try {

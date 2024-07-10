@@ -1,11 +1,13 @@
 package ec.tecAzuayM5a.cuencananandroid.adaptador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +24,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONObject;
 
+import ec.tecAzuayM5a.cuencananandroid.PuntosDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.R;
+import ec.tecAzuayM5a.cuencananandroid.RatePuntoDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 
 public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
@@ -48,6 +52,7 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         TextView mensajeText = convertView.findViewById(R.id.mensaje);
         ImageView fotoView = convertView.findViewById(R.id.ivPost);
         ImageView usuarioFotoView = convertView.findViewById(R.id.ivProfile);
+        Button btnmodificar = convertView.findViewById(R.id.btnmodificarforo);
 
 
         tituloText.setText(foro.getTitulo());
@@ -70,7 +75,11 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         } else {
             new ForoUsuarioAdapter.GetUsuarioFotoTask(usuarioFotoView, foro).execute(foro.getIdUsuario());
         }
-
+        btnmodificar.setOnClickListener(v -> {
+         //   Intent intent = new Intent(context, RatePuntoDeInteresActivity.class);
+         //   intent.putExtra("PUNTO_INTERES_ID", punto.getId());
+          //  context.startActivity(intent);
+        });
         return convertView;
     }
     private class GetUsuarioFotoTask extends AsyncTask<Long, Void, String> {
@@ -81,6 +90,7 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
             this.usuarioFotoView = usuarioFotoView;
             this.foro = foro;
         }
+
 
         @Override
         protected String doInBackground(Long... params) {

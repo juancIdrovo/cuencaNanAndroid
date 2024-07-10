@@ -58,12 +58,6 @@ private Button btnpublicar, btnusuario;
         long_id = getIntent().getStringExtra("id_usuario");
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Aquí puedes manejar la selección de un elemento de la lista
-            }
-        });
         btnpublicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +86,7 @@ private Button btnpublicar, btnusuario;
     }
 
     private void fetchForo(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.18.17:8080/api/foros";
+        String baseUrl = "http://192.168.1.25:8080/api/foros";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -144,7 +138,7 @@ private Button btnpublicar, btnusuario;
         adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
     }
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
+        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
