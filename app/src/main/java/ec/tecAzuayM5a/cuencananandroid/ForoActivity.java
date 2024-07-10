@@ -56,6 +56,7 @@ private Button btnpublicar, btnusuario;
         btnusuario = findViewById(R.id.btnPublicaciones);
         tx = findViewById(R.id.tvForo);
         long_id = getIntent().getStringExtra("id_usuario");
+        Log.d("ForoActivity", "Nombre: " + long_id);
 
 
         btnpublicar.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +87,7 @@ private Button btnpublicar, btnusuario;
     }
 
     private void fetchForo(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/foros";
+        String baseUrl = "http://172.20.10.2:8080/api/foros";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -138,12 +139,12 @@ private Button btnpublicar, btnusuario;
         adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
     }
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://172.20.10.2:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
                     try {
-                        String fotoUrl = response.getString("fotoUrl    ");
+                        String fotoUrl = response.getString("fotoUrl");
                         foro.setFoto(new Foto(idFoto, fotoUrl));
                         adapter.notifyDataSetChanged();
                     } catch (JSONException e) {

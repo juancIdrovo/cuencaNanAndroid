@@ -24,10 +24,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONObject;
 
+import ec.tecAzuayM5a.cuencananandroid.ForoUsuarioActivity;
+import ec.tecAzuayM5a.cuencananandroid.ModificarForo;
 import ec.tecAzuayM5a.cuencananandroid.PuntosDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.R;
 import ec.tecAzuayM5a.cuencananandroid.RatePuntoDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
+import ec.tecAzuayM5a.cuencananandroid.modificarUsuario;
 
 public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
     private Context context;
@@ -76,9 +79,9 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
             new ForoUsuarioAdapter.GetUsuarioFotoTask(usuarioFotoView, foro).execute(foro.getIdUsuario());
         }
         btnmodificar.setOnClickListener(v -> {
-         //   Intent intent = new Intent(context, RatePuntoDeInteresActivity.class);
-         //   intent.putExtra("PUNTO_INTERES_ID", punto.getId());
-          //  context.startActivity(intent);
+            Intent intent = new Intent(context, ModificarForo.class);
+            intent.putExtra("id_foro", foro.getIdForo());
+            context.startActivity(intent);
         });
         return convertView;
     }
@@ -96,7 +99,7 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         protected String doInBackground(Long... params) {
             Long idUsuario = params[0];
             try {
-                URL url = new URL("http://192.168.1.25:8080/api/usuarios/" + idUsuario);
+                URL url = new URL("http://172.20.10.2:8080/api/usuarios/" + idUsuario);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");

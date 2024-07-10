@@ -99,7 +99,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
         });
 
     }
-
     private void updateUI() {
         TextView tvName = findViewById(R.id.tvName);
         TextView tvMail = findViewById(R.id.tvMail);

@@ -48,6 +48,7 @@ public class ForoUsuarioActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         long_id = getIntent().getStringExtra("id_usuario");
 
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -63,7 +64,7 @@ public class ForoUsuarioActivity extends AppCompatActivity {
     }
 
     private void fetchForo(String idUsuario) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/foros/usuario/" + URLEncoder.encode(idUsuario, "UTF-8");
+        String baseUrl = "http://172.20.10.2:8080/api/foros/usuario/" + URLEncoder.encode(idUsuario, "UTF-8");
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -111,7 +112,7 @@ public class ForoUsuarioActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://172.20.10.2:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

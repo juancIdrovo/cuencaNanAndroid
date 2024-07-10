@@ -40,8 +40,8 @@ public class PostForo extends AppCompatActivity {
     private ImageView imageView;
     private Uri imageUri;
     private Long fotoId; // Para almacenar el ID de la foto
-    private String urlRegistro = "http://192.168.1.25:8080/api/foros";
-    private String urlUpload = "http://192.168.1.25:8080/api/foto"; // URL para subir la foto
+    private String urlRegistro = "http://172.20.10.2:8080/api/foros";
+    private String urlUpload = "http://172.20.10.2:8080/api/foto"; // URL para subir la foto
 
     private static final int REQUEST_IMAGE_PICK = 1;
 
@@ -55,6 +55,8 @@ public class PostForo extends AppCompatActivity {
         tvdescripcion = findViewById(R.id.tvdescripcion);
         btnSeleccionarFoto = findViewById(R.id.btnimagen);
         imageView = findViewById(R.id.imagenpost);
+        Log.d("PostForo", "Nombre: " + long_id);
+
 
         btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
