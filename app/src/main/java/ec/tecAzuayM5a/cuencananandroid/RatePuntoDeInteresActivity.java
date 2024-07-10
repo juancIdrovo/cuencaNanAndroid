@@ -41,6 +41,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     private RatingBar ratingBar;
     private EditText comentarioEditText;
     private Button submitButton;
+    private Button comentariosButton;
 
     private Long puntoInteresId;
     private Long userId;
@@ -57,6 +58,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         ratingBar = findViewById(R.id.rating_bar);
         comentarioEditText = findViewById(R.id.comentario_edit_text);
         submitButton = findViewById(R.id.submit_button);
+        comentariosButton = findViewById(R.id.comentarios_button);
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
         Button buttonCasa = findViewById(R.id.button_casa);
@@ -85,6 +87,12 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
                 Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + e.toString());
                 Toast.makeText(this, "Error al enviar la valoración y comentario", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        comentariosButton.setOnClickListener(v -> {
+            Intent intent = new Intent(RatePuntoDeInteresActivity.this, ComentariosActivity.class);
+            intent.putExtra("PUNTO_INTERES_ID", puntoInteresId);
+            startActivity(intent);
         });
 
         ///btns nav///

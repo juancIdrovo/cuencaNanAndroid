@@ -77,31 +77,38 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             progressDialog.dismiss();
+                            Log.d("LoginActivity", "Respuesta completa del servidor: " + response.toString()); // Imprime la respuesta completa
                             try {
                                 String status = response.optString("status", "");
                                 if (!status.equals("error")) {
-
                                     String nombre = response.optString("nombres", "");
                                     String correo = response.optString("mail", "");
-                                    String id = response.optString("id_usuario", "");
+                                    String id = response.optString("idUsuario", ""); // Cambia a idUsuario
                                     String fotoPath = response.optString("fotoPath", "");
                                     String fotoUrl = response.optString("fotoUrl", "");
 
-                                    SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putLong("userId", Long.parseLong(id));
-                                    editor.apply();
+                                    Log.d("LoginActivity", "ID de usuario recibido: " + id); // Imprime el ID de usuario
 
-                                    Intent intent = new Intent(LoginActivity.this, PerfilUsuarioActivity.class);
-                                    intent.putExtra("nombre", nombre);
-                                    intent.putExtra("mail", correo);
-                                    intent.putExtra("id_usuario", id);
-                                    intent.putExtra("fotoPath", fotoPath);
-                                    intent.putExtra("fotoUrl", fotoUrl);
-                                    Log.d("LoginActivity", "Respuesta del servidor: " + response.toString());
+                                    if (!id.isEmpty()) {
+                                        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putLong("userId", Long.parseLong(id));
+                                        editor.apply();
 
-                                    finish();
-                                    startActivity(intent);
+                                        Intent intent = new Intent(LoginActivity.this, PerfilUsuarioActivity.class);
+                                        intent.putExtra("nombre", nombre);
+                                        intent.putExtra("mail", correo);
+                                        intent.putExtra("id_usuario", id);
+                                        intent.putExtra("fotoPath", fotoPath);
+                                        intent.putExtra("fotoUrl", fotoUrl);
+                                        Log.d("LoginActivity", "Respuesta del servidor: " + response.toString());
+
+                                        finish();
+                                        startActivity(intent);
+                                    } else {
+                                        Log.d("LoginActivity", "ID de usuario vacío");
+                                        Toast.makeText(LoginActivity.this, "Error al obtener ID de usuario", Toast.LENGTH_LONG).show();
+                                    }
                                 } else {
                                     Log.d("LoginActivity", "Autenticación fallida para el correo: " + mail);
                                     Toast.makeText(LoginActivity.this, "Autenticación fallida", Toast.LENGTH_LONG).show();
@@ -124,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
+
 
 
 

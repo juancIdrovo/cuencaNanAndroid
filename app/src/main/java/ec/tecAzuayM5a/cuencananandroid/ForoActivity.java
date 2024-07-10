@@ -78,7 +78,7 @@ private Button btnpublicar;
     }
 
     private void fetchForo(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/foros";
+        String baseUrl = "http://192.168.18.17:8080/api/foros";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -130,7 +130,7 @@ private Button btnpublicar;
         adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
     }
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://192.168.18.17:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
