@@ -6,17 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".ForoActivity">
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="160dp"
+        android:layout_height="44dp"
+        android:text="Tienes una idea? Publicalo "
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="141dp" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="195dp"
+        android:layout_height="42dp"
+        android:text="Aqui estan las mejores publicaciones"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="73dp" />
+
     <Button
         android:id="@+id/btnpublicar"
-        android:layout_width="178dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="14dp"
+        android:layout_width="168dp"
+        android:layout_height="48dp"
         android:text="Publicar"
-        app:layout_constraintEnd_toStartOf="@+id/btnPublicaciones"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvForo" />
+        tools:layout_editor_absoluteX="213dp"
+        tools:layout_editor_absoluteY="137dp" />
 
     <TextView
         android:id="@+id/tvForo"
@@ -24,39 +38,62 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/fotoPerfil"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:text="Foro de CuencaÑan"
+        android:text="Bienvenido"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30dp"
         android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="51dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     <ListView
         android:id="@+id/points_list"
         android:layout_width="409dp"
-        android:layout_height="538dp"
+        android:layout_height="450dp"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        tools:layout_editor_absoluteX="3dp"
+        tools:layout_editor_absoluteY="280dp" />
 
     <Button
         android:id="@+id/btnPublicaciones"
         android:layout_width="169dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="34dp"
+        android:layout_height="52dp"
         android:text="Tus publicaciones"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnpublicar"
-        app:layout_constraintTop_toBottomOf="@+id/tvForo" />
+        tools:layout_editor_absoluteX="213dp"
+        tools:layout_editor_absoluteY="205dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="160dp"
+        android:layout_height="44dp"
+        android:text="Aqui puedes ver todas tus publicaciones  "
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="213dp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="129dp" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="193dp" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="266dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

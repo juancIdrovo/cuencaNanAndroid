@@ -60,20 +60,20 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
-        android:id="@+id/ivLike"
-        android:layout_width="49dp"
-        android:layout_height="50dp"
-        android:padding="10dp"
-        android:src="@drawable/como"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivPost" />
-
-    <ImageView
         android:id="@+id/ivComment"
         android:layout_width="49dp"
         android:layout_height="50dp"
+        android:layout_marginTop="32dp"
         android:padding="10dp"
         android:src="@drawable/comentario"
-        app:layout_constraintStart_toEndOf="@id/ivLike"
-        app:layout_constraintTop_toBottomOf="@id/ivPost" />
+        app:layout_constraintTop_toBottomOf="@id/ivPost"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alguna opinion? Comentalo"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="328dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
