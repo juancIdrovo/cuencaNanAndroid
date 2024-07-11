@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class ForoActivity extends AppCompatActivity {
     private ListView listView;
     private List<Foro> foros;
     private TextView tx;
+
     private ForoAdapter adapter;
 private Button btnpublicar, btnusuario;
     private String long_id;
@@ -48,9 +50,10 @@ private Button btnpublicar, btnusuario;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.foro);
 
+
         foros = new ArrayList<>();
-        adapter = new ForoAdapter(this, foros);
         listView = findViewById(R.id.points_list);
+        adapter = new ForoAdapter(this, foros);
         listView.setAdapter(adapter);
         btnpublicar = findViewById(R.id.btnpublicar);
         btnusuario = findViewById(R.id.btnPublicaciones);
@@ -58,7 +61,7 @@ private Button btnpublicar, btnusuario;
         long_id = getIntent().getStringExtra("id_usuario");
         Log.d("ForoActivity", "Nombre: " + long_id);
 
-
+        adapter.setId_usuario(Long.parseLong(long_id));
         btnpublicar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +90,7 @@ private Button btnpublicar, btnusuario;
     }
 
     private void fetchForo(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://172.20.10.2:8080/api/foros";
+        String baseUrl = "http://192.168.1.25:8080/api/foros";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -139,7 +142,7 @@ private Button btnpublicar, btnusuario;
         adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
     }
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://172.20.10.2:8080/api/foto/" + idFoto;
+        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

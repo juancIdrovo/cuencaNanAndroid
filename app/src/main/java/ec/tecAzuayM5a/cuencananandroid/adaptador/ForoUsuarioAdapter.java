@@ -10,10 +10,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -24,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONObject;
 
+import ec.tecAzuayM5a.cuencananandroid.ForoActivity;
 import ec.tecAzuayM5a.cuencananandroid.ForoUsuarioActivity;
 import ec.tecAzuayM5a.cuencananandroid.ModificarForo;
 import ec.tecAzuayM5a.cuencananandroid.PuntosDeInteresActivity;
@@ -56,6 +61,7 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         ImageView fotoView = convertView.findViewById(R.id.ivPost);
         ImageView usuarioFotoView = convertView.findViewById(R.id.ivProfile);
         Button btnmodificar = convertView.findViewById(R.id.btnmodificarforo);
+        Button btnEliminar = convertView.findViewById(R.id.btnEliminarforo);
 
 
         tituloText.setText(foro.getTitulo());
@@ -81,7 +87,27 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         btnmodificar.setOnClickListener(v -> {
             Intent intent = new Intent(context, ModificarForo.class);
             intent.putExtra("id_foro", foro.getIdForo());
+            intent.putExtra("id_usuario", foro.getIdUsuario());
             context.startActivity(intent);
+        });
+        btnEliminar.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ForoActivity.class);
+            String url = "http://192.168.1.25:8080/api/foros/" + foro.getIdForo();
+            StringRequest deleteRequest = new StringRequest(Request.Method.DELETE, url,
+                    response -> {
+                        Toast.makeText(context, "Foro eliminado con éxito", Toast.LENGTH_SHORT).show();
+                        String long_id2 = foro.getIdUsuario().toString();
+                        intent.putExtra("id_usuario", long_id2);
+                        context.startActivity(intent);
+
+
+                    },
+                    error -> {
+
+                        Toast.makeText(context, "Error al eliminar el foro", Toast.LENGTH_SHORT).show();
+                    }
+            );
+            Volley.newRequestQueue(context).add(deleteRequest);
         });
         return convertView;
     }
@@ -99,7 +125,7 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         protected String doInBackground(Long... params) {
             Long idUsuario = params[0];
             try {
-                URL url = new URL("http://172.20.10.2:8080/api/usuarios/" + idUsuario);
+                URL url = new URL("http://192.168.1.25:8080/api/usuarios/" + idUsuario);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");
