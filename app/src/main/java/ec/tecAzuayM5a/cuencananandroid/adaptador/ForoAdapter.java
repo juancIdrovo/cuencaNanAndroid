@@ -1,6 +1,7 @@
 package ec.tecAzuayM5a.cuencananandroid.adaptador;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,17 +23,25 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import org.json.JSONObject;
 
+import ec.tecAzuayM5a.cuencananandroid.ComentariosForo;
+import ec.tecAzuayM5a.cuencananandroid.ModificarForo;
 import ec.tecAzuayM5a.cuencananandroid.R;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 
 public class ForoAdapter extends ArrayAdapter<Foro> {
     private Context context;
     private List<Foro> foros;
+    private ImageView comentario;
+    private Long id_usuario;
+
 
     public ForoAdapter(Context context, List<Foro> foros) {
         super(context, 0, foros);
         this.context = context;
         this.foros = foros;
+    }
+    public void setId_usuario(Long id_usuario) {  // Add this method
+        this.id_usuario = id_usuario;
     }
 
     @NonNull
@@ -48,7 +57,7 @@ public class ForoAdapter extends ArrayAdapter<Foro> {
         TextView mensajeText = convertView.findViewById(R.id.mensaje);
         ImageView fotoView = convertView.findViewById(R.id.ivPost);
         ImageView usuarioFotoView = convertView.findViewById(R.id.ivProfile);
-
+        comentario = convertView.findViewById(R.id.ivComment);
 
         tituloText.setText(foro.getTitulo());
         mensajeText.setText(foro.getRespuesta());
@@ -70,7 +79,12 @@ public class ForoAdapter extends ArrayAdapter<Foro> {
         } else {
             new GetUsuarioFotoTask(usuarioFotoView, foro).execute(foro.getIdUsuario());
         }
-
+        comentario.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ComentariosForo.class);
+            intent.putExtra("id_foro", foro.getIdForo());
+            intent.putExtra("id_usuario", id_usuario);
+            context.startActivity(intent);
+        });
         return convertView;
     }
     private class GetUsuarioFotoTask extends AsyncTask<Long, Void, String> {
@@ -86,7 +100,7 @@ public class ForoAdapter extends ArrayAdapter<Foro> {
         protected String doInBackground(Long... params) {
             Long idUsuario = params[0];
             try {
-                URL url = new URL("http://172.20.10.2:8080/api/usuarios/" + idUsuario);
+                URL url = new URL("http://192.168.1.25:8080/api/usuarios/" + idUsuario);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");

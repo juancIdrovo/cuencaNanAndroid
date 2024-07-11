@@ -39,15 +39,16 @@ import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 
 public class ModificarForo extends AppCompatActivity {
-    private String long_id;
+    private Long long_id;
+    private String long2;
     private TextView tvtitulo, tvdescripcion;
     private Button btpost, btnSeleccionarFoto;
     private ImageView imageView;
     private Uri imageUri;
     private Long idForo;
-    private Long fotoId; // Para almacenar el ID de la foto
-    private String urlRegistro = "http://192.168.1.25:8080/api/foros/" +idForo;
-    private String urlUpload = "http://192.168.1.25:8080/api/foto"; // URL para subir la foto
+    private Long fotoId;
+
+    private String urlUpload = "http://192.168.1.25:8080/api/foto";
 
     private static final int REQUEST_IMAGE_PICK = 1;
 
@@ -55,14 +56,16 @@ public class ModificarForo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modificar_foro);
-        long_id = getIntent().getStringExtra("id_usuario");
+        long_id = getIntent().getLongExtra("id_usuario", -1);
         btpost = findViewById(R.id.btnpost1);
         tvtitulo = findViewById(R.id.tvtitulo1);
 
         tvdescripcion = findViewById(R.id.tvdescripcion1);
         btnSeleccionarFoto = findViewById(R.id.btnimagen1);
         imageView = findViewById(R.id.imagenpost1);
+        long2 = long_id.toString();
         idForo = getIntent().getLongExtra("id_foro", -1);
+        Log.d("PerfilUsuarioActivity", "Nombre: " + idForo + ", Email: " + long_id);
 
 
 
@@ -70,10 +73,14 @@ public class ModificarForo extends AppCompatActivity {
             btpost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                  postForo(idForo);
-
+                    if (imageUri != null) {
+                        uploadImageAndPostForo(imageUri);
+                    } else {
+                        postForo(null);
+                    }
                 }
             });
+
 
             // Funcionalidad para un nuevo foro
             btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +110,7 @@ public class ModificarForo extends AppCompatActivity {
         }
     }
     private void cargarforo(Long idForo) {
-        String url = "http://172.20.10.2:8080/api/foros/" + idForo;
+        String url = "http://192.168.1.25:8080/api/foros/" + idForo;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -126,9 +133,58 @@ public class ModificarForo extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
+    private void uploadImageAndPostForo(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            byte[] imageBytes = new byte[inputStream.available()];
+            inputStream.read(imageBytes);
 
+            VolleyMultipartRequest request = new VolleyMultipartRequest(Request.Method.POST, urlUpload,
+                    new Response.Listener<NetworkResponse>() {
+                        @Override
+                        public void onResponse(NetworkResponse response) {
+                            try {
+                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                                JSONObject jsonResponse = new JSONObject(jsonString);
+                                fotoId = jsonResponse.optLong("fotoid", -1);
+                                Log.d("PostForo", "ID de la foto: " + fotoId);
+                                postForo(fotoId == -1 ? null : fotoId); // Publicar el foro con el ID de la foto
+                            } catch (JSONException | UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                                Toast.makeText(ModificarForo.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            String errorMessage;
+                            if (error.networkResponse != null && error.networkResponse.data != null) {
+                                errorMessage = new String(error.networkResponse.data);
+                            } else {
+                                errorMessage = "Error desconocido en la solicitud.";
+                            }
+                            Log.e("PostForo", "Error en la solicitud: " + errorMessage, error);
+                            Toast.makeText(ModificarForo.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, VolleyMultipartRequest.DataPart> getByteData() {
+                    Map<String, DataPart> params = new HashMap<>();
+                    params.put("file", new DataPart("image.jpg", imageBytes, "image/jpeg"));
+                    return params;
+                }
+            };
+
+            Volley.newRequestQueue(this).add(request);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al leer la imagen.", Toast.LENGTH_SHORT).show();
+        }
+    }
     private void fetchFoto(Long idFoto) {
-        String url = "http://172.20.10.2:8080/api/foto/" + idFoto;
+        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -163,13 +219,15 @@ public class ModificarForo extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, urlRegistro, jsonBody,
+        String url = "http://192.168.1.25:8080/api/foros/" + idForo;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d("PostForo", "Respuesta del servidor: " + response.toString());
-                        startActivity(new Intent(ModificarForo.this, ForoActivity.class));
+                        Intent intent = new Intent(ModificarForo.this, ForoActivity.class);
+                        intent.putExtra("id_usuario", long2);
+                        startActivity(intent);
                         finish();
                     }
                 }, new Response.ErrorListener() {
