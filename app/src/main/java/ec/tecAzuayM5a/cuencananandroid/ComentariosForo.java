@@ -1,5 +1,6 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -117,7 +118,11 @@ public class ComentariosForo extends AppCompatActivity {
                             String userPhoto = response.getString("fotoUrl");
 
                             fetchUserDataAndAddComment(idusuario, comentario, userName, userPhoto);
-                            onBackPressed();
+                            Intent intent = new Intent(ComentariosForo.this, ComentariosForo.class);
+                            intent.putExtra("id_foro", foroId);
+                            intent.putExtra("id_usuario", idusuario);
+                            finish();
+                            startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

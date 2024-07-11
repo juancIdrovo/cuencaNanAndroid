@@ -56,24 +56,30 @@
         android:layout_height="242dp"
         android:layout_marginTop="4dp"
         android:src="@mipmap/ic_launcher"
-        app:layout_constraintTop_toBottomOf="@id/mensaje"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mensaje" />
 
     <ImageView
         android:id="@+id/ivComment"
         android:layout_width="49dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="362dp"
         android:padding="10dp"
         android:src="@drawable/comentario"
-        app:layout_constraintTop_toBottomOf="@id/ivPost"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivPost" />
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="240dp"
         android:text="Alguna opinion? Comentalo"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="328dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPost" />
 </androidx.constraintlayout.widget.ConstraintLayout>
