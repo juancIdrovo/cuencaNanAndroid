@@ -117,12 +117,12 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(fotoUrl)
                     .apply(new RequestOptions()
-                            .error(R.drawable.luffiperfil)
-                            .placeholder(R.drawable.luffiperfil))
+                            .error(R.drawable.error)
+                            .placeholder(R.drawable.cargando))
                     .into(ivUserImage);
         } else {
             Log.e("PerfilUsuarioActivity", "Foto URL is null or empty");
-            ivUserImage.setImageResource(R.drawable.luffiperfil);
+            ivUserImage.setImageResource(R.drawable.error);
         }
     }
 

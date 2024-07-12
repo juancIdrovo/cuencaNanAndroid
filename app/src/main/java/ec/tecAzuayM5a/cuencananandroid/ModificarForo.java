@@ -194,7 +194,7 @@ public class ModificarForo extends AppCompatActivity {
                         String fotoUrl = response.getString("fotoUrl");
                         Glide.with(this)
                                 .load(fotoUrl)
-                                .placeholder(R.drawable.logo_appc_con_fondo)
+                                .placeholder(R.drawable.cargando)
                                 .into(imageView);
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -140,7 +140,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
                         String fotoUrl = response.getString("foto");
                         Glide.with(this)
                                 .load(fotoUrl)
-                                .placeholder(R.drawable.logo_appc_con_fondo)
+                                .placeholder(R.drawable.cargando)
                                 .into(fotoView);
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -14,8 +14,6 @@
         <!-- Campo cedula -->
 
 
-
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageViewfoto"
             android:layout_width="153dp"
@@ -26,8 +24,8 @@
             android:layout_marginStart="87dp"
             android:layout_marginTop="21dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/luffiperfil"
-            app:civ_border_color="@color/maradito"
+            android:src="@drawable/usuario"
+            app:civ_border_color="@color/black"
             app:civ_border_width="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.922"

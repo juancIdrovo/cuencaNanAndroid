@@ -24,7 +24,7 @@
             android:layout_marginStart="238dp"
             android:layout_marginTop="28dp"
             android:layout_marginEnd="37dp"
-            android:src="@drawable/luffiperfil"
+            android:src="@drawable/usuario"
             app:civ_border_color="#000000"
             app:civ_border_width="3dp"
             app:layout_constraintEnd_toEndOf="parent"

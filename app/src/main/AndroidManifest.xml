@@ -33,7 +33,8 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.CuencaNanAndroid.NoActionBar" >
+            android:theme="@style/Theme.CuencaNanAndroid.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,56 +43,70 @@
         </activity>
         <activity
             android:name=".RegistroUsuario"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PerfilUsuarioActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PuntosDeInteresActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".modificarUsuario"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ForoActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".RatePuntoDeInteresActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".EventosActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ComentariosForo"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PostForo"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ModificarForo"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MapActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".ForoUsuarioActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:name=".ComentariosActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
 
         </activity>
 
