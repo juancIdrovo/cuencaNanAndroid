@@ -47,19 +47,18 @@ import java.util.Map;
 
 import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
-import ec.tecAzuayM5a.cuencananandroid.validaciones.Validator;
+import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 
 public class modificarUsuario extends AppCompatActivity {
     EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
-    Button btnGuarda, btnCancelar;
-    Button btnSeleccionarFoto;
-
-    private static final int REQUEST_IMAGE_PICK = 1;
-    private String userName, apellidos, direccion, contrasena, telefono, fecha_nac;
-    private String userEmail;
-    private String long_id;
+    Button btnGuarda, btnCancelar, btnSeleccionarFoto;
+    private String fotoPath, fotoUrl, userName, apellidos, direccion, contrasena, telefono, fecha_nac, userEmail, long_id, cedula;
     private Uri imageUri;
     private ImageView imageView;
+    private static final int REQUEST_IMAGE_PICK = 1;
+    private RequestQueue requestQueue;
+    ip ipo = new ip();
+    String direccion1 = ipo.getIp();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class modificarUsuario extends AppCompatActivity {
         direccion = getIntent().getStringExtra("direccion");
         telefono = getIntent().getStringExtra("celular");
         userEmail = getIntent().getStringExtra("user_email");
-        contrasena  = getIntent().getStringExtra("contrasena");
+        contrasena = getIntent().getStringExtra("contrasena");
         fecha_nac = getIntent().getStringExtra("fecha_nac");
         fotoPath = getIntent().getStringExtra("fotoPath");
         fotoUrl = getIntent().getStringExtra("fotoUrl");
@@ -94,81 +93,43 @@ public class modificarUsuario extends AppCompatActivity {
 
         updateUI();
 
-        btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_IMAGE_PICK);
-            }
+        btnSeleccionarFoto.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_IMAGE_PICK);
         });
 
-        btnGuarda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String nuevosNombres = txtNombres.getText().toString();
-                String nuevosApellidos = txtApellidos.getText().toString();
-                String nuevoCorreo = txtCorreo.getText().toString();
-                String nuevaDireccion = txtDireccion.getText().toString();
-                String nuevoTelefono = txtTelefono.getText().toString();
-                String nuevaContrasena = txtContrasena.getText().toString();
-                String nuevaCedula = txtcedula.getText().toString();
-                String nuevaFecha = ((TextInputEditText) findViewById(R.id.txtFechaNac)).getText().toString().trim();
-                Date fecha = null;
-                if (!nuevaFecha.isEmpty()) {
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                        fecha = sdf.parse(nuevaFecha);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                // Validaciones
-                if (!Validator.isValidName(nuevosNombres)) {
-                    Toast.makeText(modificarUsuario.this, "Nombres no válidos", Toast.LENGTH_SHORT).show();
-                } else if (!Validator.isValidName(nuevosApellidos)) {
-                    Toast.makeText(modificarUsuario.this, "Apellidos no válidos", Toast.LENGTH_SHORT).show();
-                } else if (!Validator.isValidEmail(nuevoCorreo)) {
-                    Toast.makeText(modificarUsuario.this, "Correo no válido", Toast.LENGTH_SHORT).show();
-                } else if (!Validator.isValidPhoneNumber(nuevoTelefono)) {
-                    Toast.makeText(modificarUsuario.this, "Teléfono no válido", Toast.LENGTH_SHORT).show();
-                } else if (!Validator.isValidCedula(nuevaCedula)) {
-                    Toast.makeText(modificarUsuario.this, "Cédula no válida", Toast.LENGTH_SHORT).show();
-                } else if (!Validator.isValidPassword(nuevaContrasena)) {
-                    Toast.makeText(modificarUsuario.this, "Contraseña no válida", Toast.LENGTH_SHORT).show();
-                } else {
-                    Usuario usuModi = new Usuario(nuevaCedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion, fecha, nuevaContrasena, nuevoTelefono, null);
-
-                    updateStudent(usuModi,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Toast.makeText(modificarUsuario.this, "Usuario modificado correctamente", Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(modificarUsuario.this, "Vuelva a iniciar sesión para que se actualicen sus datos", Toast.LENGTH_SHORT).show();
-                                    onBackPressed();
-                                }
-                            },
-                            new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    Log.e("VolleyError", "Error al modificar usuario: " + long_id);
-                                    if (error.networkResponse != null && error.networkResponse.data != null) {
-                                        String responseBody = new String(error.networkResponse.data);
-                                        Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
-                                    }
-                                    Toast.makeText(modificarUsuario.this, "Error al modificar sus datos, inténtelo de nuevo más tarde", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                    );
+        btnGuarda.setOnClickListener(view -> {
+            String nuevosNombres = txtNombres.getText().toString();
+            String nuevosApellidos = txtApellidos.getText().toString();
+            String nuevoCorreo = txtCorreo.getText().toString();
+            String nuevaDireccion = txtDireccion.getText().toString();
+            String nuevoTelefono = txtTelefono.getText().toString();
+            String nuevaContrasena = txtContrasena.getText().toString();
+            String nuevaFecha = txtFecha.getText().toString().trim();
+            Date fecha = null;
+            if (!nuevaFecha.isEmpty()) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                    fecha = sdf.parse(nuevaFecha);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
             }
-        });
 
-        btnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            Usuario usuModi = new Usuario(cedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion, fecha, nuevaContrasena, nuevoTelefono, fotoPath);
+
+            updateStudent(usuModi, response -> {
+                Toast.makeText(modificarUsuario.this, "Estudiante modificado correctamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(modificarUsuario.this, "Vuelva a iniciar sesión para que se actualicen sus datos", Toast.LENGTH_SHORT).show();
                 onBackPressed();
-            }
+            }, error -> {
+                Log.e("VolleyError", "Error al modificar estudiante: " + long_id);
+                if (error.networkResponse != null && error.networkResponse.data != null) {
+                    String responseBody = new String(error.networkResponse.data);
+                    Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
+                }
+                Toast.makeText(modificarUsuario.this, "Error al modificar sus datos, inténtelo de nuevo más tarde", Toast.LENGTH_SHORT).show();
+            });
         });
 
         btnCancelar.setOnClickListener(view -> onBackPressed());
@@ -188,14 +149,6 @@ public class modificarUsuario extends AppCompatActivity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
                 String fechaFormateada = sdf.format(usuario.getFecha_nacimiento());
                 jsonBody.put("fecha_nacimiento", fechaFormateada);
-            } else {
-                Log.e("Error", "La fecha es null, no se añadió al JSONObject");
-            }
-            if (imageUri != null) {
-                String base64Image = convertirImagenBase64(imageUri);
-                jsonBody.put("foto", base64Image);
-            } else {
-                Log.e("modificarUsuario", "imageUri es null en click btnGuardar");
             }
             jsonBody.put("fotoPath", fotoPath);
         } catch (JSONException e) {
@@ -220,9 +173,68 @@ public class modificarUsuario extends AppCompatActivity {
         }
     }
 
-    public void showDatePickerDialog(View view) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+    private void uploadImage(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            byte[] imageBytes = new byte[inputStream.available()];
+            inputStream.read(imageBytes);
+
+            String urlUpload = direccion1 + "/assets/upload";
+
+            VolleyMultipartRequest request = new VolleyMultipartRequest(Request.Method.POST, urlUpload,
+                    response -> {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonResponse = new JSONObject(jsonString);
+                            fotoPath = jsonResponse.getString("key");
+                            Log.d("ModificarUsuario", "Clave de la imagen: " + fotoPath);
+                            Toast.makeText(modificarUsuario.this, "Imagen subida exitosamente.", Toast.LENGTH_SHORT).show();
+                        } catch (JSONException | UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            Toast.makeText(modificarUsuario.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
+                        }
+                    },
+                    error -> {
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage = new String(error.networkResponse.data);
+                        } else {
+                            errorMessage = "Error desconocido en la solicitud.";
+                        }
+                        Log.e("ModificarUsuario", "Error en la solicitud: " + errorMessage, error);
+                        Toast.makeText(modificarUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
+                    }) {
+                @Override
+                protected Map<String, DataPart> getByteData() {
+                    Map<String, DataPart> params = new HashMap<>();
+                    params.put("file", new DataPart("image.jpg", imageBytes, "image/jpeg"));
+                    return params;
+                }
+            };
+
+            requestQueue.add(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al leer la imagen seleccionada.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateUI() {
+        txtNombres.setText(userName);
+        txtApellidos.setText(apellidos);
+        txtCorreo.setText(userEmail);
+        txtDireccion.setText(direccion);
+        txtTelefono.setText(telefono);
+        txtcedula.setText(cedula);
+        txtFecha.setText(fecha_nac);
+        txtContrasena.setText(contrasena);
+
+        if (fotoUrl != null && !fotoUrl.isEmpty()) {
+            Glide.with(this)
+                    .load(fotoUrl)
+                    .apply(new RequestOptions().circleCrop())
+                    .into(imageView);
+        }
     }
 
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -235,65 +247,15 @@ public class modificarUsuario extends AppCompatActivity {
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
+        @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
-            ((TextInputEditText) getActivity().findViewById(R.id.txtFechaNac)).setText(selectedDate);
+            TextView txtFecha = getActivity().findViewById(R.id.txtFechaNac);
+            txtFecha.setText(String.format(Locale.US, "%d-%02d-%02d", year, month + 1, day));
         }
     }
 
-    private void updateUI() {
-        TextView tvName = findViewById(R.id.txtnombres);
-        TextView tvMail = findViewById(R.id.txtcorreo);
-        TextView tvapellidos = findViewById(R.id.txtapellidos);
-        TextView tvcontrasenia = findViewById(R.id.txtcontrasena);
-        TextView tvdireccion = findViewById(R.id.txtdireccion);
-        TextView tvcedula = findViewById(R.id.txtcedula);
-        TextView tvTelefono = findViewById(R.id.txttelf);
-        TextView tvFecha = findViewById(R.id.txtFechaNac);
-
-        ImageView ivUserImage = findViewById(R.id.fotoPerfil);
-
-        tvName.setText(userName);
-        tvMail.setText(userEmail);
-        tvapellidos.setText(apellidos);
-        tvdireccion.setText(direccion);
-        tvcedula.setText(cedula);
-        tvTelefono.setText(telefono);
-        tvcontrasenia.setText(contrasena);
-        tvFecha.setText(fecha_nac);
-        if (imageUri != null) {
-            Glide.with(this)
-                    .load(imageUri)
-                    .apply(new RequestOptions())
-                    .listener(new RequestListener<Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            Log.e("modificarUsuario", "Error al cargar la imagen con Glide: " + e.getMessage());
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
-                    .into(ivUserImage);
-        } else {
-            ivUserImage.setImageResource(R.drawable.luffiperfil);
-        }
-    }
-
-    private String convertirImagenBase64(Uri imageUri) {
-        try {
-            InputStream inputStream = getContentResolver().openInputStream(imageUri);
-            byte[] bytes = new byte[inputStream.available()];
-            inputStream.read(bytes);
-            inputStream.close();
-            return "data:image/jpeg;base64," + Base64.encodeToString(bytes, Base64.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("modificarUsuario", "Error al convertir imagen a base64");
-            return null;
-        }
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }
