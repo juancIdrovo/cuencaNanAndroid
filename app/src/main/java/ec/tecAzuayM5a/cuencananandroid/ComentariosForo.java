@@ -56,7 +56,14 @@ public class ComentariosForo extends AppCompatActivity {
         }
 
         loadComments(foroId);
-        addCommentButton.setOnClickListener(v -> addComment());
+        addCommentButton.setOnClickListener(v -> {
+            addComment();
+            Intent intent = new Intent(ComentariosForo.this, ComentariosForo.class);
+            intent.putExtra("id_foro", foroId);
+            intent.putExtra("id_usuario", idusuario);
+            finish();
+            startActivity(intent);
+        });
     }
 
     private void loadComments(Long foroId) {
@@ -149,8 +156,11 @@ public class ComentariosForo extends AppCompatActivity {
 
                         Comentario newComment = new Comentario(nombreUsuario, comentario, fotoUrl);
                         ((ComentariosAdapter) commentsListView.getAdapter()).add(newComment);
-                        Comentario.setText("");
-                        onBackPressed();
+                        Intent intent = new Intent(ComentariosForo.this, ComentariosForo.class);
+                        intent.putExtra("id_foro", foroId);
+                        intent.putExtra("id_usuario", idusuario);
+                        finish();
+                        startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

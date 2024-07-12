@@ -186,7 +186,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                                             intent.putExtra("cedula", cedula);
                                             intent.putExtra("apellidos", apellido);
                                             intent.putExtra("direccion", direccion);
-                                            intent.putExtra("telefono", telefono);
+                                            intent.putExtra("celular", telefono);
                                             intent.putExtra("contrasena", contrasena);
                                             intent.putExtra("fecha_nac", fecha_nac);
                                             intent.putExtra("fotoPath", fotoPath);

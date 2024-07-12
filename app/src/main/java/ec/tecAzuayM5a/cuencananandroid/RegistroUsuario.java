@@ -54,7 +54,7 @@ public class RegistroUsuario extends AppCompatActivity {
     ip ipo = new ip();
     String direccion = ipo.getIp();
     private String urlRegistro = direccion +"/usuarios";
-    private String urlUpload = direccion +"/upload";
+    private String urlUpload = direccion + "/assets/upload";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
