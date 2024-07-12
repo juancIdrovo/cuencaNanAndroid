@@ -56,7 +56,7 @@ public class ComentariosForo extends AppCompatActivity {
     }
 
     private void loadComments(Long foroId) {
-        String url = "http://192.168.1.25:8080/api/comentarios/foro/" + foroId;
+        String url = "http://192.168.0.75:8080/api/comentarios/foro/" + foroId;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -67,7 +67,7 @@ public class ComentariosForo extends AppCompatActivity {
                             Long userId = jsonObject.getLong("idUsuario");
                             String comentarioText = jsonObject.getString("comentario");
 
-                            String userUrl = "http://192.168.1.25:8080/api/usuarios/" + userId;
+                            String userUrl = "http://192.168.0.75:8080/api/usuarios/" + userId;
 
                             JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, userUrl, null,
                                     userResponse -> {
@@ -103,7 +103,7 @@ public class ComentariosForo extends AppCompatActivity {
             return;
         }
 
-        String url = "http://192.168.1.25:8080/api/comentarios";
+        String url = "http://192.168.0.75:8080/api/comentarios";
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("comentario", comentario);
@@ -131,7 +131,7 @@ public class ComentariosForo extends AppCompatActivity {
         }
     }
     private void fetchUserDataAndAddComment(Long idUsuario, String comentario, String userName, String userPhoto) {
-        String url = "http://192.168.1.25:8080/api/usuarios/" + idUsuario;
+        String url = "http://192.168.0.75:8080/api/usuarios/" + idUsuario;
 
         JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 userResponse -> {

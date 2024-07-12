@@ -8,6 +8,10 @@
     <color name="colorAccent">#FBF9DF</color>
     <color name="azulFB">#3381B5</color>
     <color name="turquesa">#15BBE3</color>
+    <color name="rojo">#F22B1C</color>
+    <color name="amarillo">#F9F205</color>
+
+
     <!-- En res/values/colors.xml -->
     <color name="frost">#CCFFFFFF</color> <!-- CC indica que el color es 80% opaco -->
 

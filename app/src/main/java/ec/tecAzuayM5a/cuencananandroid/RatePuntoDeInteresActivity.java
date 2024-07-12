@@ -61,7 +61,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         comentariosButton = findViewById(R.id.comentarios_button);
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
-        Button buttonCasa = findViewById(R.id.button_casa);
+
         Button buttonEventos = findViewById(R.id.button_eventos);
         Button buttonForo = findViewById(R.id.button_foro);
 
@@ -98,13 +98,13 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         ///btns nav///
         buttonForo.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, ForoActivity.class)));
         buttonMapa.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, MapActivity.class)));
-        buttonCasa.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, PerfilUsuarioActivity.class)));
+
         buttonPuntos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class)));
         buttonEventos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, EventosActivity.class)));
     }
 
     private void loadPuntoInteresDetails(Long puntoInteresId) {
-        String url = "http://192.168.1.25:8080/api/puntosinteres/" + puntoInteresId;
+        String url = "http://192.168.0.75:8080/api/puntosinteres/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -130,7 +130,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://192.168.0.75:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -151,7 +151,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadExistingRatingAndComment(Long userId, Long puntoInteresId) {
-        String url = "http://192.168.1.25:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
+        String url = "http://192.168.0.75:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -196,11 +196,11 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
         if (existingRatingId != null) {
             // Si ya existe una valoración, la actualizamos
-            url = "http://192.168.1.25:8080/api/usuariopuntosinteres/" + existingRatingId;
+            url = "http://192.168.0.75:8080/api/usuariopuntosinteres/" + existingRatingId;
             method = Request.Method.PUT;
         } else {
             // Si no existe, creamos una nueva
-            url = "http://192.168.1.25:8080/api/usuariopuntosinteres";
+            url = "http://192.168.0.75:8080/api/usuariopuntosinteres";
             method = Request.Method.POST;
         }
 

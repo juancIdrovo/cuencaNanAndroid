@@ -48,9 +48,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
+import ec.tecAzuayM5a.cuencananandroid.validaciones.Validator;
 
 public class modificarUsuario extends AppCompatActivity {
-   EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
+    EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
     Button btnGuarda, btnCancelar;
     Button btnSeleccionarFoto;
 
@@ -61,8 +62,6 @@ public class modificarUsuario extends AppCompatActivity {
     private Uri imageUri;
     private String cedula;
     private ImageView imageView;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +74,6 @@ public class modificarUsuario extends AppCompatActivity {
         direccion = getIntent().getStringExtra("direccion");
         telefono = getIntent().getStringExtra("celular");
         userEmail = getIntent().getStringExtra("user_email");
-       // imageUri = Uri.parse(getIntent().getStringExtra("image_uri"));
         contrasena  = getIntent().getStringExtra("contrasena");
         fecha_nac = getIntent().getStringExtra("fecha_nac");
 
@@ -92,6 +90,7 @@ public class modificarUsuario extends AppCompatActivity {
         btnSeleccionarFoto = findViewById(R.id.btnfotito);
         btnGuarda = findViewById(R.id.btnGuardar);
         updateUI();
+
         btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,8 +99,7 @@ public class modificarUsuario extends AppCompatActivity {
             }
         });
 
-        Button btnGuardar = findViewById(R.id.btnGuardar);
-        btnGuardar.setOnClickListener(new View.OnClickListener() {
+        btnGuarda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String nuevosNombres = txtNombres.getText().toString();
@@ -110,6 +108,7 @@ public class modificarUsuario extends AppCompatActivity {
                 String nuevaDireccion = txtDireccion.getText().toString();
                 String nuevoTelefono = txtTelefono.getText().toString();
                 String nuevaContrasena = txtContrasena.getText().toString();
+                String nuevaCedula = txtcedula.getText().toString();
                 String nuevaFecha = ((TextInputEditText) findViewById(R.id.txtFechaNac)).getText().toString().trim();
                 Date fecha = null;
                 if (!nuevaFecha.isEmpty()) {
@@ -121,45 +120,59 @@ public class modificarUsuario extends AppCompatActivity {
                     }
                 }
 
+                // Validaciones
+                if (!Validator.isValidName(nuevosNombres)) {
+                    Toast.makeText(modificarUsuario.this, "Nombres no válidos", Toast.LENGTH_SHORT).show();
+                } else if (!Validator.isValidName(nuevosApellidos)) {
+                    Toast.makeText(modificarUsuario.this, "Apellidos no válidos", Toast.LENGTH_SHORT).show();
+                } else if (!Validator.isValidEmail(nuevoCorreo)) {
+                    Toast.makeText(modificarUsuario.this, "Correo no válido", Toast.LENGTH_SHORT).show();
+                } else if (!Validator.isValidPhoneNumber(nuevoTelefono)) {
+                    Toast.makeText(modificarUsuario.this, "Teléfono no válido", Toast.LENGTH_SHORT).show();
+                } else if (!Validator.isValidCedula(nuevaCedula)) {
+                    Toast.makeText(modificarUsuario.this, "Cédula no válida", Toast.LENGTH_SHORT).show();
+                } else if (!Validator.isValidPassword(nuevaContrasena)) {
+                    Toast.makeText(modificarUsuario.this, "Contraseña no válida", Toast.LENGTH_SHORT).show();
+                } else {
+                    Usuario usuModi = new Usuario(nuevaCedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion, fecha, nuevaContrasena, nuevoTelefono, null);
 
-                Usuario usuModi = new Usuario(cedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion,fecha ,nuevaContrasena, nuevoTelefono,null);
-
-                updateStudent(usuModi,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Toast.makeText(modificarUsuario.this, "Estudiante modificado correctamente", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(modificarUsuario.this, "Vuelva a iniciar sesion para que se Actualizen sus datos", Toast.LENGTH_SHORT).show();
-                                 onBackPressed();
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("VolleyError", "Error al modificar estudiante: " + long_id);
-                                if (error.networkResponse != null && error.networkResponse.data != null) {
-                                    String responseBody = new String(error.networkResponse.data);
-                                    Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
+                    updateStudent(usuModi,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Toast.makeText(modificarUsuario.this, "Usuario modificado correctamente", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(modificarUsuario.this, "Vuelva a iniciar sesión para que se actualicen sus datos", Toast.LENGTH_SHORT).show();
+                                    onBackPressed();
                                 }
-                                Toast.makeText(modificarUsuario.this, "Error al modificar sus datos, intentelo de nuevo mas tarde", Toast.LENGTH_SHORT).show();
+                            },
+                            new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.e("VolleyError", "Error al modificar usuario: " + long_id);
+                                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                                        String responseBody = new String(error.networkResponse.data);
+                                        Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
+                                    }
+                                    Toast.makeText(modificarUsuario.this, "Error al modificar sus datos, inténtelo de nuevo más tarde", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
-                );
+                    );
+                }
             }
         });
-        Button btnCancelar = findViewById(R.id.btnCancelar);
+
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
-
             }
         });
     }
+
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.1.25:8080/api/usuarios/" + long_id;
+        String url = "http://192.168.0.75:8080/api/usuarios/" + long_id;
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -180,7 +193,7 @@ public class modificarUsuario extends AppCompatActivity {
                 String base64Image = convertirImagenBase64(imageUri);
                 jsonBody.put("foto", base64Image);
             } else {
-                Log.e("RegistroEstudiante", "imageUri es null en clickbtnGuardar");
+                Log.e("modificarUsuario", "imageUri es null en click btnGuardar");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -188,6 +201,7 @@ public class modificarUsuario extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonBody, successListener, errorListener);
         requestQueue.add(request);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -196,21 +210,19 @@ public class modificarUsuario extends AppCompatActivity {
             imageUri = data.getData();
 
             if (imageUri != null) {
-
                 imageView.setImageURI(imageUri);
             } else {
                 Toast.makeText(this, "No se ha seleccionado ninguna imagen.", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
     public void showDatePickerDialog(View view) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar c = Calendar.getInstance();
@@ -219,12 +231,13 @@ public class modificarUsuario extends AppCompatActivity {
             int day = c.get(Calendar.DAY_OF_MONTH);
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
+
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the chosen date
             String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, month + 1, day);
             ((TextInputEditText) getActivity().findViewById(R.id.txtFechaNac)).setText(selectedDate);
         }
     }
+
     private void updateUI() {
         TextView tvName = findViewById(R.id.txtnombres);
         TextView tvMail = findViewById(R.id.txtcorreo);
@@ -246,32 +259,27 @@ public class modificarUsuario extends AppCompatActivity {
         tvcontrasenia.setText(contrasena);
         tvFecha.setText(fecha_nac);
         if (imageUri != null) {
-            // Intenta cargar la imagen con Glide
             Glide.with(this)
                     .load(imageUri)
-                    .apply(new RequestOptions()
-                    )
+                    .apply(new RequestOptions())
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                            // Manejar fallo de carga de imagen aquí
-                            Log.e("PerfilUsuarioActivity", "Error al cargar la imagen con Glide: " + e.getMessage());
+                            Log.e("modificarUsuario", "Error al cargar la imagen con Glide: " + e.getMessage());
                             return false;
                         }
 
                         @Override
                         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            // La imagen se cargó correctamente
                             return false;
                         }
                     })
                     .into(ivUserImage);
         } else {
-            // URL de la imagen nula o vacía, usa una imagen de marcador de posición
             ivUserImage.setImageResource(R.drawable.luffiperfil);
         }
-
     }
+
     private String convertirImagenBase64(Uri imageUri) {
         try {
             InputStream inputStream = getContentResolver().openInputStream(imageUri);
@@ -281,11 +289,10 @@ public class modificarUsuario extends AppCompatActivity {
             return "data:image/jpeg;base64," + Base64.encodeToString(bytes, Base64.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e("RegistroEstudiante", "Error al convertir imagen a base64");
+            Log.e("modificarUsuario", "Error al convertir imagen a base64");
             return null;
         }
     }
-
 }
 
 

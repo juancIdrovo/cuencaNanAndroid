@@ -13,6 +13,7 @@
 
 
         <!-- Campo cedula -->
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fotoPerfil"
             android:layout_width="136dp"
@@ -21,12 +22,13 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="238dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="37dp"
             android:src="@drawable/luffiperfil"
             app:civ_border_color="#000000"
             app:civ_border_width="3dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -37,7 +39,8 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="27dp"
             android:layout_marginEnd="30dp"
-            android:text="Modificar Datos Personales"
+            android:text="Modifica tus Datos
+"
             android:textColor="@color/maradito"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -59,10 +62,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtcedula"
-                android:layout_width="189dp"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:editable="false"
+                android:layout_marginLeft="15dp"
                 android:hint="Cédula"
                 android:textColor="@color/black"
                 android:textSize="17sp"
@@ -84,10 +88,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtnombres"
-                android:layout_width="189dp"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Nombres"
+                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -97,7 +102,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutApellidos"
-            android:layout_width="191dp"
+            android:layout_width="195dp"
             android:layout_height="64dp"
             android:layout_marginTop="236dp"
             android:layout_marginEnd="230dp"
@@ -108,8 +113,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtapellidos"
-                android:layout_width="188dp"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Apellidos"
                 android:textSize="17sp"
@@ -129,10 +135,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtcorreo"
-                android:layout_width="400dp"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Correo"
+                android:layout_marginLeft="15dp"
                 android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -146,10 +153,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtdireccion"
-                android:layout_width="400dp"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Dirección"
+                android:layout_marginLeft="15dp"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -163,10 +171,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txttelf"
-                android:layout_width="400dp"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Teléfono"
+                android:layout_marginLeft="15dp"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -188,7 +197,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="400dp"
+            android:layout_width="375dp"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -197,8 +206,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtcontrasena"
-                android:layout_width="match_parent"
+                android:layout_width="360dp"
                 android:layout_height="58dp"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Contraseña"
                 android:textColor="@color/black"
@@ -232,27 +242,29 @@
 
         <Button
             android:id="@+id/btnfotito"
-            android:layout_width="161dp"
-            android:layout_height="44dp"
+            android:layout_width="128dp"
+            android:layout_height="42dp"
             android:layout_marginStart="227dp"
-            android:layout_marginTop="247dp"
+            android:layout_marginTop="256dp"
             android:layout_marginEnd="23dp"
-            android:text="Seleccionar Foto"
+            android:text=" Foto"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.866"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtFechaNac"
-            android:layout_width="400dp"
+            android:layout_width="360dp"
             android:layout_height="65dp"
             android:background="@drawable/rounded_text_field"
             android:focusable="false"
-            android:hint="Fecha de Nacimiento"
+            android:hint="  Fecha de Nacimiento"
             android:onClick="showDatePickerDialog"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
+            android:layout_marginLeft="15dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"

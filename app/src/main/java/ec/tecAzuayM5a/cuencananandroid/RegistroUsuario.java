@@ -41,10 +41,12 @@ import java.util.Locale;
 import java.util.Map;
 
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
+import ec.tecAzuayM5a.cuencananandroid.validaciones.Validator;
+
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.1.25:8080/api/usuarios";
-    private String urlUpload = "http://192.168.1.25:8080/api/assets/upload";
+    private String urlRegistro = "http://192.168.0.75:8080/api/usuarios";
+    private String urlUpload = "http://192.168.0.75:8080/api/assets/upload";
     private RequestQueue requestQueue;
     private static final int REQUEST_IMAGE_PICK = 1;
     private ImageView imageView;
@@ -174,10 +176,23 @@ public class RegistroUsuario extends AppCompatActivity {
             }
         }
 
-        if (fotoPath != null) {
-            enviarSolicitudRegistro(cedula, nombres, apellidos, mail, direccion, nombre_usuario, contrasena, telefono, fecha, fotoPath);
-        } else {
+        // Validaciones
+        if (!Validator.isValidCedula(cedula)) {
+            Toast.makeText(this, "Cédula no válida", Toast.LENGTH_SHORT).show();
+        } else if (!Validator.isValidName(nombres)) {
+            Toast.makeText(this, "Nombres no válidos", Toast.LENGTH_SHORT).show();
+        } else if (!Validator.isValidName(apellidos)) {
+            Toast.makeText(this, "Apellidos no válidos", Toast.LENGTH_SHORT).show();
+        } else if (!Validator.isValidEmail(mail)) {
+            Toast.makeText(this, "Correo no válido", Toast.LENGTH_SHORT).show();
+        } else if (!Validator.isValidPhoneNumber(telefono)) {
+            Toast.makeText(this, "Teléfono no válido", Toast.LENGTH_SHORT).show();
+        } else if (!Validator.isValidPassword(contrasena)) {
+            Toast.makeText(this, "Contraseña no válida", Toast.LENGTH_SHORT).show();
+        } else if (fotoPath == null) {
             Toast.makeText(this, "Debe seleccionar una imagen primero y esperar a que se suba.", Toast.LENGTH_SHORT).show();
+        } else {
+            enviarSolicitudRegistro(cedula, nombres, apellidos, mail, direccion, nombre_usuario, contrasena, telefono, fecha, fotoPath);
         }
     }
 

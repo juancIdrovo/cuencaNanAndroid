@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/catedral_cuencanan">
+    android:background="@drawable/logincuancanan">
 
     <TextView
         android:id="@+id/textViewWelcome"
@@ -44,8 +44,8 @@
         android:hint="    Correo:"
         android:inputType="textEmailAddress"
 
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColor="@color/white"
+        android:textColorHint="@color/amarillo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLogin" />
@@ -58,8 +58,8 @@
         android:drawableLeft="@drawable/llave"
         android:hint="    Contraseña:"
         android:inputType="textPassword"
-        android:textColor="@color/black"
-        android:textColorHint="@color/black"
+        android:textColor="@color/white"
+        android:textColorHint="@color/amarillo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +84,8 @@
 
     <Button
         android:id="@+id/btnRegistro"
-        android:layout_width="272dp"
-        android:layout_height="46dp"
+        android:layout_width="300dp"
+        android:layout_height="44dp"
         android:layout_marginStart="46dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="65dp"
@@ -95,13 +95,14 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogIn"
         app:layout_constraintVertical_bias="0.526" />
 
     <Button
         android:id="@+id/btnLogIn"
-        android:layout_width="272dp"
+        android:layout_width="300dp"
         android:layout_height="46dp"
         android:layout_marginStart="46dp"
         android:layout_marginTop="172dp"
@@ -113,7 +114,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/btnRegistro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginPasswordLayout" />
 

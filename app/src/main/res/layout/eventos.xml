@@ -107,16 +107,7 @@
 
             android:textColor="@android:color/white" />
 
-        <Button
-            android:id="@+id/button_casa"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTop="@drawable/logosinfondo32"
-            android:text=""
-            android:tooltipText="Casa"
-            android:textColor="@android:color/white" />
+
 
         <Button
             android:id="@+id/button_eventos"

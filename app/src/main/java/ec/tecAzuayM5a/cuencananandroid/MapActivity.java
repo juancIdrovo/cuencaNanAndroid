@@ -74,7 +74,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
-        Button buttonCasa = findViewById(R.id.button_casa);
+
         Button buttonEventos = findViewById(R.id.button_eventos);
         Button buttonForo = findViewById(R.id.button_foro);
 
@@ -96,14 +96,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        buttonCasa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(MapActivity.this, PerfilUsuarioActivity.class));
-
-            }
-        });
 
         buttonPuntos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,7 +130,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void fetchPuntosInteres() {
-        String urlPuntosInteres = "http://192.168.1.25:8080/api/puntosinteres";
+        String urlPuntosInteres = "http://192.168.0.75:8080/api/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestPuntosInteres = new JsonArrayRequest(
                 Request.Method.GET,

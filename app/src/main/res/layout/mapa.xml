@@ -10,7 +10,7 @@
         android:id="@+id/map_fragment_pi"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="411dp"
-        android:layout_height="708dp"
+        android:layout_height="675dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -48,15 +48,6 @@
             android:text="Puntos"
             android:textColor="@android:color/white" />
 
-        <Button
-            android:id="@+id/button_casa"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTop="@drawable/logosinfondo32"
-            android:text="Casa"
-            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/button_eventos"

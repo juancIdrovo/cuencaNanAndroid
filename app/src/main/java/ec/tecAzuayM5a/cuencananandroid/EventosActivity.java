@@ -68,7 +68,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
 
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
-        Button buttonCasa = findViewById(R.id.button_casa);
+
         Button buttonEventos = findViewById(R.id.button_eventos);
         Button buttonForo = findViewById(R.id.button_foro);
 
@@ -108,14 +108,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-        buttonCasa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                startActivity(new Intent(EventosActivity.this, PerfilUsuarioActivity.class));
-
-            }
-        });
 
         buttonPuntos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,10 +138,10 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchEventos() {
-        String urlEventos = "http://192.168.1.25:8080/api/eventos";
-        String urlTipoEventos = "http://192.168.1.25:8080/api/tipo_eventos";
-        String urlEventosPuntoInteres = "http://192.168.1.25:8080/api/eventospuntointeres";
-        String urlPuntosInteres = "http://192.168.1.25:8080/api/puntosinteres";
+        String urlEventos = "http://192.168.0.75:8080/api/eventos";
+        String urlTipoEventos = "http://192.168.0.75:8080/api/tipo_eventos";
+        String urlEventosPuntoInteres = "http://192.168.0.75:8080/api/eventospuntointeres";
+        String urlPuntosInteres = "http://192.168.0.75:8080/api/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestEventos = new JsonArrayRequest(
                 Request.Method.GET,
@@ -285,7 +278,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchFoto(Long idFoto, Eventos evento) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = "http://192.168.0.75:8080/api/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

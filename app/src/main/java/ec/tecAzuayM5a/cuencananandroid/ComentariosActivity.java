@@ -46,7 +46,7 @@ public class ComentariosActivity extends AppCompatActivity {
     }
 
     private void loadComments(Long puntoInteresId) {
-        String url = "http://192.168.1.25:8080/api/usuariopuntosinteres?puntoInteresId=" + puntoInteresId;
+        String url = "http://192.168.0.75:8080/api/usuariopuntosinteres?puntoInteresId=" + puntoInteresId;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -57,7 +57,7 @@ public class ComentariosActivity extends AppCompatActivity {
                             Long userId = jsonObject.getLong("idusuario");
                             String comentarioText = jsonObject.getString("comentarios");
 
-                            String userUrl = "http://192.168.1.25:8080/api/usuarios/" + userId;
+                            String userUrl = "http://192.168.0.75:8080/api/usuarios/" + userId;
 
                             JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, userUrl, null,
                                     userResponse -> {

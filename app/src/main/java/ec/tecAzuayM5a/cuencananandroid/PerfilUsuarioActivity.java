@@ -155,7 +155,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String url = "http://192.168.1.25:8080/api/usuarios/" + long_id;
+                    String url = "http://192.168.0.75:8080/api/usuarios/" + long_id;
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {

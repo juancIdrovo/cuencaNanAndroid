@@ -49,6 +49,8 @@ public class ModificarForo extends AppCompatActivity {
     private Long fotoId;
 
     private String urlUpload = "http://192.168.1.25:8080/api/foto";
+    private String urlRegistro = "http://192.168.137.83:8080/api/foros";
+
 
     private static final int REQUEST_IMAGE_PICK = 1;
 

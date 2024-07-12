@@ -23,12 +23,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ec.tecAzuayM5a.cuencananandroid.validaciones.Validator;
+
 
 public class LoginActivity extends AppCompatActivity {
     Button btnAceptar, btnRegistarse;
     EditText txtEmail, txtPass;
     String mail, pass;
-    String url = "http://192.168.1.25:8080/api/usuarios/loginusuario";
+    String url = "http://192.168.0.75:8080/api/usuarios/loginusuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +57,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void Login(View view) {
-        if (txtEmail.getText().toString().equals("")) {
+        mail = txtEmail.getText().toString().trim();
+        pass = txtPass.getText().toString().trim();
+
+        if (mail.equals("")) {
             Toast.makeText(this, "Ingrese el correo", Toast.LENGTH_LONG).show();
-        } else if (txtPass.getText().toString().equals("")) {
+        } else if (pass.equals("")) {
             Toast.makeText(this, "Ingrese la contraseña", Toast.LENGTH_LONG).show();
+        } else if (!Validator.isValidEmail(mail)) {
+            Toast.makeText(this, "Correo no válido", Toast.LENGTH_LONG).show();
+        } else if (!Validator.isValidPassword(pass)) {
+            Toast.makeText(this, "Contraseña no válida", Toast.LENGTH_LONG).show();
         } else {
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Espere un momento...");
             progressDialog.show();
-            mail = txtEmail.getText().toString().trim();
-            pass = txtPass.getText().toString().trim();
+
             JSONObject jsonBody = new JSONObject();
             try {
                 jsonBody.put("mail", mail);
@@ -72,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonBody,
                     new Response.Listener<JSONObject>() {
                         @Override
