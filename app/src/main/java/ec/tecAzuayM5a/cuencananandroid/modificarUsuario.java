@@ -1,14 +1,11 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,18 +19,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.Target;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONException;
@@ -41,12 +36,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
 import ec.tecAzuayM5a.cuencananandroid.validaciones.Validator;
 
@@ -60,13 +59,14 @@ public class modificarUsuario extends AppCompatActivity {
     private String userEmail;
     private String long_id;
     private Uri imageUri;
-    private String cedula;
     private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.modificar_datos_estudiante);
+        requestQueue = Volley.newRequestQueue(this);
+
         long_id = getIntent().getStringExtra("id_usuario");
         userName = getIntent().getStringExtra("user_name");
         cedula = getIntent().getStringExtra("cedula");
@@ -76,6 +76,8 @@ public class modificarUsuario extends AppCompatActivity {
         userEmail = getIntent().getStringExtra("user_email");
         contrasena  = getIntent().getStringExtra("contrasena");
         fecha_nac = getIntent().getStringExtra("fecha_nac");
+        fotoPath = getIntent().getStringExtra("fotoPath");
+        fotoUrl = getIntent().getStringExtra("fotoUrl");
 
         txtNombres = findViewById(R.id.txtnombres);
         txtApellidos = findViewById(R.id.txtapellidos);
@@ -89,6 +91,7 @@ public class modificarUsuario extends AppCompatActivity {
         btnCancelar = findViewById(R.id.btnCancelar);
         btnSeleccionarFoto = findViewById(R.id.btnfotito);
         btnGuarda = findViewById(R.id.btnGuardar);
+
         updateUI();
 
         btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
@@ -167,13 +170,12 @@ public class modificarUsuario extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        btnCancelar.setOnClickListener(view -> onBackPressed());
     }
 
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        String url = "http://192.168.0.75:8080/api/usuarios/" + long_id;
-
+        String url = direccion1 + "/usuarios/" + long_id;
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("nombres", usuario.getNombres());
@@ -195,6 +197,7 @@ public class modificarUsuario extends AppCompatActivity {
             } else {
                 Log.e("modificarUsuario", "imageUri es null en click btnGuardar");
             }
+            jsonBody.put("fotoPath", fotoPath);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -203,14 +206,14 @@ public class modificarUsuario extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_IMAGE_PICK && resultCode == RESULT_OK) {
             imageUri = data.getData();
-
             if (imageUri != null) {
                 imageView.setImageURI(imageUri);
+                uploadImage(imageUri);
             } else {
                 Toast.makeText(this, "No se ha seleccionado ninguna imagen.", Toast.LENGTH_SHORT).show();
             }
@@ -294,5 +297,3 @@ public class modificarUsuario extends AppCompatActivity {
         }
     }
 }
-
-

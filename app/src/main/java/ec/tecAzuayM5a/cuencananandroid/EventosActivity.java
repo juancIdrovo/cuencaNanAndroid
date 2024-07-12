@@ -45,7 +45,7 @@ import ec.tecAzuayM5a.cuencananandroid.modelo.Eventos;
 import ec.tecAzuayM5a.cuencananandroid.modelo.EventosPuntoInteres;
 import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
 import ec.tecAzuayM5a.cuencananandroid.modelo.TipoEventos;
-
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 public class EventosActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private ListView eventosListView;
@@ -55,7 +55,8 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     private Spinner searchTypeSpinner;
     private EditText searchInput;
     private GoogleMap mMap;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,10 +139,10 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchEventos() {
-        String urlEventos = "http://192.168.0.75:8080/api/eventos";
-        String urlTipoEventos = "http://192.168.0.75:8080/api/tipo_eventos";
-        String urlEventosPuntoInteres = "http://192.168.0.75:8080/api/eventospuntointeres";
-        String urlPuntosInteres = "http://192.168.0.75:8080/api/puntosinteres";
+        String urlEventos = direccion +"/eventos";
+        String urlTipoEventos = direccion +"/tipo_eventos";
+        String urlEventosPuntoInteres = direccion +"/eventospuntointeres";
+        String urlPuntosInteres = direccion +"/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestEventos = new JsonArrayRequest(
                 Request.Method.GET,
@@ -278,7 +279,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchFoto(Long idFoto, Eventos evento) {
-        String url = "http://192.168.0.75:8080/api/foto/" + idFoto;
+        String url = direccion +"/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

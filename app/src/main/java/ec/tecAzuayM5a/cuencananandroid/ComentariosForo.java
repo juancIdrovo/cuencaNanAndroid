@@ -1,5 +1,6 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import ec.tecAzuayM5a.cuencananandroid.adaptador.ComentariosAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Comentario;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 public class ComentariosForo extends AppCompatActivity {
 
@@ -31,6 +33,8 @@ public class ComentariosForo extends AppCompatActivity {
     private Button addCommentButton;
     private EditText Comentario;
     private String comentario;
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +56,18 @@ public class ComentariosForo extends AppCompatActivity {
         }
 
         loadComments(foroId);
-        addCommentButton.setOnClickListener(v -> addComment());
+        addCommentButton.setOnClickListener(v -> {
+            addComment();
+            Intent intent = new Intent(ComentariosForo.this, ComentariosForo.class);
+            intent.putExtra("id_foro", foroId);
+            intent.putExtra("id_usuario", idusuario);
+            finish();
+            startActivity(intent);
+        });
     }
 
     private void loadComments(Long foroId) {
-        String url = "http://192.168.0.75:8080/api/comentarios/foro/" + foroId;
+        String url = direccion +"/comentarios/foro/" + foroId;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -67,7 +78,7 @@ public class ComentariosForo extends AppCompatActivity {
                             Long userId = jsonObject.getLong("idUsuario");
                             String comentarioText = jsonObject.getString("comentario");
 
-                            String userUrl = "http://192.168.0.75:8080/api/usuarios/" + userId;
+                            String userUrl = direccion +"/usuarios/" + userId;
 
                             JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, userUrl, null,
                                     userResponse -> {
@@ -103,7 +114,7 @@ public class ComentariosForo extends AppCompatActivity {
             return;
         }
 
-        String url = "http://192.168.0.75:8080/api/comentarios";
+        String url = direccion+ "/comentarios";
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("comentario", comentario);
@@ -117,7 +128,11 @@ public class ComentariosForo extends AppCompatActivity {
                             String userPhoto = response.getString("fotoUrl");
 
                             fetchUserDataAndAddComment(idusuario, comentario, userName, userPhoto);
-                            onBackPressed();
+                            Intent intent = new Intent(ComentariosForo.this, ComentariosForo.class);
+                            intent.putExtra("id_foro", foroId);
+                            intent.putExtra("id_usuario", idusuario);
+                            finish();
+                            startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -131,7 +146,7 @@ public class ComentariosForo extends AppCompatActivity {
         }
     }
     private void fetchUserDataAndAddComment(Long idUsuario, String comentario, String userName, String userPhoto) {
-        String url = "http://192.168.0.75:8080/api/usuarios/" + idUsuario;
+        String url = direccion +"/usuarios/" + idUsuario;
 
         JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 userResponse -> {
@@ -141,8 +156,11 @@ public class ComentariosForo extends AppCompatActivity {
 
                         Comentario newComment = new Comentario(nombreUsuario, comentario, fotoUrl);
                         ((ComentariosAdapter) commentsListView.getAdapter()).add(newComment);
-                        Comentario.setText("");
-                        onBackPressed();
+                        Intent intent = new Intent(ComentariosForo.this, ComentariosForo.class);
+                        intent.putExtra("id_foro", foroId);
+                        intent.putExtra("id_usuario", idusuario);
+                        finish();
+                        startActivity(intent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

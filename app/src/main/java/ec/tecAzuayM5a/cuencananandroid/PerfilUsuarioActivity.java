@@ -24,7 +24,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 import org.json.JSONObject;
 
 public class PerfilUsuarioActivity extends AppCompatActivity {
@@ -37,7 +37,8 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
     ImageView opt;
     Button btnNotas, btnHorario, btnDocente, btnmodificar, btnCurso, btnForo;
     Button btnMapa, buttonForo, btnEventos, btnPuntoInteres;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +156,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String url = "http://192.168.0.75:8080/api/usuarios/" + long_id;
+                    String url = direccion +"/usuarios/" + long_id;
 
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                             new Response.Listener<JSONObject>() {
@@ -185,7 +186,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity {
                                             intent.putExtra("cedula", cedula);
                                             intent.putExtra("apellidos", apellido);
                                             intent.putExtra("direccion", direccion);
-                                            intent.putExtra("telefono", telefono);
+                                            intent.putExtra("celular", telefono);
                                             intent.putExtra("contrasena", contrasena);
                                             intent.putExtra("fecha_nac", fecha_nac);
                                             intent.putExtra("fotoPath", fotoPath);

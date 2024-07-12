@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import ec.tecAzuayM5a.cuencananandroid.ComentariosForo;
 import ec.tecAzuayM5a.cuencananandroid.ModificarForo;
 import ec.tecAzuayM5a.cuencananandroid.R;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 
 public class ForoAdapter extends ArrayAdapter<Foro> {
@@ -33,8 +34,8 @@ public class ForoAdapter extends ArrayAdapter<Foro> {
     private List<Foro> foros;
     private ImageView comentario;
     private Long id_usuario;
-
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     public ForoAdapter(Context context, List<Foro> foros) {
         super(context, 0, foros);
         this.context = context;
@@ -100,7 +101,7 @@ public class ForoAdapter extends ArrayAdapter<Foro> {
         protected String doInBackground(Long... params) {
             Long idUsuario = params[0];
             try {
-                URL url = new URL("http://192.168.0.75:8080/api/usuarios/" + idUsuario);
+                URL url = new URL(direccion + "/usuarios/" + idUsuario);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");

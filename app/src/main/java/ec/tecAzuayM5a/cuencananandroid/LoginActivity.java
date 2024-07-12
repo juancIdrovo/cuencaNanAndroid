@@ -30,7 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     Button btnAceptar, btnRegistarse;
     EditText txtEmail, txtPass;
     String mail, pass;
-    String url = "http://192.168.0.75:8080/api/usuarios/loginusuario";
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
+    String url = direccion + "/usuarios/loginusuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

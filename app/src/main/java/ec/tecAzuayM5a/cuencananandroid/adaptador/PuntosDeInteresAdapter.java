@@ -29,11 +29,13 @@ import ec.tecAzuayM5a.cuencananandroid.PuntosDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.R;
 import ec.tecAzuayM5a.cuencananandroid.RatePuntoDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
     private Context context;
     private List<PuntosDeInteres> puntosDeInteres;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     public PuntosDeInteresAdapter(Context context, List<PuntosDeInteres> puntosDeInteres) {
         super(context, 0, puntosDeInteres);
         this.context = context;
@@ -89,7 +91,7 @@ public class PuntosDeInteresAdapter extends ArrayAdapter<PuntosDeInteres> {
     }
 
     private void fetchAverageRating(Long puntoInteresId, TextView ratingText) {
-        String url = "http://192.168.0.75:8080/api/puntosinteres/" + puntoInteresId + "/media-calificaciones";
+        String url = direccion + "/puntosinteres/" + puntoInteresId + "/media-calificaciones";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 response -> {
