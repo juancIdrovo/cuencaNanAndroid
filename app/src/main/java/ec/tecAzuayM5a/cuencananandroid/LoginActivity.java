@@ -23,12 +23,16 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
+
 
 public class LoginActivity extends AppCompatActivity {
     Button btnAceptar, btnRegistarse;
     EditText txtEmail, txtPass;
     String mail, pass;
-    String url = "http://192.168.1.25:8080/api/usuarios/loginusuario";
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
+    String url = direccion + "/usuarios/loginusuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

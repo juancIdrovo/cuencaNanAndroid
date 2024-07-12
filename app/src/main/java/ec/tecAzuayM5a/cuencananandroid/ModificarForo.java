@@ -37,6 +37,7 @@ import java.util.Map;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 public class ModificarForo extends AppCompatActivity {
     private Long long_id;
@@ -47,8 +48,9 @@ public class ModificarForo extends AppCompatActivity {
     private Uri imageUri;
     private Long idForo;
     private Long fotoId;
-
-    private String urlUpload = "http://192.168.1.25:8080/api/foto";
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
+    private String urlUpload = direccion +"/foto";
 
     private static final int REQUEST_IMAGE_PICK = 1;
 
@@ -110,7 +112,7 @@ public class ModificarForo extends AppCompatActivity {
         }
     }
     private void cargarforo(Long idForo) {
-        String url = "http://192.168.1.25:8080/api/foros/" + idForo;
+        String url = direccion +"/foros/" + idForo;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -184,7 +186,7 @@ public class ModificarForo extends AppCompatActivity {
         }
     }
     private void fetchFoto(Long idFoto) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = direccion +"/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -219,7 +221,7 @@ public class ModificarForo extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String url = "http://192.168.1.25:8080/api/foros/" + idForo;
+        String url = direccion +"/foros/" + idForo;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
                 new Response.Listener<JSONObject>() {
                     @Override

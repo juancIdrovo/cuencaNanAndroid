@@ -49,7 +49,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             super(itemView);
             ivProfile = itemView.findViewById(R.id.ivProfile);
             ivPost = itemView.findViewById(R.id.ivPost);
-            ivLike = itemView.findViewById(R.id.ivLike);
             ivComment = itemView.findViewById(R.id.ivComment);
             titulo = itemView.findViewById(R.id.titulo);
             mensaje = itemView.findViewById(R.id.mensaje);

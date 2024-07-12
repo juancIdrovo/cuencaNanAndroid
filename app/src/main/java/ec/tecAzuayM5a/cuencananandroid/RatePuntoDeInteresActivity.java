@@ -31,6 +31,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuariopuntosinteres;
 
 public class RatePuntoDeInteresActivity extends AppCompatActivity {
@@ -46,7 +47,8 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     private Long puntoInteresId;
     private Long userId;
     private Long existingRatingId = null; // Para almacenar el ID de la valoración existente
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +106,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadPuntoInteresDetails(Long puntoInteresId) {
-        String url = "http://192.168.1.25:8080/api/puntosinteres/" + puntoInteresId;
+        String url = direccion +"/puntosinteres/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -130,7 +132,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = direccion +"/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -151,7 +153,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadExistingRatingAndComment(Long userId, Long puntoInteresId) {
-        String url = "http://192.168.1.25:8080/api/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
+        String url = direccion +"/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -196,11 +198,11 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
         if (existingRatingId != null) {
             // Si ya existe una valoración, la actualizamos
-            url = "http://192.168.1.25:8080/api/usuariopuntosinteres/" + existingRatingId;
+            url = direccion +"/usuariopuntosinteres/" + existingRatingId;
             method = Request.Method.PUT;
         } else {
             // Si no existe, creamos una nueva
-            url = "http://192.168.1.25:8080/api/usuariopuntosinteres";
+            url = direccion + "/usuariopuntosinteres";
             method = Request.Method.POST;
         }
 

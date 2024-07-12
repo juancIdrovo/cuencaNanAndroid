@@ -20,12 +20,14 @@ import java.util.List;
 
 import ec.tecAzuayM5a.cuencananandroid.adaptador.ComentariosAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Comentario;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 public class ComentariosActivity extends AppCompatActivity {
 
     private ListView commentsListView;
     private Long puntoInteresId;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +48,7 @@ public class ComentariosActivity extends AppCompatActivity {
     }
 
     private void loadComments(Long puntoInteresId) {
-        String url = "http://192.168.1.25:8080/api/usuariopuntosinteres?puntoInteresId=" + puntoInteresId;
+        String url = direccion +"/usuariopuntosinteres?puntoInteresId=" + puntoInteresId;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -57,7 +59,7 @@ public class ComentariosActivity extends AppCompatActivity {
                             Long userId = jsonObject.getLong("idusuario");
                             String comentarioText = jsonObject.getString("comentarios");
 
-                            String userUrl = "http://192.168.1.25:8080/api/usuarios/" + userId;
+                            String userUrl = direccion +"/usuarios/" + userId;
 
                             JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, userUrl, null,
                                     userResponse -> {

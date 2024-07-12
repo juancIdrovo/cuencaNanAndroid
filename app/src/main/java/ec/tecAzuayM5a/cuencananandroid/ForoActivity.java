@@ -34,6 +34,7 @@ import ec.tecAzuayM5a.cuencananandroid.adaptador.ForoAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foto;
 import ec.tecAzuayM5a.cuencananandroid.modelo.PuntosDeInteres;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 public class ForoActivity extends AppCompatActivity {
     private ListView listView;
@@ -43,6 +44,8 @@ public class ForoActivity extends AppCompatActivity {
     private ForoAdapter adapter;
 private Button btnpublicar, btnusuario;
     private String long_id;
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
 
 
     @Override
@@ -90,7 +93,7 @@ private Button btnpublicar, btnusuario;
     }
 
     private void fetchForo(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/foros";
+        String baseUrl = direccion +"/foros";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -142,7 +145,7 @@ private Button btnpublicar, btnusuario;
         adapter.notifyDataSetChanged();  // Notificar adaptador después de actualizar la lista
     }
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = direccion +"/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

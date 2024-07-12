@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 
@@ -40,8 +41,10 @@ public class PostForo extends AppCompatActivity {
     private ImageView imageView;
     private Uri imageUri;
     private Long fotoId; // Para almacenar el ID de la foto
-    private String urlRegistro = "http://192.168.1.25:8080/api/foros";
-    private String urlUpload = "http://192.168.1.25:8080/api/foto"; // URL para subir la foto
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
+    private String urlRegistro = direccion +"/foros";
+    private String urlUpload = direccion + "/foto";
 
     private static final int REQUEST_IMAGE_PICK = 1;
 

@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -84,7 +84,8 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     private List<TipoPuntoInteres> tipoPuntosInteresList;
     private ArrayAdapter<TipoPuntoInteres> tipoPuntoAdapter;
     private ListView pointsListView;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +203,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchPuntosDeInteres(String query, String category) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/puntosinteres";
+        String baseUrl = direccion +"/puntosinteres";
         StringBuilder urlBuilder = new StringBuilder(baseUrl);
 
         if (query != null && !query.isEmpty()) {
@@ -316,7 +317,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchCategorias(final List<PuntosDeInteres> puntos) {
-        String url = "http://192.168.1.25:8080/api/tipospuntosinteres";
+        String url = direccion +"/tipospuntosinteres";
 
         RequestQueue queue = Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
@@ -380,7 +381,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
     }
 
     private void fetchFoto(Long idFoto, PuntosDeInteres punto) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = direccion + "/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

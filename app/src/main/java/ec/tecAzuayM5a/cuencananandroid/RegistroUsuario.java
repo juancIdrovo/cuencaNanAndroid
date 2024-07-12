@@ -39,19 +39,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 public class RegistroUsuario extends AppCompatActivity {
 
-    private String urlRegistro = "http://192.168.1.25:8080/api/usuarios";
-    private String urlUpload = "http://192.168.1.25:8080/api/assets/upload";
+
     private RequestQueue requestQueue;
     private static final int REQUEST_IMAGE_PICK = 1;
     private ImageView imageView;
     private Uri imageUri;
     private String fotoPath;
     private TextInputEditText txtFechaNac;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
+    private String urlRegistro = direccion +"/usuarios";
+    private String urlUpload = direccion +"/upload";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

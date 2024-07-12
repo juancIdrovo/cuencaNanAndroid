@@ -30,13 +30,15 @@ import java.util.List;
 import ec.tecAzuayM5a.cuencananandroid.adaptador.ForoUsuarioAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foto;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 public class ForoUsuarioActivity extends AppCompatActivity {
     private ListView listView;
     private List<Foro> foros;
     private ForoUsuarioAdapter adapter;
     private String long_id;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class ForoUsuarioActivity extends AppCompatActivity {
     }
 
     private void fetchForo(String idUsuario) throws UnsupportedEncodingException {
-        String baseUrl = "http://192.168.1.25:8080/api/foros/usuario/" + URLEncoder.encode(idUsuario, "UTF-8");
+        String baseUrl = direccion +"/foros/usuario/" + URLEncoder.encode(idUsuario, "UTF-8");
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -112,7 +114,7 @@ public class ForoUsuarioActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto, Foro foro) {
-        String url = "http://192.168.1.25:8080/api/foto/" + idFoto;
+        String url = direccion +"/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {

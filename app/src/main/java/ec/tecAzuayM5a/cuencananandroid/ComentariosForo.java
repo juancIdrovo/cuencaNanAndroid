@@ -23,6 +23,7 @@ import java.util.List;
 
 import ec.tecAzuayM5a.cuencananandroid.adaptador.ComentariosAdapter;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Comentario;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 public class ComentariosForo extends AppCompatActivity {
 
@@ -32,6 +33,8 @@ public class ComentariosForo extends AppCompatActivity {
     private Button addCommentButton;
     private EditText Comentario;
     private String comentario;
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +60,7 @@ public class ComentariosForo extends AppCompatActivity {
     }
 
     private void loadComments(Long foroId) {
-        String url = "http://192.168.1.25:8080/api/comentarios/foro/" + foroId;
+        String url = direccion +"/comentarios/foro/" + foroId;
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
                 response -> {
@@ -68,7 +71,7 @@ public class ComentariosForo extends AppCompatActivity {
                             Long userId = jsonObject.getLong("idUsuario");
                             String comentarioText = jsonObject.getString("comentario");
 
-                            String userUrl = "http://192.168.1.25:8080/api/usuarios/" + userId;
+                            String userUrl = direccion +"/usuarios/" + userId;
 
                             JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, userUrl, null,
                                     userResponse -> {
@@ -104,7 +107,7 @@ public class ComentariosForo extends AppCompatActivity {
             return;
         }
 
-        String url = "http://192.168.1.25:8080/api/comentarios";
+        String url = direccion+ "/comentarios";
         JSONObject jsonRequest = new JSONObject();
         try {
             jsonRequest.put("comentario", comentario);
@@ -136,7 +139,7 @@ public class ComentariosForo extends AppCompatActivity {
         }
     }
     private void fetchUserDataAndAddComment(Long idUsuario, String comentario, String userName, String userPhoto) {
-        String url = "http://192.168.1.25:8080/api/usuarios/" + idUsuario;
+        String url = direccion +"/usuarios/" + idUsuario;
 
         JsonObjectRequest userRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 userResponse -> {

@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
 
@@ -61,7 +62,8 @@ public class modificarUsuario extends AppCompatActivity {
     private Uri imageUri;
     private String cedula;
     private ImageView imageView;
-
+    ip ipo = new ip();
+    String direccion1 = ipo.getIp();
 
 
     @Override
@@ -159,7 +161,7 @@ public class modificarUsuario extends AppCompatActivity {
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = "http://192.168.1.25:8080/api/usuarios/" + long_id;
+        String url = direccion1 +"/usuarios/" + long_id;
 
         JSONObject jsonBody = new JSONObject();
         try {

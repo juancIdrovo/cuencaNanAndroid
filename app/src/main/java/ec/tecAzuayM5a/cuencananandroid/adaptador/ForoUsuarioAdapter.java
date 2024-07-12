@@ -36,11 +36,12 @@ import ec.tecAzuayM5a.cuencananandroid.R;
 import ec.tecAzuayM5a.cuencananandroid.RatePuntoDeInteresActivity;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Foro;
 import ec.tecAzuayM5a.cuencananandroid.modificarUsuario;
-
+import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
     private Context context;
     private List<Foro> foros;
-
+    ip ipo = new ip();
+    String direccion = ipo.getIp();
     public ForoUsuarioAdapter(Context context, List<Foro> foros) {
         super(context, 0, foros);
         this.context = context;
@@ -92,7 +93,7 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         });
         btnEliminar.setOnClickListener(v -> {
             Intent intent = new Intent(context, ForoActivity.class);
-            String url = "http://192.168.1.25:8080/api/foros/" + foro.getIdForo();
+            String url = direccion + "/foros/" + foro.getIdForo();
             StringRequest deleteRequest = new StringRequest(Request.Method.DELETE, url,
                     response -> {
                         Toast.makeText(context, "Foro eliminado con éxito", Toast.LENGTH_SHORT).show();
@@ -125,7 +126,7 @@ public class ForoUsuarioAdapter extends ArrayAdapter<Foro> {
         protected String doInBackground(Long... params) {
             Long idUsuario = params[0];
             try {
-                URL url = new URL("http://192.168.1.25:8080/api/usuarios/" + idUsuario);
+                URL url = new URL(direccion +"/usuarios/" + idUsuario);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");
