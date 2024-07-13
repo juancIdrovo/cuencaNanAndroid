@@ -12,7 +12,6 @@
         android:layout_height="44dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="37dp"
         android:text="Tienes una idea? Publicalo "
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/btnpublicar"
@@ -65,7 +64,7 @@
     <ListView
         android:id="@+id/points_list"
         android:layout_width="409dp"
-        android:layout_height="450dp"
+        android:layout_height="462dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="13dp"
         android:divider="@android:color/darker_gray"
@@ -81,7 +80,7 @@
         android:layout_marginStart="37dp"
         android:layout_marginTop="11dp"
         android:layout_marginEnd="29dp"
-        android:text="Tus publicaciones"
+        android:text="Publicaciones"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
