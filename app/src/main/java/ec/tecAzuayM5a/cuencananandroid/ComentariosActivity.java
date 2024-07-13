@@ -1,7 +1,10 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,6 +37,10 @@ public class ComentariosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comentarios);
 
         commentsListView = findViewById(R.id.comments_list_view);
+        Button buttonMapa = findViewById(R.id.button_mapa);
+        Button buttonPuntos = findViewById(R.id.button_puntos);
+        Button buttonEventos = findViewById(R.id.button_eventos);
+
 
         puntoInteresId = getIntent().getLongExtra("PUNTO_INTERES_ID", -1);
 
@@ -43,6 +50,34 @@ public class ComentariosActivity extends AppCompatActivity {
             finish();
             return;
         }
+
+        buttonMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(ComentariosActivity.this, MapActivity.class));
+
+            }
+        });
+
+
+        buttonPuntos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(ComentariosActivity.this, PuntosDeInteresActivity.class));
+
+            }
+        });
+
+        buttonEventos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivity(new Intent(ComentariosActivity.this, EventosActivity.class));
+
+            }
+        });
 
         loadComments(puntoInteresId);
     }

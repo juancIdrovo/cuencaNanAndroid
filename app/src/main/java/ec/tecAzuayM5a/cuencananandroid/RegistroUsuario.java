@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -54,16 +56,25 @@ public class RegistroUsuario extends AppCompatActivity {
     private TextInputEditText txtFechaNac;
     ip ipo = new ip();
     String direccion = ipo.getIp();
-    private String urlRegistro = direccion +"/usuarios";
+    private String urlRegistro = direccion + "/usuarios";
     private String urlUpload = direccion + "/assets/upload";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registro_usuario);
         requestQueue = Volley.newRequestQueue(this);
+
         Button btnSeleccionarFoto = findViewById(R.id.btnSeleccionarFoto);
         imageView = findViewById(R.id.imageViewfoto);
         txtFechaNac = findViewById(R.id.txtFechaNac);
+
+        setNextFocus(findViewById(R.id.txtcedula), findViewById(R.id.txtnombres));
+        setNextFocus(findViewById(R.id.txtnombres), findViewById(R.id.txtapellidos));
+        setNextFocus(findViewById(R.id.txtapellidos), findViewById(R.id.txtcorreo));
+        setNextFocus(findViewById(R.id.txtcorreo), findViewById(R.id.txtdireccion));
+        setNextFocus(findViewById(R.id.txtdireccion), findViewById(R.id.txtContrasena));
+        setNextFocus(findViewById(R.id.txtContrasena), findViewById(R.id.txttelf));
 
         btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,18 +85,25 @@ public class RegistroUsuario extends AppCompatActivity {
         });
     }
 
+    private void setNextFocus(TextInputEditText currentEditText, final TextInputEditText nextEditText) {
+        currentEditText.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_NEXT || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                nextEditText.requestFocus();
+                return true;
+            }
+            return false;
+        });
+    }
+
     public void showDatePickerDialog(View view) {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
-                txtFechaNac.setText(selectedDate);
-            }
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view1, year1, monthOfYear, dayOfMonth) -> {
+            String selectedDate = String.format(Locale.US, "%04d-%02d-%02d", year1, monthOfYear + 1, dayOfMonth);
+            txtFechaNac.setText(selectedDate);
         }, year, month, day);
 
         datePickerDialog.show();
@@ -114,33 +132,27 @@ public class RegistroUsuario extends AppCompatActivity {
             inputStream.read(imageBytes);
 
             VolleyMultipartRequest request = new VolleyMultipartRequest(Request.Method.POST, urlUpload,
-                    new Response.Listener<NetworkResponse>() {
-                        @Override
-                        public void onResponse(NetworkResponse response) {
-                            try {
-                                String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-                                JSONObject jsonResponse = new JSONObject(jsonString);
-                                fotoPath = jsonResponse.getString("key"); // Guardar la clave en fotoPath
-                                Log.d("Registro", "Clave de la imagen: " + fotoPath);
-                                Toast.makeText(RegistroUsuario.this, "Imagen subida exitosamente.", Toast.LENGTH_SHORT).show();
-                            } catch (JSONException | UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                                Toast.makeText(RegistroUsuario.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
-                            }
+                    response -> {
+                        try {
+                            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+                            JSONObject jsonResponse = new JSONObject(jsonString);
+                            fotoPath = jsonResponse.getString("key"); // Guardar la clave en fotoPath
+                            Log.d("Registro", "Clave de la imagen: " + fotoPath);
+                            Toast.makeText(RegistroUsuario.this, "Imagen subida exitosamente.", Toast.LENGTH_SHORT).show();
+                        } catch (JSONException | UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            Toast.makeText(RegistroUsuario.this, "Error al procesar la respuesta del servidor.", Toast.LENGTH_SHORT).show();
                         }
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            String errorMessage;
-                            if (error.networkResponse != null && error.networkResponse.data != null) {
-                                errorMessage = new String(error.networkResponse.data);
-                            } else {
-                                errorMessage = "Error desconocido en la solicitud.";
-                            }
-                            Log.e("Registro", "Error en la solicitud: " + errorMessage, error);
-                            Toast.makeText(RegistroUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
+                    error -> {
+                        String errorMessage;
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            errorMessage = new String(error.networkResponse.data);
+                        } else {
+                            errorMessage = "Error desconocido en la solicitud.";
                         }
+                        Log.e("Registro", "Error en la solicitud: " + errorMessage, error);
+                        Toast.makeText(RegistroUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
                     }) {
                 @Override
                 protected Map<String, DataPart> getByteData() {
@@ -221,28 +233,23 @@ public class RegistroUsuario extends AppCompatActivity {
         }
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, urlRegistro, jsonBody,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Registro", "Respuesta del servidor: " + response.toString());
-                        startActivity(new Intent(RegistroUsuario.this, LoginActivity.class));
-                        finish();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String errorMessage;
-                if (error.networkResponse != null && error.networkResponse.data != null) {
-                    errorMessage = new String(error.networkResponse.data);
-                } else {
-                    errorMessage = "Error desconocido en la solicitud.";
-                }
-
-                Log.e("Registro", "Error en la solicitud: " + errorMessage, error);
-                Toast.makeText(RegistroUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
+                response -> {
+                    Log.d("Registro", "Respuesta del servidor: " + response.toString());
+                    startActivity(new Intent(RegistroUsuario.this, LoginActivity.class));
+                    finish();
+                }, error -> {
+            String errorMessage;
+            if (error.networkResponse != null && error.networkResponse.data != null) {
+                errorMessage = new String(error.networkResponse.data);
+            } else {
+                errorMessage = "Error desconocido en la solicitud.";
             }
+
+            Log.e("Registro", "Error en la solicitud: " + errorMessage, error);
+            Toast.makeText(RegistroUsuario.this, "Error en la solicitud: " + errorMessage, Toast.LENGTH_LONG).show();
         });
 
         requestQueue.add(request);
     }
 }
+

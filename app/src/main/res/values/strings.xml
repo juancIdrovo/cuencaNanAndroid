@@ -30,10 +30,18 @@
     <string name="title_activity_ejemplo">EjemploA</string>
 
     <string name="app_name_eventos">EventosApp</string>
-    <string-array name="search_options_eventos">
+    <string-array name="search_options_puntosinteres">
         <item>Nombre</item>
         <item>Categoría</item>
     </string-array>
+
+    <string-array name="search_options_eventos">
+        <item>Nombre</item>
+        <item>Categoría</item>
+        <item>Próximos</item>
+        <item>Pasados</item>
+    </string-array>
+
     <string name="title_activity_publicacion_foro">PublicacionForoActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

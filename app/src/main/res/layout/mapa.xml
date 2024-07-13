@@ -28,15 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/button_foro"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTop="@drawable/foro32"
-            android:text="Foro"
-            android:textColor="@android:color/white" />
+
 
         <Button
             android:id="@+id/button_puntos"

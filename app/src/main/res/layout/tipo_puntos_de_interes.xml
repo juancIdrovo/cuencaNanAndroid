@@ -74,8 +74,8 @@
     <fragment
         android:id="@+id/map_fragment_pi"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="377dp"
-        android:layout_height="186dp"
+        android:layout_width="395dp"
+        android:layout_height="187dp"
         android:layout_above="@id/footer_layout"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="1dp" />
@@ -83,10 +83,10 @@
     <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="49dp"
+        android:layout_width="376dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="1dp"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal">
@@ -112,7 +112,6 @@
             android:textColor="@android:color/white" />
 
 
-
         <Button
             android:id="@+id/button_eventos"
             android:layout_width="0dp"
@@ -123,15 +122,7 @@
             android:text=""
             android:textColor="@android:color/white" />
 
-        <Button
-            android:id="@+id/button_foro"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTop="@drawable/foro32"
-            android:text=""
-            android:textColor="@android:color/white" />
+
     </LinearLayout>
 </RelativeLayout>
 

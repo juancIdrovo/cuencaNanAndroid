@@ -106,7 +106,7 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
         Button buttonPuntos = findViewById(R.id.button_puntos);
 
         Button buttonEventos = findViewById(R.id.button_eventos);
-        Button buttonForo = findViewById(R.id.button_foro);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -137,15 +137,6 @@ public class PuntosDeInteresActivity extends AppCompatActivity implements OnMapR
 
 
         ///btns nav///
-
-        buttonForo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                startActivity(new Intent(PuntosDeInteresActivity.this, ForoActivity.class));
-
-            }
-        });
 
         buttonMapa.setOnClickListener(new View.OnClickListener() {
             @Override

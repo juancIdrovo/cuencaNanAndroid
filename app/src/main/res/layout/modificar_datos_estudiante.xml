@@ -16,19 +16,19 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/fotoPerfil"
-            android:layout_width="136dp"
-            android:layout_height="145dp"
+            android:layout_width="129dp"
+            android:layout_height="129dp"
 
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginStart="238dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="37dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="50dp"
             android:src="@drawable/usuario"
             app:civ_border_color="#000000"
             app:civ_border_width="3dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -135,7 +135,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtcorreo"
-                android:layout_width="360dp"
+                android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Correo"
@@ -153,7 +153,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtdireccion"
-                android:layout_width="360dp"
+                android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Dirección"
@@ -171,7 +171,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txttelf"
-                android:layout_width="360dp"
+                android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Teléfono"
@@ -206,7 +206,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtcontrasena"
-                android:layout_width="360dp"
+                android:layout_width="325dp"
                 android:layout_height="58dp"
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/rounded_text_field"
@@ -219,7 +219,7 @@
         <Button
             android:id="@+id/btnCancelar"
             android:layout_width="159dp"
-            android:layout_height="53dp"
+            android:layout_height="58dp"
             android:layout_marginTop="96dp"
             android:text="Cancelar"
             android:textSize="17sp"
@@ -244,19 +244,20 @@
             android:id="@+id/btnfotito"
             android:layout_width="128dp"
             android:layout_height="42dp"
-            android:layout_marginStart="227dp"
-            android:layout_marginTop="256dp"
+            android:layout_marginStart="220dp"
+            android:layout_marginTop="236dp"
             android:layout_marginEnd="23dp"
             android:text=" Foto"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.866"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/txtFechaNac"
-            android:layout_width="360dp"
-            android:layout_height="65dp"
+            android:layout_width="325dp"
+            android:layout_height="58dp"
+            android:layout_marginLeft="15dp"
             android:background="@drawable/rounded_text_field"
             android:focusable="false"
             android:hint="  Fecha de Nacimiento"
@@ -264,9 +265,8 @@
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:layout_marginLeft="15dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.034"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayoutFechaNac" />
 

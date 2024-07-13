@@ -33,8 +33,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +61,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     private GoogleMap mMap;
     ip ipo = new ip();
     String direccion = ipo.getIp();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +74,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
 
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
-
         Button buttonEventos = findViewById(R.id.button_eventos);
-        Button buttonForo = findViewById(R.id.button_foro);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -89,46 +92,28 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
             }
         });
 
-        ///btns nav///
-
-         buttonForo.setOnClickListener(new View.OnClickListener() {
-          @Override
-           public void onClick(View view) {
-
-            startActivity(new Intent(EventosActivity.this, ForoActivity.class));
-
-          }
-        });
+        // btns nav
 
         buttonMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(EventosActivity.this, MapActivity.class));
-
             }
         });
-
-
 
         buttonPuntos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(EventosActivity.this, PuntosDeInteresActivity.class));
-
             }
         });
 
         buttonEventos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(EventosActivity.this, EventosActivity.class));
-
             }
         });
-
     }
 
     @Override
@@ -139,10 +124,10 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchEventos() {
-        String urlEventos = direccion +"/eventos";
-        String urlTipoEventos = direccion +"/tipo_eventos";
-        String urlEventosPuntoInteres = direccion +"/eventospuntointeres";
-        String urlPuntosInteres = direccion +"/puntosinteres";
+        String urlEventos = direccion + "/eventos";
+        String urlTipoEventos = direccion + "/tipo_eventos";
+        String urlEventosPuntoInteres = direccion + "/eventospuntointeres";
+        String urlPuntosInteres = direccion + "/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestEventos = new JsonArrayRequest(
                 Request.Method.GET,
@@ -279,7 +264,7 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
     }
 
     private void fetchFoto(Long idFoto, Eventos evento) {
-        String url = direccion +"/foto/" + idFoto;
+        String url = direccion + "/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -304,22 +289,40 @@ public class EventosActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
+
     private void buscarEventos() {
         String searchType = searchTypeSpinner.getSelectedItem().toString();
         String searchText = searchInput.getText().toString().trim().toLowerCase();
 
         List<Eventos> filteredEventosList = new ArrayList<>();
+        LocalDateTime now = LocalDateTime.now();
+
         for (Eventos evento : eventosList) {
+            LocalDate eventStartDate = convertToLocalDate(evento.getFecha_Inicio());
+            LocalDate eventEndDate = convertToLocalDate(evento.getFecha_Fin());
+            LocalDateTime eventStart = LocalDateTime.of(eventStartDate, evento.getHora_Inicio());
+            LocalDateTime eventEnd = LocalDateTime.of(eventEndDate, evento.getHora_Fin());
+
             if (searchType.equals("Nombre") && evento.getNombre().toLowerCase().contains(searchText)) {
                 filteredEventosList.add(evento);
             } else if (searchType.equals("Categoría") && evento.getTipoEvento() != null &&
                     evento.getTipoEvento().getNombre_tipoEvento().toLowerCase().contains(searchText)) {
+                filteredEventosList.add(evento);
+            } else if (searchType.equals("Próximos") && eventStart.isAfter(now)) {
+                filteredEventosList.add(evento);
+            } else if (searchType.equals("Pasados") && eventEnd.isBefore(now)) {
                 filteredEventosList.add(evento);
             }
         }
 
         eventosAdapter = new EventosAdapter(this, filteredEventosList);
         eventosListView.setAdapter(eventosAdapter);
+    }
+
+    private LocalDate convertToLocalDate(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 }
 

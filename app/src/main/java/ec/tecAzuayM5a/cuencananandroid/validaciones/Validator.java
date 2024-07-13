@@ -22,7 +22,7 @@ public class Validator {
 
     // Método para validar el formato del número de celular
     public static boolean isValidPhoneNumber(String phoneNumber) {
-        String phonePattern = "^\\d{9}$";
+        String phonePattern = "^\\d{10}$";
         return phoneNumber.matches(phonePattern);
     }
 

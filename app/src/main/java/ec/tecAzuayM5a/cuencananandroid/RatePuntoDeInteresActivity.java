@@ -65,7 +65,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         Button buttonPuntos = findViewById(R.id.button_puntos);
 
         Button buttonEventos = findViewById(R.id.button_eventos);
-        Button buttonForo = findViewById(R.id.button_foro);
+
 
         puntoInteresId = getIntent().getLongExtra("PUNTO_INTERES_ID", -1);
 
@@ -98,7 +98,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         });
 
         ///btns nav///
-        buttonForo.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, ForoActivity.class)));
+
         buttonMapa.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, MapActivity.class)));
 
         buttonPuntos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class)));

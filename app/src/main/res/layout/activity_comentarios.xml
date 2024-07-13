@@ -16,8 +16,8 @@
     <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="63dp"
+        android:layout_width="382dp"
+        android:layout_height="55dp"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal"
@@ -26,49 +26,39 @@
         <Button
             android:id="@+id/button_mapa"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/mapa32"
             android:text=""
-            android:tooltipText="Mapa"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:tooltipText="Mapa" />
+
 
         <Button
             android:id="@+id/button_puntos"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/mundo32"
             android:text="Puntos"
-            android:tooltipText="Puntos de Interes"
+            android:textColor="@android:color/white"
 
-            android:textColor="@android:color/white" />
-
-
+            android:tooltipText="Puntos de Interes" />
 
         <Button
             android:id="@+id/button_eventos"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/evento32"
             android:text=""
-            android:tooltipText="Eventos"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:tooltipText="Eventos" />
 
-        <Button
-            android:id="@+id/button_foro"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTop="@drawable/foro32"
-            android:text=""
-            android:tooltipText="Foro"
-            android:textColor="@android:color/white" />
+
     </LinearLayout>
 
 </LinearLayout>
