@@ -118,6 +118,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Apellidos"
+                android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -158,6 +159,7 @@
                 android:background="@drawable/rounded_text_field"
                 android:hint="Dirección"
                 android:layout_marginLeft="15dp"
+                android:textColor="@color/black"
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -175,6 +177,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_text_field"
                 android:hint="Teléfono"
+                android:textColor="@color/black"
                 android:layout_marginLeft="15dp"
                 android:textSize="17sp"
                 android:textStyle="bold" />

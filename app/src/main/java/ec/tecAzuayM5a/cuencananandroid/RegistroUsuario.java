@@ -66,6 +66,7 @@ public class RegistroUsuario extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         Button btnSeleccionarFoto = findViewById(R.id.btnSeleccionarFoto);
+        Button buttonCancelar = findViewById(R.id.btnCancelar);
         imageView = findViewById(R.id.imageViewfoto);
         txtFechaNac = findViewById(R.id.txtFechaNac);
 
@@ -84,6 +85,8 @@ public class RegistroUsuario extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void setNextFocus(TextInputEditText currentEditText, final TextInputEditText nextEditText) {
         currentEditText.setOnEditorActionListener((v, actionId, event) -> {

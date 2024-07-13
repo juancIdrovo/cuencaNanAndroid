@@ -52,14 +52,14 @@
 
         <Button
             android:id="@+id/submit_button"
-            android:layout_width="150dp"
+            android:layout_width="135dp"
             android:layout_height="wrap_content"
             android:text="Enviar" />
 
         <Button
             android:id="@+id/comentarios_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:text="Comentarios" />
     </LinearLayout>
@@ -72,8 +72,8 @@
     <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="54dp"
+        android:layout_width="341dp"
+        android:layout_height="41dp"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal">
@@ -86,8 +86,8 @@
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/mapa32"
             android:text=""
-            android:tooltipText="Mapa"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:tooltipText="Mapa" />
 
         <Button
             android:id="@+id/button_puntos"
@@ -97,20 +97,9 @@
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/mundo32"
             android:text="Puntos"
-            android:tooltipText="Puntos de Interes"
+            android:textColor="@android:color/white"
 
-            android:textColor="@android:color/white" />
-
-        <Button
-            android:id="@+id/button_casa"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTop="@drawable/logosinfondo32"
-            android:text=""
-            android:tooltipText="Casa"
-            android:textColor="@android:color/white" />
+            android:tooltipText="Puntos de Interes" />
 
         <Button
             android:id="@+id/button_eventos"
@@ -120,19 +109,9 @@
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/evento32"
             android:text=""
-            android:tooltipText="Eventos"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:tooltipText="Eventos" />
 
-        <Button
-            android:id="@+id/button_foro"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="?attr/selectableItemBackground"
-            android:drawableTop="@drawable/foro32"
-            android:text=""
-            android:tooltipText="Foro"
-            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </LinearLayout>

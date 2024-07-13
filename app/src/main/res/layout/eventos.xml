@@ -68,19 +68,19 @@
     <fragment
         android:id="@+id/map_fragment_pi"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="378dp"
-        android:layout_height="192dp"
+        android:layout_width="380dp"
+        android:layout_height="199dp"
         android:layout_above="@id/footer_layout"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="1dp" />
+        android:layout_marginBottom="-3dp" />
 
     <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="374dp"
-        android:layout_height="55dp"
+        android:layout_width="377dp"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="2dp"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal">
