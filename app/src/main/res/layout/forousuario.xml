@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ForoActivity">
 
     <TextView
         android:id="@+id/tvForo2"
-        android:layout_width="309dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fotoPerfil"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"
+        android:layout_marginStart="51dp"
+        android:layout_marginEnd="51dp"
         android:text="Tus publicaciones"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30dp"
-        android:textStyle="bold|italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold|italic"/>
 
     <ListView
         android:id="@+id/points_list"
-        android:layout_width="379dp"
-        android:layout_height="600dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.717" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:dividerHeight="1dp"/>
+</LinearLayout>
