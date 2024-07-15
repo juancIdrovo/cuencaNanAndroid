@@ -85,6 +85,10 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> {
             try {
                 enviarCalificacionYComentario();
+                Intent intent = new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class);
+                finish();
+                startActivity(intent);
+
             } catch (JSONException e) {
                 Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + e.toString());
                 Toast.makeText(this, "Error al enviar la valoración y comentario", Toast.LENGTH_SHORT).show();
