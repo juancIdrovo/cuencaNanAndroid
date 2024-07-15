@@ -10,6 +10,7 @@
     <color name="turquesa">#15BBE3</color>
     <color name="rojo">#F22B1C</color>
     <color name="amarillo">#F9F205</color>
+    <color name="gris">#B0AFA9</color>
 
 
     <!-- En res/values/colors.xml -->
