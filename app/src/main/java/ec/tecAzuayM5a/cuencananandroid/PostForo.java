@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,8 @@ import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
 public class PostForo extends AppCompatActivity {
     private String long_id;
     private TextView tvtitulo, tvdescripcion;
-    private Button btpost, btnSeleccionarFoto;
+    private Button btpost;
+    private ImageButton btnSeleccionarFoto;
     private ImageView imageView;
     private Uri imageUri;
     private Long fotoId; // Para almacenar el ID de la foto

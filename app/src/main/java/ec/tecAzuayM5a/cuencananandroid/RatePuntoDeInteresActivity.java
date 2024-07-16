@@ -197,7 +197,13 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
     private void enviarCalificacionYComentario() throws JSONException {
         int calificacion = (int) ratingBar.getRating();
-        String comentarios = comentarioEditText.getText().toString();
+        String comentarios = comentarioEditText.getText().toString().trim();
+
+        // Verificar si el comentario está vacío
+        if (comentarios.isEmpty()) {
+            Toast.makeText(this, "No se puede publicar un comentario vacío", Toast.LENGTH_SHORT).show();
+            return; // Detener el envío si el comentario está vacío
+        }
 
         JSONObject jsonBody = new JSONObject();
         jsonBody.put("idusuario", userId);

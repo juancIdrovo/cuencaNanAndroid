@@ -134,8 +134,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progressDialog.dismiss();
-                    Log.e("LoginActivity", "Error en la solicitud: " + error.getMessage());
-                    Toast.makeText(LoginActivity.this, "Error en la solicitud: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.e("LoginActivity", "Usuario o Contraseña incorrectos: " + error.getMessage());
+                    Toast.makeText(LoginActivity.this, "Usuario o Contraseña incorrectos: " , Toast.LENGTH_LONG).show();
                 }
             });
 

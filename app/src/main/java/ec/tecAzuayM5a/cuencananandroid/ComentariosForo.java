@@ -108,7 +108,9 @@ public class ComentariosForo extends AppCompatActivity {
         Volley.newRequestQueue(this).add(jsonArrayRequest);
     }
     private void addComment() {
+
         comentario = Comentario.getText().toString();
+
         if (comentario.isEmpty()) {
             Toast.makeText(this, "El comentario no puede estar vacío", Toast.LENGTH_SHORT).show();
             return;
