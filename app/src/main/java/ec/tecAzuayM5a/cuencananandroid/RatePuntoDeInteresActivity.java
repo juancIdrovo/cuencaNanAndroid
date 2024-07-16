@@ -1,5 +1,6 @@
 package ec.tecAzuayM5a.cuencananandroid;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -63,7 +65,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         comentariosButton = findViewById(R.id.comentarios_button);
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
-
+        ImageButton deleteButton = findViewById(R.id.delete_button);
         Button buttonEventos = findViewById(R.id.button_eventos);
 
 
@@ -107,6 +109,12 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
         buttonPuntos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class)));
         buttonEventos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, EventosActivity.class)));
+
+        deleteButton.setOnClickListener(v -> {
+
+            eliminarCalificacionYComentario();
+
+        });
     }
 
     private void loadPuntoInteresDetails(Long puntoInteresId) {
@@ -217,6 +225,43 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
         Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
+
+    private void eliminarCalificacionYComentario() {
+        if (existingRatingId == null) {
+            Toast.makeText(this, "No hay valoración para eliminar.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Crear el diálogo de confirmación
+        new AlertDialog.Builder(this)
+                .setTitle("Confirmar eliminación")
+                .setMessage("¿Estás seguro de que deseas eliminar esta valoración y comentario?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    // Proceder con la eliminación si el usuario confirma
+                    String url = direccion + "/usuariopuntosinteres/" + existingRatingId;
+
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
+                            response -> {
+                                Toast.makeText(this, "Valoración y comentario eliminados", Toast.LENGTH_SHORT).show();
+                                ratingBar.setRating(0);
+                                comentarioEditText.setText("");
+                                existingRatingId = null;
+
+
+                                finish();
+                            },
+                            error -> Log.e("RatePuntoDeInteres", "Error al eliminar la valoración: " + error.toString())
+                    );
+
+                    Volley.newRequestQueue(this).add(jsonObjectRequest);
+                })
+                .setNegativeButton("No", null) // No hacer nada si el usuario cancela
+                .show();
+    }
+
+
+
+
 }
 
 

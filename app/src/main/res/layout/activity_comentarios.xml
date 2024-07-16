@@ -7,17 +7,21 @@
 
     <ListView
         android:id="@+id/comments_list_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="574dp"
         android:layout_weight="1"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
+    <!-- Botón Ver mis comentarios -->
+
     <!-- Footer con botones -->
+
+
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="382dp"
-        android:layout_height="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal"
@@ -34,7 +38,6 @@
             android:textColor="@android:color/white"
             android:tooltipText="Mapa" />
 
-
         <Button
             android:id="@+id/button_puntos"
             android:layout_width="0dp"
@@ -44,7 +47,6 @@
             android:drawableTop="@drawable/mundo32"
             android:text="Puntos"
             android:textColor="@android:color/white"
-
             android:tooltipText="Puntos de Interes" />
 
         <Button
@@ -58,7 +60,8 @@
             android:textColor="@android:color/white"
             android:tooltipText="Eventos" />
 
-
     </LinearLayout>
 
 </LinearLayout>
+
+

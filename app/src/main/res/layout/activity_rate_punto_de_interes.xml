@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:id="@+id/nombre_text"
@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="Nombre del Punto de Interés"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/descripcion_text"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Descripción del Punto de Interés"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <RatingBar
         android:id="@+id/rating_bar"
@@ -34,33 +34,53 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:numStars="5"
-        android:stepSize="1.0"/>
+        android:stepSize="1.0" />
 
-    <EditText
-        android:id="@+id/comentario_edit_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Agregar un comentario" />
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/comentario_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Agregar un comentario" />
+
+        <ImageButton
+            android:id="@+id/delete_button"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:tooltipText="Borrar comentario"
+            android:background="@drawable/borrar32"
+            android:text="" />
+    </LinearLayout>
 
     <!-- Spacer to push footer to the bottom -->
     <LinearLayout
-        android:layout_width="323dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+
+        android:layout_marginTop="30dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/submit_button"
-            android:layout_width="135dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:tooltipText="Enviar comentario y valoración"
             android:text="Enviar" />
 
         <Button
             android:id="@+id/comentarios_button"
-            android:layout_width="160dp"
+            android:layout_width="16dp"
             android:layout_height="match_parent"
+            android:tooltipText="Ver todos los Comentarios"
             android:layout_marginStart="16dp"
+            android:layout_weight="1"
             android:text="Comentarios" />
     </LinearLayout>
 
@@ -72,8 +92,8 @@
     <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="341dp"
-        android:layout_height="41dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal">
@@ -98,7 +118,6 @@
             android:drawableTop="@drawable/mundo32"
             android:text="Puntos"
             android:textColor="@android:color/white"
-
             android:tooltipText="Puntos de Interes" />
 
         <Button
@@ -115,6 +134,7 @@
     </LinearLayout>
 
 </LinearLayout>
+
 
 
 
