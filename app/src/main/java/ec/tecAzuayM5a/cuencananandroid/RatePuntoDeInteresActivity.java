@@ -51,6 +51,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     private Long existingRatingId = null; // Para almacenar el ID de la valoración existente
     ip ipo = new ip();
     String direccion = ipo.getIp();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +68,6 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         Button buttonPuntos = findViewById(R.id.button_puntos);
         ImageButton deleteButton = findViewById(R.id.delete_button);
         Button buttonEventos = findViewById(R.id.button_eventos);
-
 
         puntoInteresId = getIntent().getLongExtra("PUNTO_INTERES_ID", -1);
 
@@ -87,10 +87,6 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> {
             try {
                 enviarCalificacionYComentario();
-                Intent intent = new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class);
-                finish();
-                startActivity(intent);
-
             } catch (JSONException e) {
                 Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + e.toString());
                 Toast.makeText(this, "Error al enviar la valoración y comentario", Toast.LENGTH_SHORT).show();
@@ -104,21 +100,17 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         });
 
         ///btns nav///
-
         buttonMapa.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, MapActivity.class)));
-
         buttonPuntos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class)));
         buttonEventos.setOnClickListener(view -> startActivity(new Intent(RatePuntoDeInteresActivity.this, EventosActivity.class)));
 
         deleteButton.setOnClickListener(v -> {
-
             eliminarCalificacionYComentario();
-
         });
     }
 
     private void loadPuntoInteresDetails(Long puntoInteresId) {
-        String url = direccion +"/puntosinteres/" + puntoInteresId;
+        String url = direccion + "/puntosinteres/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -144,7 +136,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void fetchFoto(Long idFoto) {
-        String url = direccion +"/foto/" + idFoto;
+        String url = direccion + "/foto/" + idFoto;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -165,7 +157,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
     }
 
     private void loadExistingRatingAndComment(Long userId, Long puntoInteresId) {
-        String url = direccion +"/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
+        String url = direccion + "/usuariopuntosinteres/" + userId + "/" + puntoInteresId;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 response -> {
@@ -199,10 +191,10 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         int calificacion = (int) ratingBar.getRating();
         String comentarios = comentarioEditText.getText().toString().trim();
 
-        // Verificar si el comentario está vacío
-        if (comentarios.isEmpty()) {
-            Toast.makeText(this, "No se puede publicar un comentario vacío", Toast.LENGTH_SHORT).show();
-            return; // Detener el envío si el comentario está vacío
+        // Verificar si el comentario o la calificación están vacíos
+        if (comentarios.isEmpty() || calificacion == 0) {
+            Toast.makeText(this, "No se puede publicar una calificación o comentario vacío", Toast.LENGTH_SHORT).show();
+            return; // Detener el envío si el comentario o la calificación están vacíos
         }
 
         JSONObject jsonBody = new JSONObject();
@@ -216,7 +208,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
 
         if (existingRatingId != null) {
             // Si ya existe una valoración, la actualizamos
-            url = direccion +"/usuariopuntosinteres/" + existingRatingId;
+            url = direccion + "/usuariopuntosinteres/" + existingRatingId;
             method = Request.Method.PUT;
         } else {
             // Si no existe, creamos una nueva
@@ -225,7 +217,12 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         }
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(method, url, jsonBody,
-                response -> Toast.makeText(this, "Valoración enviada", Toast.LENGTH_SHORT).show(),
+                response -> {
+                    Toast.makeText(this, "Valoración enviada", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class);
+                    startActivity(intent);
+                    finish();
+                },
                 error -> Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + error.toString())
         );
 
@@ -253,7 +250,9 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
                                 comentarioEditText.setText("");
                                 existingRatingId = null;
 
-
+                                // Redirigir a la actividad PuntosDeInteresActivity
+                                Intent intent = new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class);
+                                startActivity(intent);
                                 finish();
                             },
                             error -> Log.e("RatePuntoDeInteres", "Error al eliminar la valoración: " + error.toString())
@@ -264,11 +263,8 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
                 .setNegativeButton("No", null) // No hacer nada si el usuario cancela
                 .show();
     }
-
-
-
-
 }
+
 
 
 

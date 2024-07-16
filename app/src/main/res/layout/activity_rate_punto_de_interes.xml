@@ -49,14 +49,27 @@
             android:layout_weight="1"
             android:hint="Agregar un comentario" />
 
-        <ImageButton
-            android:id="@+id/delete_button"
-            android:layout_width="56dp"
-            android:layout_height="match_parent"
-            android:tooltipText="Borrar comentario"
-            android:background="@drawable/borrar32"
-            android:text="" />
+        <LinearLayout
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/delete_button"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/borrar32"
+                android:text=""
+                android:tooltipText="Borrar comentario" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
+
+
 
     <!-- Spacer to push footer to the bottom -->
     <LinearLayout
@@ -92,8 +105,8 @@
     <!-- Footer con botones -->
     <LinearLayout
         android:id="@+id/footer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="383dp"
+        android:layout_height="51dp"
         android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal">
