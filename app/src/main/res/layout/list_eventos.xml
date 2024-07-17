@@ -175,6 +175,7 @@
             android:id="@+id/center_map_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:tooltipText="Ver la ubicación del evento en el mapa"
             android:text="Ver en mapa"/>
     </LinearLayout>
 </LinearLayout>

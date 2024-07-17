@@ -68,6 +68,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
+            android:tooltipText="Modifica tu post"
             android:text="Modificar"/>
 
         <View
@@ -82,6 +83,7 @@
             android:layout_height="47dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
+            android:tooltipText="Elimina tu post"
             android:text="Eliminar"/>
     </LinearLayout>
 

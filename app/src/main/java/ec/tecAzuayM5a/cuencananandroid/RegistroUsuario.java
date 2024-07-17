@@ -195,17 +195,17 @@ public class RegistroUsuario extends AppCompatActivity {
 
         // Validaciones
         if (!Validator.isValidCedula(cedula)) {
-            Toast.makeText(this, "Cédula no válida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Cédula no válida. Debe contener 10 dígitos.", Toast.LENGTH_SHORT).show();
         } else if (!Validator.isValidName(nombres)) {
-            Toast.makeText(this, "Nombres no válidos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nombre no válido. Solo letras y espacios.", Toast.LENGTH_SHORT).show();
         } else if (!Validator.isValidName(apellidos)) {
-            Toast.makeText(this, "Apellidos no válidos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Apellido no válido. Solo letras y espacios.", Toast.LENGTH_SHORT).show();
         } else if (!Validator.isValidEmail(mail)) {
-            Toast.makeText(this, "Correo no válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Correo no válido. Formato: ejemplo@dominio.com", Toast.LENGTH_SHORT).show();
         } else if (!Validator.isValidPhoneNumber(telefono)) {
-            Toast.makeText(this, "Teléfono no válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Número de celular no válido. Debe contener 10 dígitos.", Toast.LENGTH_SHORT).show();
         } else if (!Validator.isValidPassword(contrasena)) {
-            Toast.makeText(this, "Contraseña no válida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Contraseña no válida, debe contener al menos 8 caracteresm, una mayúscula, una minúscula y un número y un símbolo @#$%^&+=!", Toast.LENGTH_SHORT).show();
         } else if (fotoPath == null) {
             Toast.makeText(this, "Debe seleccionar una imagen primero y esperar a que se suba.", Toast.LENGTH_SHORT).show();
         } else {

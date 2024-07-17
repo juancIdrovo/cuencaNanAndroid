@@ -62,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/borrar32"
                 android:text=""
-                android:tooltipText="Borrar comentario" />
+                android:tooltipText="Borrar comentario y valoración" />
 
         </LinearLayout>
 

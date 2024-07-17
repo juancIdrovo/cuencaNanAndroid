@@ -10,6 +10,7 @@
         android:id="@+id/modify_profile_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:tooltipText="Modifica tu perfil"
         android:text="Modificar perfil" />
 
     <!-- Botón "Cerrar sesión" -->
@@ -17,6 +18,7 @@
         android:id="@+id/sign_out_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:tooltipText="Cierra tu sesión"
         android:text="Cerrar sesión" />
 
 </LinearLayout>

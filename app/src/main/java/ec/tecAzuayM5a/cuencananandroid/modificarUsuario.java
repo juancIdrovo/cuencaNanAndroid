@@ -48,6 +48,7 @@ import java.util.Map;
 import ec.tecAzuayM5a.cuencananandroid.ip.ip;
 import ec.tecAzuayM5a.cuencananandroid.modelo.Usuario;
 import ec.tecAzuayM5a.cuencananandroid.modelo.VolleyMultipartRequest;
+import ec.tecAzuayM5a.cuencananandroid.validaciones.Validator;
 
 public class modificarUsuario extends AppCompatActivity {
     EditText txtNombres, txtApellidos, txtCorreo, txtDireccion, txtTelefono, txtcedula, txtFecha, txtContrasena;
@@ -99,40 +100,96 @@ public class modificarUsuario extends AppCompatActivity {
         });
 
         btnGuarda.setOnClickListener(view -> {
-            String nuevosNombres = txtNombres.getText().toString();
-            String nuevosApellidos = txtApellidos.getText().toString();
-            String nuevoCorreo = txtCorreo.getText().toString();
-            String nuevaDireccion = txtDireccion.getText().toString();
-            String nuevoTelefono = txtTelefono.getText().toString();
-            String nuevaContrasena = txtContrasena.getText().toString();
-            String nuevaFecha = txtFecha.getText().toString().trim();
-            Date fecha = null;
-            if (!nuevaFecha.isEmpty()) {
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-                    fecha = sdf.parse(nuevaFecha);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+            if (validateInputs()) {
+                String nuevosNombres = txtNombres.getText().toString();
+                String nuevosApellidos = txtApellidos.getText().toString();
+                String nuevoCorreo = txtCorreo.getText().toString();
+                String nuevaDireccion = txtDireccion.getText().toString();
+                String nuevoTelefono = txtTelefono.getText().toString();
+                String nuevaContrasena = txtContrasena.getText().toString();
+                String nuevaFecha = txtFecha.getText().toString().trim();
+                Date fecha = null;
+                if (!nuevaFecha.isEmpty()) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                        fecha = sdf.parse(nuevaFecha);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
+
+                Usuario usuModi = new Usuario(cedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion, fecha, nuevaContrasena, nuevoTelefono, fotoPath);
+
+                updateStudent(usuModi, response -> {
+                    Toast.makeText(modificarUsuario.this, "Estudiante modificado correctamente", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(modificarUsuario.this, "Vuelva a iniciar sesión para que se actualicen sus datos", Toast.LENGTH_SHORT).show();
+                    onBackPressed();
+                }, error -> {
+                    Log.e("VolleyError", "Error al modificar estudiante: " + long_id);
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        String responseBody = new String(error.networkResponse.data);
+                        Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
+                    }
+                    Toast.makeText(modificarUsuario.this, "Error al modificar sus datos, inténtelo de nuevo más tarde", Toast.LENGTH_SHORT).show();
+                });
             }
-
-            Usuario usuModi = new Usuario(cedula, nuevosNombres, nuevosApellidos, nuevoCorreo, nuevaDireccion, fecha, nuevaContrasena, nuevoTelefono, fotoPath);
-
-            updateStudent(usuModi, response -> {
-                Toast.makeText(modificarUsuario.this, "Estudiante modificado correctamente", Toast.LENGTH_SHORT).show();
-                Toast.makeText(modificarUsuario.this, "Vuelva a iniciar sesión para que se actualicen sus datos", Toast.LENGTH_SHORT).show();
-                onBackPressed();
-            }, error -> {
-                Log.e("VolleyError", "Error al modificar estudiante: " + long_id);
-                if (error.networkResponse != null && error.networkResponse.data != null) {
-                    String responseBody = new String(error.networkResponse.data);
-                    Log.e("VolleyError", "Respuesta del servidor: " + responseBody);
-                }
-                Toast.makeText(modificarUsuario.this, "Error al modificar sus datos, inténtelo de nuevo más tarde", Toast.LENGTH_SHORT).show();
-            });
         });
 
         btnCancelar.setOnClickListener(view -> onBackPressed());
+    }
+
+    private boolean validateInputs() {
+        String nombres = txtNombres.getText().toString().trim();
+        String apellidos = txtApellidos.getText().toString().trim();
+        String correo = txtCorreo.getText().toString().trim();
+        String direccion = txtDireccion.getText().toString().trim();
+        String telefono = txtTelefono.getText().toString().trim();
+        String cedula = txtcedula.getText().toString().trim();
+        String contrasena = txtContrasena.getText().toString().trim();
+
+        if (!Validator.isValidName(nombres)) {
+            txtNombres.setError("Nombre no válido. Solo letras y espacios.");
+            txtNombres.requestFocus();
+            return false;
+        }
+
+        if (!Validator.isValidName(apellidos)) {
+            txtApellidos.setError("Apellido no válido. Solo letras y espacios.");
+            txtApellidos.requestFocus();
+            return false;
+        }
+
+        if (!Validator.isValidEmail(correo)) {
+            txtCorreo.setError("Correo no válido. Formato: ejemplo@dominio.com");
+            txtCorreo.requestFocus();
+            return false;
+        }
+
+        if (direccion.isEmpty()) {
+            txtDireccion.setError("La dirección no puede estar vacía.");
+            txtDireccion.requestFocus();
+            return false;
+        }
+
+        if (!Validator.isValidPhoneNumber(telefono)) {
+            txtTelefono.setError("Número de celular no válido. Debe contener 10 dígitos.");
+            txtTelefono.requestFocus();
+            return false;
+        }
+
+        if (!Validator.isValidCedula(cedula)) {
+            txtcedula.setError("Cédula no válida. Debe contener 10 dígitos.");
+            txtcedula.requestFocus();
+            return false;
+        }
+
+        if (!Validator.isValidPassword(contrasena)) {
+            txtContrasena.setError("Contraseña no válida, debe contener al menos 8 caracteresm, una mayúscula, una minúscula y un número y un símbolo @#$%^&+=!.");
+            txtContrasena.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 
     private void updateStudent(Usuario usuario, Response.Listener<JSONObject> successListener, Response.ErrorListener errorListener) {
@@ -259,3 +316,4 @@ public class modificarUsuario extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 }
+

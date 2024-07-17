@@ -60,6 +60,7 @@
             android:id="@+id/btnpublicar"
             android:layout_width="168dp"
             android:layout_height="48dp"
+            android:tooltipText="Escribe tu publicación"
             android:text="Publicar"/>
     </LinearLayout>
 
@@ -93,6 +94,7 @@
             android:id="@+id/btnPublicaciones"
             android:layout_width="169dp"
             android:layout_height="52dp"
+            android:tooltipText="Ver publicaciones"
             android:text="Publicaciones"/>
     </LinearLayout>
 

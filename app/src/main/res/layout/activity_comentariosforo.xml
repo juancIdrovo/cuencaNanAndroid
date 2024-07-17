@@ -24,6 +24,7 @@
         android:layout_width="378dp"
         android:layout_height="20dp"
         android:layout_weight="1"
+        android:tooltipText="Enviar comentario"
         android:text="Comentar" />
 
     <!-- Footer con botones -->

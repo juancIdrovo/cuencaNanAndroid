@@ -58,6 +58,7 @@
             android:layout_width="49dp"
             android:layout_height="50dp"
             android:padding="10dp"
+            android:tooltipText="Comentar"
             android:src="@drawable/comentario"/>
 
         <TextView

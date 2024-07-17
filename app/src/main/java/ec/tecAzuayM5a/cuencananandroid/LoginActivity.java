@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ import ec.tecAzuayM5a.cuencananandroid.validaciones.Validator;
 public class LoginActivity extends AppCompatActivity {
     Button btnAceptar, btnRegistarse;
     EditText txtEmail, txtPass;
+    CheckBox rememberMeCheckBox;
     String mail, pass;
     ip ipo = new ip();
     String direccion = ipo.getIp();
@@ -40,10 +42,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         btnAceptar = findViewById(R.id.btnLogIn);
         btnRegistarse = findViewById(R.id.btnRegistro);
         txtEmail = findViewById(R.id.inputEmail);
         txtPass = findViewById(R.id.inputPassword);
+        rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("rememberMe", false)) {
+            txtEmail.setText(sharedPreferences.getString("email", ""));
+            txtPass.setText(sharedPreferences.getString("password", ""));
+            rememberMeCheckBox.setChecked(true);
+        }
 
         btnRegistarse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if (!Validator.isValidEmail(mail)) {
             Toast.makeText(this, "Correo no válido", Toast.LENGTH_LONG).show();
         } else if (!Validator.isValidPassword(pass)) {
-            Toast.makeText(this, "Contraseña no válida", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Contraseña no válida, debe contener al menos 8 caracteresm, una mayúscula, una minúscula y un número y un símbolo @#$%^&+=!", Toast.LENGTH_LONG).show();
         } else {
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Espere un momento...");
@@ -106,6 +117,17 @@ public class LoginActivity extends AppCompatActivity {
                                         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.putLong("userId", Long.parseLong(id));
+
+                                        if (rememberMeCheckBox.isChecked()) {
+                                            editor.putString("email", mail);
+                                            editor.putString("password", pass);
+                                            editor.putBoolean("rememberMe", true);
+                                        } else {
+                                            editor.remove("email");
+                                            editor.remove("password");
+                                            editor.putBoolean("rememberMe", false);
+                                        }
+
                                         editor.apply();
 
                                         Intent intent = new Intent(LoginActivity.this, PerfilUsuarioActivity.class);

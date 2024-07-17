@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_marginTop="8dp"
+            android:tooltipText="Selecciona el tipo de búsqueda"
             android:entries="@array/search_options" />
 
         <!-- Campo de búsqueda y botón -->
@@ -48,13 +49,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="Buscar..."
+                android:tooltipText="Ingresa aquí la palabra a buscar"
                 android:padding="8dp" />
 
             <Button
                 android:id="@+id/search_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buscar" />
+                android:text="Buscar"
+                android:tooltipText="Buscar puntos de interés"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -96,6 +99,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:tooltipText="Mapa"
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/mapa32"
             android:text=""
@@ -106,6 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:tooltipText="Puntos de interés"
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/mundo32"
             android:text=""
@@ -117,6 +122,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:tooltipText="Eventos"
             android:background="?attr/selectableItemBackground"
             android:drawableTop="@drawable/evento32"
             android:text=""
