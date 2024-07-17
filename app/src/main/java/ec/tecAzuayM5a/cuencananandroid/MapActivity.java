@@ -16,6 +16,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -55,44 +56,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Button buttonMapa = findViewById(R.id.button_mapa);
         Button buttonPuntos = findViewById(R.id.button_puntos);
-
         Button buttonEventos = findViewById(R.id.button_eventos);
-
-
-
 
         buttonMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(MapActivity.this, MapActivity.class));
-
             }
         });
-
 
         buttonPuntos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(MapActivity.this, PuntosDeInteresActivity.class));
-
             }
         });
 
         buttonEventos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 startActivity(new Intent(MapActivity.this, EventosActivity.class));
-
             }
         });
-
-
-
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -104,7 +90,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void fetchPuntosInteres() {
-        String urlPuntosInteres = direccion +"/puntosinteres";
+        String urlPuntosInteres = direccion + "/puntosinteres";
 
         JsonArrayRequest jsonArrayRequestPuntosInteres = new JsonArrayRequest(
                 Request.Method.GET,
@@ -119,7 +105,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                         for (PuntosDeInteres puntoInteres : puntosInteresList) {
                             LatLng location = new LatLng(puntoInteres.getLatitud(), puntoInteres.getLongitud());
-                            mMap.addMarker(new MarkerOptions().position(location).title(puntoInteres.getNombre()));
+                            int iconResource = getMarkerIcon(puntoInteres.getIdTipoPuntoInteres().intValue()); // Convertir Long a int
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(location)
+                                    .title(puntoInteres.getNombre())
+                                    .icon(BitmapDescriptorFactory.fromResource(iconResource)));
                         }
                     }
                 },
@@ -133,6 +123,24 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         requestQueue.add(jsonArrayRequestPuntosInteres);
     }
+
+    private int getMarkerIcon(int idTipoPuntoInteres) {
+        switch (idTipoPuntoInteres) {
+            case 1:
+                return R.drawable.parque32;
+            case 2:
+                return R.drawable.deportes32;
+            case 3:
+                return R.drawable.agua32;
+            case 4:
+                return R.drawable.iglesia32;
+            case 5:
+                return R.drawable.mirador32;
+            default:
+                return R.drawable.default_marker; // Asegúrate de tener un ícono por defecto
+        }
+    }
 }
+
 
 

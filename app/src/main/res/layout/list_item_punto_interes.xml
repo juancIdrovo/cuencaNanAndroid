@@ -35,7 +35,7 @@
             android:layout_height="26dp"
             android:layout_marginLeft="13dp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/azulFB"
+            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textSize="16sp"
-            android:textColor="@color/azulFB"/>
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <ImageView
@@ -88,7 +88,7 @@
             android:id="@+id/rating_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rating:"
+            android:text="Calificación:"
             android:textSize="16sp"
             android:textColor="@color/azulFB"/>
     </LinearLayout>
