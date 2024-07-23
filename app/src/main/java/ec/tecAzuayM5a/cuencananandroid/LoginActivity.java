@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText txtEmail, txtPass;
     CheckBox rememberMeCheckBox;
     String mail, pass;
+    ImageView imgTogglePassword;
+    boolean isPasswordVisible = false;
     ip ipo = new ip();
     String direccion = ipo.getIp();
     String url = direccion + "/usuarios/loginusuario";
@@ -48,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.inputEmail);
         txtPass = findViewById(R.id.inputPassword);
         rememberMeCheckBox = findViewById(R.id.rememberMeCheckBox);
+        imgTogglePassword = findViewById(R.id.imgTogglePassword);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean("rememberMe", false)) {
@@ -69,6 +74,25 @@ public class LoginActivity extends AppCompatActivity {
                 Login(v);
             }
         });
+
+        imgTogglePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                togglePasswordVisibility();
+            }
+        });
+    }
+
+    public void togglePasswordVisibility() {
+        if (isPasswordVisible) {
+            txtPass.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            imgTogglePassword.setImageResource(R.drawable.ojocerrao);
+        } else {
+            txtPass.setInputType(InputType.TYPE_CLASS_TEXT);
+            imgTogglePassword.setImageResource(R.drawable.ic_aye);
+        }
+        isPasswordVisible = !isPasswordVisible;
+        txtPass.setSelection(txtPass.getText().length());
     }
 
     public void Login(View view) {
@@ -82,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if (!Validator.isValidEmail(mail)) {
             Toast.makeText(this, "Correo no válido", Toast.LENGTH_LONG).show();
         } else if (!Validator.isValidPassword(pass)) {
-            Toast.makeText(this, "Contraseña no válida, debe contener al menos 8 caracteresm, una mayúscula, una minúscula y un número y un símbolo @#$%^&+=!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Contraseña no válida, mínimo 8 caracteres, una mayúscula, una minúscula, un número ", Toast.LENGTH_LONG).show();
         } else {
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Espere un momento...");
@@ -101,17 +125,17 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             progressDialog.dismiss();
-                            Log.d("LoginActivity", "Respuesta completa del servidor: " + response.toString()); // Imprime la respuesta completa
+                            Log.d("LoginActivity", "Respuesta completa del servidor: " + response.toString());
                             try {
                                 String status = response.optString("status", "");
                                 if (!status.equals("error")) {
                                     String nombre = response.optString("nombres", "");
                                     String correo = response.optString("mail", "");
-                                    String id = response.optString("idUsuario", ""); // Cambia a idUsuario
+                                    String id = response.optString("idUsuario", "");
                                     String fotoPath = response.optString("fotoPath", "");
                                     String fotoUrl = response.optString("fotoUrl", "");
 
-                                    Log.d("LoginActivity", "ID de usuario recibido: " + id); // Imprime el ID de usuario
+                                    Log.d("LoginActivity", "ID de usuario recibido: " + id);
 
                                     if (!id.isEmpty()) {
                                         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
@@ -166,6 +190,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
+
 
 
 

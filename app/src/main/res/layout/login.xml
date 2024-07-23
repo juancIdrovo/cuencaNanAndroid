@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-
         android:textAlignment="center"
         android:textColor="@color/maradito"
         android:textSize="28sp"
@@ -26,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="348dp"
-
         android:textAlignment="center"
         android:textColor="#FD00D4"
         android:textSize="22sp"
@@ -37,13 +35,12 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/inputEmail"
-        android:layout_width="337dp"
-        android:layout_height="71dp"
+        android:layout_width="280dp"
+        android:layout_height="62dp"
         android:layout_marginTop="12dp"
         android:drawableLeft="@drawable/gmail"
         android:hint="    Correo:"
         android:inputType="textEmailAddress"
-
         android:textColor="@color/white"
         android:textColorHint="@color/amarillo"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +49,7 @@
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/inputPassword"
-        android:layout_width="334dp"
+        android:layout_width="280dp"
         android:layout_height="62dp"
         android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/llave"
@@ -60,10 +57,26 @@
         android:inputType="textPassword"
         android:textColor="@color/white"
         android:textColorHint="@color/amarillo"
+        android:tooltipText="Ingresa tu contraseña, Minimo 8 caracteres, Mayúsculas, Minúsculas y Números"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputEmail" />
+
+    <ImageView
+        android:id="@+id/imgTogglePassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="11dp"
+        android:contentDescription="Toggle Password Visibility"
+        android:onClick="togglePasswordVisibility"
+        android:src="@drawable/ic_aye"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/inputPassword"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.678" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginEmailLayout"
@@ -71,7 +84,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/textViewLogin">
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -79,12 +91,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/loginEmailLayout">
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnRegistro"
-        android:layout_width="300dp"
+        android:layout_width="280dp"
         android:layout_height="44dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="5dp"
@@ -115,7 +126,7 @@
 
     <Button
         android:id="@+id/btnLogIn"
-        android:layout_width="300dp"
+        android:layout_width="280dp"
         android:layout_height="46dp"
         android:layout_marginStart="35dp"
         android:layout_marginTop="16dp"
@@ -131,5 +142,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rememberMeCheckBox" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

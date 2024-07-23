@@ -10,7 +10,7 @@ public class Validator {
 
     // Método para validar el formato de la contraseña
     public static boolean isValidPassword(String password) {
-        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
         return password.matches(passwordPattern);
     }
 

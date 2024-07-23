@@ -94,6 +94,8 @@ public class modificarUsuario extends AppCompatActivity {
 
         updateUI();
 
+        txtFecha.setOnClickListener(v -> showDatePickerDialog(v));
+
         btnSeleccionarFoto.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(intent, REQUEST_IMAGE_PICK);
@@ -306,7 +308,7 @@ public class modificarUsuario extends AppCompatActivity {
 
         @Override
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            TextView txtFecha = getActivity().findViewById(R.id.txtFechaNac);
+            EditText txtFecha = getActivity().findViewById(R.id.txtFechaNac);
             txtFecha.setText(String.format(Locale.US, "%d-%02d-%02d", year, month + 1, day));
         }
     }

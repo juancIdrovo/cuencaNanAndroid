@@ -21,7 +21,7 @@
         android:hint="Escribe tu comentario" />
     <Button
         android:id="@+id/btncomentario"
-        android:layout_width="378dp"
+        android:layout_width="330dp"
         android:layout_height="20dp"
         android:layout_weight="1"
         android:tooltipText="Enviar comentario"

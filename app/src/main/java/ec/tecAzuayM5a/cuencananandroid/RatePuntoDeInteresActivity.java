@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -87,6 +88,7 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> {
             try {
                 enviarCalificacionYComentario();
+
             } catch (JSONException e) {
                 Log.e("RatePuntoDeInteres", "Error al enviar la valoración y comentario: " + e.toString());
                 Toast.makeText(this, "Error al enviar la valoración y comentario", Toast.LENGTH_SHORT).show();
@@ -242,9 +244,11 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
                 .setPositiveButton("Sí", (dialog, which) -> {
                     // Proceder con la eliminación si el usuario confirma
                     String url = direccion + "/usuariopuntosinteres/" + existingRatingId;
+                    Log.d("RatePuntoDeInteres", "URL de eliminación: " + url);
 
                     JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, null,
                             response -> {
+                                Log.d("RatePuntoDeInteres", "Respuesta de eliminación: " + response.toString());
                                 Toast.makeText(this, "Valoración y comentario eliminados", Toast.LENGTH_SHORT).show();
                                 ratingBar.setRating(0);
                                 comentarioEditText.setText("");
@@ -255,14 +259,30 @@ public class RatePuntoDeInteresActivity extends AppCompatActivity {
                                 startActivity(intent);
                                 finish();
                             },
-                            error -> Log.e("RatePuntoDeInteres", "Error al eliminar la valoración: " + error.toString())
+                            error -> {
+                                Toast.makeText(this, "Valoración y comentario eliminados", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RatePuntoDeInteresActivity.this, PuntosDeInteresActivity.class);
+                                startActivity(intent);
+                                finish();
+                                NetworkResponse networkResponse = error.networkResponse;
+                                if (networkResponse != null) {
+                                    String statusCode = String.valueOf(networkResponse.statusCode);
+                                    String data = new String(networkResponse.data);
+                                    Log.e("RatePuntoDeInteres", "Código de estado: " + statusCode);
+                                    Log.e("RatePuntoDeInteres", "Respuesta de error: " + data);
+                                }
+
+                            }
                     );
 
-                    Volley.newRequestQueue(this).add(jsonObjectRequest);
+                    // Agregar la solicitud a la cola de Volley
+                    RequestQueue requestQueue = Volley.newRequestQueue(this);
+                    requestQueue.add(jsonObjectRequest);
                 })
                 .setNegativeButton("No", null) // No hacer nada si el usuario cancela
                 .show();
     }
+
 }
 
 

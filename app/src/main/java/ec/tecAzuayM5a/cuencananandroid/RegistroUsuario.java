@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -50,14 +51,15 @@ public class RegistroUsuario extends AppCompatActivity {
 
     private RequestQueue requestQueue;
     private static final int REQUEST_IMAGE_PICK = 1;
-    private ImageView imageView;
+    private ImageView imageView, imgTogglePassword;
     private Uri imageUri;
     private String fotoPath;
-    private TextInputEditText txtFechaNac;
+    private TextInputEditText txtFechaNac, txtCorreo, txtConfirmCorreo, txtContrasena, txtConfirmContrasena;
     ip ipo = new ip();
     String direccion = ipo.getIp();
     private String urlRegistro = direccion + "/usuarios";
     private String urlUpload = direccion + "/assets/upload";
+    private boolean isPasswordVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,14 +70,21 @@ public class RegistroUsuario extends AppCompatActivity {
         Button btnSeleccionarFoto = findViewById(R.id.btnSeleccionarFoto);
         Button buttonCancelar = findViewById(R.id.btnCancelar);
         imageView = findViewById(R.id.imageViewfoto);
+        imgTogglePassword = findViewById(R.id.imgTogglePassword);
         txtFechaNac = findViewById(R.id.txtFechaNac);
+        txtCorreo = findViewById(R.id.txtcorreo);
+        txtConfirmCorreo = findViewById(R.id.txtConfirmCorreo);
+        txtContrasena = findViewById(R.id.txtContrasena);
+        txtConfirmContrasena = findViewById(R.id.txtConfirmContrasena);
 
         setNextFocus(findViewById(R.id.txtcedula), findViewById(R.id.txtnombres));
         setNextFocus(findViewById(R.id.txtnombres), findViewById(R.id.txtapellidos));
         setNextFocus(findViewById(R.id.txtapellidos), findViewById(R.id.txtcorreo));
-        setNextFocus(findViewById(R.id.txtcorreo), findViewById(R.id.txtdireccion));
+        setNextFocus(findViewById(R.id.txtcorreo), findViewById(R.id.txtConfirmCorreo));
+        setNextFocus(findViewById(R.id.txtConfirmCorreo), findViewById(R.id.txtdireccion));
         setNextFocus(findViewById(R.id.txtdireccion), findViewById(R.id.txtContrasena));
-        setNextFocus(findViewById(R.id.txtContrasena), findViewById(R.id.txttelf));
+        setNextFocus(findViewById(R.id.txtContrasena), findViewById(R.id.txtConfirmContrasena));
+        setNextFocus(findViewById(R.id.txtConfirmContrasena), findViewById(R.id.txttelf));
 
         btnSeleccionarFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +95,21 @@ public class RegistroUsuario extends AppCompatActivity {
         });
     }
 
-
+    public void togglePasswordVisibility(View view) {
+        if (isPasswordVisible) {
+            txtContrasena.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            txtConfirmContrasena.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            imgTogglePassword.setImageResource(R.drawable.ojocerrao);
+        } else {
+            txtContrasena.setInputType(InputType.TYPE_CLASS_TEXT);
+            txtConfirmContrasena.setInputType(InputType.TYPE_CLASS_TEXT);
+            imgTogglePassword.setImageResource(R.drawable.ic_aye);
+        }
+        isPasswordVisible = !isPasswordVisible;
+        // Move the cursor to the end of the text
+        txtContrasena.setSelection(txtContrasena.getText().length());
+        txtConfirmContrasena.setSelection(txtConfirmContrasena.getText().length());
+    }
 
     private void setNextFocus(TextInputEditText currentEditText, final TextInputEditText nextEditText) {
         currentEditText.setOnEditorActionListener((v, actionId, event) -> {
@@ -178,9 +201,11 @@ public class RegistroUsuario extends AppCompatActivity {
         String nombres = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
         String apellidos = ((TextInputEditText) findViewById(R.id.txtapellidos)).getText().toString().trim();
         String mail = ((TextInputEditText) findViewById(R.id.txtcorreo)).getText().toString().trim();
+        String confirmMail = txtConfirmCorreo.getText().toString().trim();
         String direccion = ((TextInputEditText) findViewById(R.id.txtdireccion)).getText().toString().trim();
         String nombre_usuario = ((TextInputEditText) findViewById(R.id.txtnombres)).getText().toString().trim();
         String contrasena = ((TextInputEditText) findViewById(R.id.txtContrasena)).getText().toString().trim();
+        String confirmContrasena = txtConfirmContrasena.getText().toString().trim();
         String telefono = ((TextInputEditText) findViewById(R.id.txttelf)).getText().toString().trim();
         String fechaString = ((TextInputEditText) findViewById(R.id.txtFechaNac)).getText().toString().trim();
         Date fecha = null;
@@ -202,10 +227,12 @@ public class RegistroUsuario extends AppCompatActivity {
             Toast.makeText(this, "Apellido no válido. Solo letras y espacios.", Toast.LENGTH_SHORT).show();
         } else if (!Validator.isValidEmail(mail)) {
             Toast.makeText(this, "Correo no válido. Formato: ejemplo@dominio.com", Toast.LENGTH_SHORT).show();
-        } else if (!Validator.isValidPhoneNumber(telefono)) {
-            Toast.makeText(this, "Número de celular no válido. Debe contener 10 dígitos.", Toast.LENGTH_SHORT).show();
-        } else if (!Validator.isValidPassword(contrasena)) {
-            Toast.makeText(this, "Contraseña no válida, debe contener al menos 8 caracteresm, una mayúscula, una minúscula y un número y un símbolo @#$%^&+=!", Toast.LENGTH_SHORT).show();
+        } else if (!mail.equals(confirmMail)) {
+            Toast.makeText(this, "Los correos no coinciden.", Toast.LENGTH_SHORT).show();
+        }  else if (!Validator.isValidPassword(contrasena)) {
+            Toast.makeText(this, "Contraseña no válida, mínimo 8 caracteres, una mayúscula, una minúscula, un número ", Toast.LENGTH_SHORT).show();
+        } else if (!contrasena.equals(confirmContrasena)) {
+            Toast.makeText(this, "Las contraseñas no coinciden.", Toast.LENGTH_SHORT).show();
         } else if (fotoPath == null) {
             Toast.makeText(this, "Debe seleccionar una imagen primero y esperar a que se suba.", Toast.LENGTH_SHORT).show();
         } else {
@@ -255,4 +282,5 @@ public class RegistroUsuario extends AppCompatActivity {
         requestQueue.add(request);
     }
 }
+
 
